@@ -1,0 +1,2 @@
+# Não salvamos dados de ultilização do programa no repositório de código, a linha de baixo faz o git ignorar a pasta `data`
+data
