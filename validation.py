@@ -65,9 +65,9 @@ def validate_team_name():
 
 if __name__ == '__main__':
     # test
-    # name = validate_username()
-    # email = validate_email()
-    # print(name)
-    # print(email)
+    name = validate_username()
+    email = validate_email()
     team = validate_team_name()
+    print(name)
+    print(email)
     print(team)
