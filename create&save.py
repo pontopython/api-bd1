@@ -2,6 +2,7 @@ from colorama import init, Fore, Back, Style
 import stdiomask
 import uuid
 
+
 def create_user_dict(id, category, name, email, password):
     return {
         "id": id,
@@ -44,7 +45,7 @@ def create_user_interactively():
         2: 'LG',
         3: 'FC',
         4: 'MT'
-     } 
+    }
 
     print('''Qual a categoria do usuário?
     [0] - PO
@@ -52,12 +53,13 @@ def create_user_interactively():
     [2] - Líder do Grupo
     [3] - Fake Cliente
     [4] - Usuário''')
-   
+
     category = get_category_input()
     name = input("Nome: ")
     email = input("Digite o E-mail: ")
     password = stdiomask.getpass(prompt="Digite a senha: ", mask="*")
     return create_user_dict(id, options[category], name, email, password)
+
 
 def get_category_input():
     category = int(input(""))
@@ -65,6 +67,7 @@ def get_category_input():
         print(Fore.RED+'Você digitou uma opção inválida, tente novamente.' + Fore.RESET)
         return get_category_input()
     return category
+
 
 def save_user_to_file(user):
     file = open("data/users.txt", "a")
