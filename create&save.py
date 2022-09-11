@@ -54,18 +54,18 @@ def create_user_interactively():
     [3] - Fake Cliente
     [4] - Usuário''')
 
-    category = get_category_input()
+    category = prompt_for_valid_category()
     name = input("Nome: ")
     email = input("Digite o E-mail: ")
     password = stdiomask.getpass(prompt="Digite a senha: ", mask="*")
     return create_user_dict(id, options[category], name, email, password)
 
 
-def get_category_input():
+def prompt_for_valid_category():
     category = int(input(""))
     if category > 4 or category < 0:
         print(Fore.RED+'Você digitou uma opção inválida, tente novamente.' + Fore.RESET)
-        return get_category_input()
+        return prompt_for_valid_category()
     return category
 
 
