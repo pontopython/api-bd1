@@ -1,6 +1,6 @@
 from colorama import init, Fore, Back, Style
 import stdiomask
-
+import uuid
 
 def create_user_dict(id, category, name, email, password):
     return {
@@ -36,23 +36,35 @@ def line_to_user_dict(line):
 def create_user_interactively():
     print(Fore.GREEN + Style.BRIGHT +
           "\nFormulário de Criação de Usuário\n" + Fore.RESET + Style.BRIGHT)
-    id = int(input("Id: "))
+    id = uuid.uuid4()
+
+    options = {
+        0: 'PO',
+        1: 'LT',
+        2: 'LG',
+        3: 'FC',
+        4: 'MT'
+     } 
+
     print('''Qual a categoria do usuário?
     [0] - PO
-    [1] - Líder do Time
+    [1] - Líder Técnico
     [2] - Líder do Grupo
     [3] - Fake Cliente
     [4] - Usuário''')
-    category = int(input(""))
-    if category > 4:
-        print(Fore.RED+'Você digitou uma opção inválida, tente novamente.' + Fore.RESET)
-        category = int(input(""))
+   
+    category = get_category_input()
     name = input("Nome: ")
     email = input("Digite o E-mail: ")
     password = stdiomask.getpass(prompt="Digite a senha: ", mask="*")
+    return create_user_dict(id, options[category], name, email, password)
 
-    return create_user_dict(id, category, name, email, password)
-
+def get_category_input():
+    category = int(input(""))
+    if category > 4 or category < 0:
+        print(Fore.RED+'Você digitou uma opção inválida, tente novamente.' + Fore.RESET)
+        return get_category_input()
+    return category
 
 def save_user_to_file(user):
     file = open("data/users.txt", "a")
