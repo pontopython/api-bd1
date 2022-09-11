@@ -1,6 +1,6 @@
 from colorama import init, Fore, Back, Style
 import stdiomask
-
+import uuid
 
 def create_user_dict(id, category, name, email, password):
     return {
@@ -36,7 +36,7 @@ def line_to_user_dict(line):
 def create_user_interactively():
     print(Fore.GREEN + Style.BRIGHT +
           "\nFormulário de Criação de Usuário\n" + Fore.RESET + Style.BRIGHT)
-    id = int(input("Id: "))
+    id = uuid.uuid4()
     print('''Qual a categoria do usuário?
     [0] - PO
     [1] - Líder do Time
