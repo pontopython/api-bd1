@@ -24,11 +24,11 @@ def generate_users_list():                                          # CRIA A LIS
         user = line_to_user_dict(line)                              # transforma a linha de string para dicionário
         users_list.append(user)                                     # adiciona ao final da lista criada anteriormente
     file.close()
-    # --OPCIONAL--
-    return display_users_list(users_list)                           # retorna e aciona o display da lista no console
+    return users_list                                               # retorna a lista de usuários
 
     # --OPCIONAL--
-def display_users_list(users_list):                                 # ESCREVE A LISTA DE USUÁRIOS NO CONSOLEx
+def display_users_list():
+    users_list = generate_users_list()                              # ESCREVE A LISTA DE USUÁRIOS NO CONSOLEx
     for x in users_list:
         print(x)
 
@@ -42,6 +42,7 @@ if __name__ == "__main__":
     option = int(input('Choose one option: '))
     if option == 1:
         generate_users_list()
+        display_users_list()
     elif option == 2:
         print('Bye bye!')
     else:
