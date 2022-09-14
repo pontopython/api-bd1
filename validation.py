@@ -1,4 +1,5 @@
 import re
+import stdiomask
 
 
 def has_name_valid_characters(name):
@@ -65,12 +66,52 @@ def prompt_for_valid_team_name():
 
     return input_team_name
 
+def has_password_valid_characters(password):
+    return re.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password)
+
+def is_password_valid(password, show=False):
+    """
+    Retorna True ou False. Verifica se a senha é valida ou não.
+    Validações:
+        - deve conter mais de 8 caracteres
+        - deve conter pelo menos 1 letra maiúscula
+        - deve conter pelo menos 1 letra minúscula
+        - deve conter pelo menos 1 número
+        - deve conter pelo menos 1 carácter especial (@!%*?&)    
+    """
+    if len(password) < 8:
+        if show == True:
+            print('A senha deve ter mais de 8 caracteres.')
+        return False
+    elif not has_password_valid_characters(password):
+        if show == True:
+            print('Formato inválido!')
+        return False
+    else:
+        return True
+
+def prompt_for_valid_password(show = False):
+    """
+    Loop pedindo para o usuário inserir a senha caso
+    ela seja inválida.
+    """
+    if show == True:
+        print('Sua senha deve conter:\n- No mínimo 8 caracteres\n- No mínimo 1 letra maiúscula\n- No mínimo 1 letra minúscula\n- No mínimo 1 número\n- No mínimo 1 carácter especial (@!%*?&) ')
+    input_password = stdiomask.getpass(prompt="Digite a senha: ", mask="*")
+
+    while not is_password_valid(input_password, show):
+        input_password = stdiomask.getpass(prompt="Digite uma senha válida: ", mask="*")
+
+    return input_password
+
 
 if __name__ == '__main__':
     # test
     name = prompt_for_valid_username()
     email = prompt_for_valid_email()
     team = prompt_for_valid_team_name()
+    password = prompt_for_valid_password(True)
     print(name)
     print(email)
     print(team)
+    print(password)
