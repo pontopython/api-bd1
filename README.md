@@ -1,3 +1,5 @@
+![banner ponto py](https://user-images.githubusercontent.com/108769169/190526731-c3f5f358-3294-4701-b0f0-85e26e8d63e9.png)
+
 <br id="topo">
 <p align="center">
     <a href="#sobre">Projeto</a>  |
@@ -11,9 +13,8 @@
 <span id="sobre">
 
 ## :white_medium_square: O Projeto
-Somos o grupo Ponto Py!
 <br></br>
-![objetivo pontopy](https://user-images.githubusercontent.com/108769169/188279242-2e7c938a-95ea-46dc-a022-f49f60adce49.png)
+![obj ponto py](https://user-images.githubusercontent.com/108769169/190527313-125dad18-9fc1-4ba7-9da6-49e733b80377.png)
 
 > Projeto baseado na metodologia ágil SCRUM.
 
@@ -30,7 +31,7 @@ Somos o grupo Ponto Py!
 |  05  | Líder de Time | Criar um time para mim e meus colegas de trabalho | Organizar a minha equipe dentro de um time | Imprescindível | 1 | **Em desenvolvimento** |
 |  06  | Líder de Time | Editar e excluir times | Erros e alterações | Importante | 2 | A iniciar |
 |  07  | Líder de Time | Criar, editar e salvar as sprints | Organizar o cronograma  da equipe | Imprescindível | 2 | A iniciar |
-|  08  | Usuário | Realizar a minha avalização e dos meus colegas de equipe | Completar a avaliação 360° | Imprescindível | 1 | A iniciar |
+|  08  | Usuário | Realizar a minha avalização e dos meus colegas de equipe | Completar a avaliação 360° | Imprescindível | 2 | A iniciar |
 |  09  | Usuário | Ver os resultados das médias das minhas notas | Ter uma noção de como fui avaliado | Desejável | 3 | A iniciar |
 |  10  | Líder de Time | Dashboard com informações sobre as sprints, meus colegas de time e minhas avalizações | Melhor visibilidade sobre o time e as sprints | Desejável | 4 | A iniciar |
 |  11  | Usuário | Gráficos de desempenho das minhas notas na dashboard | Uma noção individual de performance | Desejável | 4 | A iniciar |
@@ -76,18 +77,17 @@ Caso necessário crie a pasta `data` e dentro crie um arquivo `users.txt` vazio.
 <span id="tecnologias">
 
 ## :white_medium_square: Tecnologias
-![tecnologias utilizadas pontopy](https://user-images.githubusercontent.com/108769169/188279437-2d209808-cc7a-4e94-befb-d6bc4445bb3d.png)
-
+![tec ponto py](https://user-images.githubusercontent.com/108769169/190526798-76a1088a-017a-4a18-9c7c-d77aac51266a.png)
+    
 - **Back-end:** Python.
 - **Ferramentas:** Git, Github, Canva, Visual Studio Code, Microsoft Teams.
 
 <span id="equipe">
 
 ## :white_medium_square: Equipe
-![equipe ponto py](https://user-images.githubusercontent.com/108769169/190242615-d1493057-1fe6-4e67-b9e1-d5a64e5f3a1b.png)
+![time ponto py](https://user-images.githubusercontent.com/108769169/190527834-12083ff1-5dc5-4638-9f26-47056c5833cf.png)
 
-
-
+    
 |    Função     | Nome                                  |                                                                                                                                                      LinkedIn & GitHub                                                                                                                                                      |
 | :-----------: | :------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | Scrum Master | Nicole Souza           |     [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/nicolem-souza/) [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/NicSouza)              |
