@@ -5,6 +5,7 @@ Projeto desenvolvido para a API do 1º Semestre de Banco de Dados | FATEC São J
     <a href="#sobre">Projeto</a>  |
     <a href="#backlogs">Backlogs do produto</a>  |
     <a href="#entrega">Entrega das Sprints</a>  |
+    <a href="#configurando">Configurando o ambiente</a>  |
     <a href="#tecnologias">Tecnologias</a>  |
     <a href="#equipe">Equipe</a>
 </p>
@@ -43,10 +44,36 @@ Somos o grupo Ponto Py!
 
 | **SPRINT** | **PERÍODO**| **O QUE SERÁ ENTREGUE** | **RELATÓRIO** |
 |:-------------:|:-----------------------:|:-------------------------:|:-------------------------:|
-|  01  | 29/08 a 18/09 | Criação de cadastro, login na conta criada e criação de times | [Sprint 1](https://github.com/pontopython/api-bd1/wiki)
+|  01  | 29/08 a 18/09 | Criação de cadastro, login na conta criada e criação de times | [Sprint 1](https://github.com/pontopython/api-bd1/wiki/Sprint-1)
 |  02  | 19/09 a 09/10 |
 |  03  | 17/10 a 06/11 |
 |  04  | 07/11 a 27/11 |
+
+<span id="configurando">
+
+## :white_medium_square: Configurando o ambiente e executando o projeto
+
+Atualize o `pip` e o `virtualenv`:
+```sh
+python -m pip install --upgrade pip virtualenv
+```
+
+Crie um virtual environment numa pasta dentro do próprio projeto (`.venv`):
+```sh
+python -m virtualenv .venv --prompt="api-bd1"
+```
+
+Ative o virtual environment:
+```sh
+source .venv/bin/activate
+```
+
+Com o virtual environment ativado instale as dependências do projeto:
+```sh
+pip install -r requirements.txt
+```
+
+Caso necessário crie a pasta `data` e dentro crie um arquivo `users.txt` vazio.
 
 <span id="tecnologias">
 
@@ -74,29 +101,5 @@ Somos o grupo Ponto Py!
 | Developer| Larissa Fernanda           |     [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/larissa-reis-693568250/) [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/larissa-fernanda)
 | Developer| Markus Gomes        |     [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/) [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/markusgomes)
 
-
-## Configurando o ambiente e executando o projeto
-
-Atualize o `pip` e o `virtualenv`:
-```sh
-python -m pip install --upgrade pip virtualenv
-```
-
-Crie um virtual environment numa pasta dentro do próprio projeto (`.venv`):
-```sh
-python -m virtualenv .venv --prompt="api-bd1"
-```
-
-Ative o virtual environment:
-```sh
-source .venv/bin/activate
-```
-
-Com o virtual environment ativado instale as dependências do projeto:
-```sh
-pip install -r requirements.txt
-```
-
-Caso necessário crie a pasta `data` e dentro crie um arquivo `users.txt` vazio.
 
 → [Voltar ao topo](#topo)
