@@ -1,5 +1,3 @@
-#  API - Grupo Ponto Py
-Projeto desenvolvido para a API do 1º Semestre de Banco de Dados | FATEC São José dos Campos - Prof. Jessen Vidal
 <br id="topo">
 <p align="center">
     <a href="#sobre">Projeto</a>  |
@@ -42,7 +40,7 @@ Somos o grupo Ponto Py!
 
 ## :white_medium_square: Entrega das Sprints
 
-| **SPRINT** | **PERÍODO**| **O QUE SERÁ ENTREGUE** | **RELATÓRIO** |
+| **SPRINT** | **PERÍODO**| **O QUE SERÁ ENTREGUE** | **BACKLOG DAS SPRINTS** |
 |:-------------:|:-----------------------:|:-------------------------:|:-------------------------:|
 |  01  | 29/08 a 18/09 | Criação de cadastro, login na conta criada e criação de times | [Sprint 1](https://github.com/pontopython/api-bd1/wiki/Sprint-1)
 |  02  | 19/09 a 09/10 |
