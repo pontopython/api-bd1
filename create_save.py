@@ -25,7 +25,7 @@ def user_dict_to_line(user):
 
 def line_to_user_dict(line):
     splited_line = line.split(";")
-    id = int(splited_line[0])
+    id = splited_line[0]
     category = splited_line[1]
     name = splited_line[2]
     email = splited_line[3]
