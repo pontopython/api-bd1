@@ -30,6 +30,7 @@ def line_to_user_dict(line):
     name = splited_line[2]
     email = splited_line[3]
     password = splited_line[4]
+    
 
     return create_user_dict(id, category, name, email, password)
 
