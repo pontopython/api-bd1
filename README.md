@@ -43,7 +43,7 @@
 
 | **SPRINT** | **PERÍODO**| **O QUE SERÁ ENTREGUE** | **BACKLOG DAS SPRINTS** |
 |:-------------:|:-----------------------:|:-------------------------:|:-------------------------:|
-|  01  | 29/08 a 18/09 | Criação de cadastro, login na conta criada e criação de times | [Sprint 1](https://github.com/pontopython/api-bd1/wiki/Sprint-1)
+|  01  | 29/08 a 18/09 | Criação de cadastro, login na conta criada e criação de times | [Sprint 1](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint#entregas)
 |  02  | 19/09 a 09/10 |
 |  03  | 17/10 a 06/11 |
 |  04  | 07/11 a 27/11 |
