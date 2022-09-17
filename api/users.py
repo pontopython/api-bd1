@@ -1,8 +1,8 @@
 import uuid
 
 
-from .utils import blue_bright_print, green_print, red_print
-from .validation import (
+from utils import blue_bright_print, green_print, red_print
+from validation import (
     prompt_for_valid_category,
     prompt_for_valid_email,
     prompt_for_valid_password,

@@ -1,7 +1,7 @@
 import stdiomask
 
-from .users import line_to_user_dict
-from .utils import bright_print
+from users import line_to_user_dict
+from utils import bright_print
 
 
 # Formulário_Login

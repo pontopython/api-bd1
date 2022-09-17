@@ -2,12 +2,12 @@ import re
 
 import stdiomask
 
-from .utils import bright_print, red_print
+from utils import bright_print, red_print
 
 
 def has_name_valid_characters(name):
     "Verifica se tem caracteres especiais."
-    return re.match("^[a-zA-Z0-9_]+$", name)
+    return re.match("^[a-zA-Z0-9_-]+$", name)
 
 
 def is_name_valid(name, show=False):
@@ -39,10 +39,10 @@ def prompt_for_valid_username():
     Loop pedindo para o usuário inserir o nome caso
     o nome seja inválido.
     """
-    input_name = input("Digite o nome:")
+    input_name = input("Digite o nome do usuário:")
 
     while not is_name_valid(input_name):
-        input_name = input("Digite um nome válido:")
+        input_name = input("Digite um nome para usuário válido:")
 
     return input_name
 
@@ -124,7 +124,7 @@ def prompt_for_valid_category():
         [0] - PO
         [1] - Líder Técnico
         [2] - Líder do Grupo
-        [3] - Fake Cliente
+        [3] - Fake Client
         [4] - Membro do Time
         """
     )
