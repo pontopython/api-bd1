@@ -1,8 +1,7 @@
 import uuid
 
-
-from utils import blue_bright_print, green_print, red_print
-from validation import (
+from .utils import blue_bright_print, green_print, red_print
+from .validation import (
     prompt_for_valid_category,
     prompt_for_valid_email,
     prompt_for_valid_password,
@@ -76,6 +75,19 @@ def search_user_on_file(email):
     return None
 
 
+def search_user_on_file_by_id(id):
+    file = open(USERS_FILE, "r")
+
+    for line in file:
+        user = line_to_user_dict(line)
+        if id == user["id"]:
+            file.close()
+            return user
+
+    file.close()
+    return None
+
+
 def detail_user(user):
     id = user["id"]
     category = user["category"]
@@ -115,8 +127,3 @@ def display_users_list():
         print(x)
 
     return
-
-
-if __name__ == "__main__":
-    user = create_user_interactively()
-    save_user_to_file(user)
