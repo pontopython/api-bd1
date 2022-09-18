@@ -1,6 +1,6 @@
 import uuid
 
-from .utils import blue_bright_print, green_print, red_print
+from .utils import blue_bright_print, green_print, red_print, bright_print
 from .validation import (
     prompt_for_valid_category,
     prompt_for_valid_email,
@@ -43,7 +43,7 @@ def line_to_user_dict(line):
 
 
 def create_user_interactively():
-    blue_bright_print("\nFormulário de Criação de Usuário\n")
+    blue_bright_print("\n     Formulário de Criação de Usuário\n")
     id = uuid.uuid4()
 
     category = prompt_for_valid_category()
@@ -59,7 +59,7 @@ def save_user_to_file(user):
     file.write(line)
     file.write("\n")
     file.close()
-    green_print("Usuário salvo com sucesso!")
+    green_print("\n             Usuário salvo com sucesso!")
 
 
 def search_user_on_file(email):
@@ -88,25 +88,25 @@ def search_user_on_file_by_id(id):
     return None
 
 
-def detail_user(user, title="Detalhes do Usuário"):
+def detail_user(user, title="\n     Detalhes do Usuário"):
     id = user["id"]
     category = user["category"]
     name = user["name"]
     email = user["email"]
 
     blue_bright_print(title)
-    print(f"Id: {id}")
-    print(f"Categoria: {category}")
-    print(f"Nome: {name}")
-    print(f"Email: {email}")
+    bright_print(f"         Id: {id}")
+    bright_print(f"         Categoria: {category}")
+    bright_print(f"         Nome: {name}")
+    bright_print(f"         Email: {email}")
 
 
 def find_and_show_user():
-    email = input("Qual o email do usuário? ")
+    email = input("         Qual o email do usuário? ")
     user = search_user_on_file(email)
 
     if user is None:
-        red_print("Usuário não encontrado!")
+        red_print("         Usuário não encontrado!")
     else:
         detail_user(user)
 
@@ -123,7 +123,7 @@ def generate_users_list():
 
 def list_all_users():
     print("\n----------")
-    print("Todos os usuários:")
+    blue_bright_print("Todos os usuários: \n")
     users_list = generate_users_list()
     for user in users_list:
         name = user["name"]

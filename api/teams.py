@@ -6,7 +6,7 @@ from .users import (
     line_to_user_dict,
     search_user_on_file_by_id,
 )
-from .utils import blue_bright_print, red_print
+from .utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print
 from .validation import prompt_for_valid_email, prompt_for_valid_team_name
 
 TEAMS_FILE = "data/teams.txt"
@@ -20,7 +20,7 @@ def prompt_for_team_members():
     all_users = generate_users_list()
     members = []
     while True:
-        print("\nAdicionar Usuário")
+        bright_print("\n      Adicionar Usuário")
         email = prompt_for_valid_email()
         member = None
         for user in all_users:
@@ -29,9 +29,9 @@ def prompt_for_team_members():
                 members.append(member)
                 break
         if not member:
-            print("Usuário não encontrado.")
+            red_print("         Usuário não encontrado.")
 
-        asking = input("Deseja adicionar mais um usuário?").lower()
+        asking = input("\n      Deseja adicionar mais um usuário? ").lower()
         if asking == "n" or asking == "nao" or asking == "não":
             break
 
@@ -39,12 +39,13 @@ def prompt_for_team_members():
 
 
 def create_team_interactively():
-    print("\nFormulário de Criação de Time\n")
+    cyan_print("\n      Formulário de Criação de Time\n")
 
     name = prompt_for_valid_team_name()
     members = prompt_for_team_members()
     if not has_team_valid_members(members):
-        print("O time precisa ter pelo menos um Líder técnico e um Product Owner")
+        magenta_print(
+            "         O time precisa ter pelo menos um Líder técnico e um Product Owner")
         return create_team_interactively()
     team_dict = create_team_dict(uuid.uuid4(), name, members)
     save_team_to_file(team_dict)
@@ -65,7 +66,7 @@ def save_team_to_file(team):
     file.write(line)
     file.write("\n")
     file.close()
-    print("Time salvo com sucesso!")
+    green_print("\n             Time salvo com sucesso!")
 
 
 def print_team_members(name):
@@ -79,7 +80,7 @@ def print_team_members(name):
                 break
 
         if not found_team:
-            print("Time não encontrado")
+            red_print("         Time não encontrado!\n")
             return
 
     members = []
@@ -133,24 +134,24 @@ def detail_team(team):
     id = team["id"]
     team_name = team["name"]
 
-    blue_bright_print("\nDetalhes do Time")
-    print(f"Id: {id}")
-    print(f"Nome: {team_name}")
+    blue_bright_print("\n     Detalhes do Time")
+    print(f"         Id: {id}")
+    print(f"         Nome: {team_name}")
 
-    print("Membros:")
+    print("\n      Membros:")
     for member in team["members"]:
         category = member["category"]
         name = member["name"]
         email = member["email"]
-        print(f"  - {category}: {name} <{email}>")
+        print(f"         - {category}: {name} <{email}>")
 
 
 def find_and_show_team():
-    name = input("Qual nome do time? ")
+    name = input("         Qual nome do time? ")
     teams = search_teams_on_file_by_name(name)
 
     if len(teams) == 0:
-        red_print("Nenhum time encontrado!")
+        red_print("         Nenhum time encontrado!\n")
     else:
         for team in teams:
             detail_team(team)
@@ -168,9 +169,10 @@ def generate_teams_list():
 
 def list_all_teams():
     print("\n----------")
-    print("Todos os Times:")
+    blue_bright_print("      Todos os Times:")
     teams_list = generate_teams_list()
     for team in teams_list:
         detail_team(team)
         print()
+        print("\n")
     print("----------\n")
