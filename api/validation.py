@@ -2,7 +2,7 @@ import re
 
 import stdiomask
 
-from utils import bright_print, red_print
+from .utils import bright_print, red_print
 
 
 def has_name_valid_characters(name):
@@ -135,15 +135,3 @@ def prompt_for_valid_category():
         option = int(input("Opção: "))
 
     return categories[option]
-
-
-if __name__ == "__main__":
-    # test
-    name = prompt_for_valid_username()
-    email = prompt_for_valid_email()
-    team = prompt_for_valid_team_name()
-    password = prompt_for_valid_password(True)
-    print(name)
-    print(email)
-    print(team)
-    print(password)

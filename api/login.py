@@ -1,6 +1,6 @@
 import stdiomask
 
-from .users import search_user_on_file, search_user_on_file_by_id
+from .users import detail_user, search_user_on_file, search_user_on_file_by_id
 from .utils import bright_print
 
 LOGIN_FILE = "data/login.txt"
@@ -66,3 +66,9 @@ def logout_user():
     file = open(LOGIN_FILE, "w")
     file.write("")
     file.close()
+
+def show_profile():
+    user = get_logged_user()
+    print("\n----------")
+    detail_user(user, title="Meu Perfil")
+    print("----------\n")

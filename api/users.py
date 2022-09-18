@@ -88,13 +88,13 @@ def search_user_on_file_by_id(id):
     return None
 
 
-def detail_user(user):
+def detail_user(user, title="Detalhes do Usuário"):
     id = user["id"]
     category = user["category"]
     name = user["name"]
     email = user["email"]
 
-    blue_bright_print("Detalhes do Usuário")
+    blue_bright_print(title)
     print(f"Id: {id}")
     print(f"Categoria: {category}")
     print(f"Nome: {name}")
@@ -121,9 +121,13 @@ def generate_users_list():
     return users_list
 
 
-def display_users_list():
+def list_all_users():
+    print("\n----------")
+    print("Todos os usuários:")
     users_list = generate_users_list()
-    for x in users_list:
-        print(x)
-
-    return
+    for user in users_list:
+        name = user["name"]
+        email = user["email"]
+        category = user["category"]
+        print(f"{name} - {email} - {category}")
+    print("----------\n")
