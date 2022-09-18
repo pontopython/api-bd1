@@ -1,15 +1,15 @@
 import stdiomask
 
 from .users import detail_user, search_user_on_file, search_user_on_file_by_id
-from .utils import bright_print
+from .utils import bright_input, cyan_print, red_print
 
 LOGIN_FILE = "data/login.txt"
 
 
 def prompt_for_user_credentials():
-    bright_print("\nLogin do Usuário\n")
-    email = input("Email: ")
-    password = stdiomask.getpass(prompt="Senha: ", mask="*")
+    cyan_print("\n     Login do Usuário\n")
+    email = bright_input("        Email: ")
+    password = stdiomask.getpass(prompt="        Senha: ", mask="*")
 
     return email, password
 
@@ -19,13 +19,13 @@ def is_user_credentials_valid(email, password, show_errors=False):
 
     if user is None:
         if show_errors:
-            print("Não foi encontrado um usuário com este e-mail.")
+            red_print("         Não foi encontrado um usuário com este e-mail.")
         return False
 
     correct_password = user["password"]
     if password != correct_password:
         if show_errors:
-            print("Senha incorreta")
+            red_print("         Senha incorreta.")
         return False
 
     return True
@@ -59,13 +59,14 @@ def login_user():
         user = search_user_on_file(email)
         save_user_id_on_login_file(user["id"])
     else:
-        print("Credenciais inválidas! Tente Novamente.")
+        red_print("         Credenciais inválidas! Tente Novamente.")
 
 
 def logout_user():
     file = open(LOGIN_FILE, "w")
     file.write("")
     file.close()
+
 
 def show_profile():
     user = get_logged_user()
