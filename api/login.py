@@ -1,56 +1,74 @@
 import stdiomask
 
-from users import line_to_user_dict
-from utils import bright_print
+from .users import detail_user, search_user_on_file, search_user_on_file_by_id
+from .utils import bright_print
+
+LOGIN_FILE = "data/login.txt"
 
 
-# Formulário_Login
-def login_user():
+def prompt_for_user_credentials():
     bright_print("\nLogin do Usuário\n")
-    login = input("Usuário:")
-    password = stdiomask.getpass(prompt="Senha:", mask="*")
+    email = input("Email: ")
+    password = stdiomask.getpass(prompt="Senha: ", mask="*")
 
-    return login, password
+    return email, password
 
 
-# Verificação_Existência_Usuário_Na_Base
-def search_user_by_email(login):
-    file = open("data/users.txt", "r")
-    ver = False
+def is_user_credentials_valid(email, password, show_errors=False):
+    user = search_user_on_file(email)
 
-    while ver != True:
+    if user is None:
+        if show_errors:
+            print("Não foi encontrado um usuário com este e-mail.")
+        return False
 
-        for line in file:
-            user = line_to_user_dict(line)
+    correct_password = user["password"]
+    if password != correct_password:
+        if show_errors:
+            print("Senha incorreta")
+        return False
 
-            if login == user["email"]:
-                return user
+    return True
 
-        break
+
+def save_user_id_on_login_file(id):
+    file = open(LOGIN_FILE, "w")
+    file.write(id)
     file.close()
 
-    return
 
-
-# Validação_das_Credenciais
-def Credential_Validation(user, password):
-
-    if (
-        user is not None and password == user["name"]
-    ):  ## ERRO na comparaçao com user['password']**********
-        print("ok")  # *****TESTE*****
-
+def get_logged_user_id_from_file():
+    file = open(LOGIN_FILE, "r")
+    lines = file.readlines()
+    if len(lines) > 0:  # verifica se tem pelo menos um usuário logado
+        id_line = lines[0]
+        id = id_line.rstrip("\n")
+        return id
     else:
-        print("Credenciais Inválidas!")
+        return None
 
 
-# Registro_do_Log
-def access_log(user):
-    file = open("data/register_log.txt," "a")
+def get_logged_user():
+    id = get_logged_user_id_from_file()
+    return search_user_on_file_by_id(id)
 
 
-if __name__ == "__main__":
+def login_user():
+    email, password = prompt_for_user_credentials()
+    if is_user_credentials_valid(email, password):
+        user = search_user_on_file(email)
+        save_user_id_on_login_file(user["id"])
+    else:
+        print("Credenciais inválidas! Tente Novamente.")
 
-    login, password = login_user()
-    user = search_user_by_email(login)
-    Credential_Validation(user, password)
+
+def logout_user():
+    file = open(LOGIN_FILE, "w")
+    file.write("")
+    file.close()
+
+def show_profile():
+    user = get_logged_user()
+    print("\n----------")
+    detail_user(user, title="Meu Perfil")
+    print("----------\n")

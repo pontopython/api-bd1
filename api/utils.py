@@ -1,3 +1,5 @@
+import os
+
 from colorama import Fore, Style
 
 
@@ -31,3 +33,11 @@ def bright_print(message):
 
 def bright_print(message):
     print(Style.BRIGHT + message + Style.RESET_ALL)
+
+
+def create_empty_data_if_needed():
+    os.makedirs("data", exist_ok=True)
+    if not os.path.exists("data/user.txt"):
+        open("data/users.txt", "a").close()  # Create empty file
+    if not os.path.exists("data/login.txt"):
+        open("data/login.txt", "a").close()  # Create empty file
