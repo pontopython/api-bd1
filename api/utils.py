@@ -16,11 +16,11 @@ def blue_bright_print(message):
 
 
 def green_input(message):
-    input(Fore.GREEN + message + Fore.RESET)
+    return input(Fore.GREEN + message + Fore.RESET)
 
 
 def red_input(message):
-    input(Fore.RED + message + Fore.RESET)
+    return input(Fore.RED + message + Fore.RESET)
 
 
 def cyan_print(message):
@@ -40,7 +40,7 @@ def bright_print(message):
 
 
 def bright_input(message):
-    input(Style.BRIGHT + message + Style.RESET_ALL)
+    return input(Style.BRIGHT + message + Style.RESET_ALL)
 
 
 def create_empty_data_if_needed():
