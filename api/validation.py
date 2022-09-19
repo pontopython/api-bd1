@@ -20,15 +20,15 @@ def is_name_valid(name, show=False):
     """
     if len(name) <= 2:
         if show == True:
-            red_print("O nome deve ter mais de 2 caracteres. Tente novamente!")
+            red_print("        O nome deve ter mais de 2 caracteres. Tente novamente!")
         return False
     elif not has_name_valid_characters(name):
         if show == True:
-            red_print("Formato inválido. Tente novamente!")
+            red_print("        Formato inválido. Tente novamente!")
         return False
     elif re.match("\d", name[0]):
         if show == True:
-            red_print("Nomes não podem começar com número")
+            red_print("        Nomes não podem começar com número")
         return False
     else:
         return True
@@ -41,7 +41,7 @@ def prompt_for_valid_username():
     """
     input_name = input("        Digite o nome do usuário: ")
 
-    while not is_name_valid(input_name):
+    while not is_name_valid(input_name, True):
         input_name = input(
             "        Digite um nome para usuário válido: ")
 
