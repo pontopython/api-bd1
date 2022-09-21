@@ -24,14 +24,14 @@
 
 |  **ID**   | **COMO UM** |  **EU QUERO**  | **PARA** | **PRIORIDADE** | **SPRINT** | **STATUS** |
 |-------------|-----------------------|-------------------------|-------------------------|---------------------|----------------|-------------------------|
-|  01  | Usuário | Criar uma conta | Acessar o sistema e fazer as avaliações | Imprescindível | 1 | **Em desenvolvimento** |
-|  02  | Usuário | Logar na minha conta já criada | Acessar os sistema e fazer as avalizações | Imprescindível | 1 | **Em desenvolvimento** |
+|  01  | Usuário | Criar uma conta | Acessar o sistema e fazer as avaliações | Imprescindível | 1 | **Entregue** |
+|  02  | Usuário | Logar na minha conta já criada | Acessar os sistema e fazer as avalizações | Imprescindível | 1 | **Entregue** |
 |  03  | Administrador | Criar/salvar perfis para mim e para os meus colegas de time | Poder criar times e adicionar os membros | Imprescindível | 2 | A iniciar |
 |  04  | Administrador | Editar e excluir perfis | Erros, alterações e manipulação de dados | Importante | 2 | A iniciar |
-|  05  | Líder de Time | Criar um time para mim e meus colegas de trabalho | Organizar a minha equipe dentro de um time | Imprescindível | 1 | **Em desenvolvimento** |
+|  05  | Líder de Time | Criar um time para mim e meus colegas de trabalho | Organizar a minha equipe dentro de um time | Imprescindível | 1 | **Entregue** |
 |  06  | Líder de Time | Editar e excluir times | Erros e alterações | Importante | 2 | A iniciar |
 |  07  | Líder de Time | Criar, editar e salvar as sprints | Organizar o cronograma  da equipe | Imprescindível | 2 | A iniciar |
-|  08  | Usuário | Realizar a minha avalização e dos meus colegas de equipe | Completar a avaliação 360° | Imprescindível | 2 | A iniciar |
+|  08  | Usuário | Realizar a minha avaliação e dos meus colegas de equipe | Completar a avaliação 360° | Imprescindível | 2 | A iniciar |
 |  09  | Usuário | Ver os resultados das médias das minhas notas | Ter uma noção de como fui avaliado | Desejável | 3 | A iniciar |
 |  10  | Líder de Time | Dashboard com informações sobre as sprints, meus colegas de time e minhas avalizações | Melhor visibilidade sobre o time e as sprints | Desejável | 4 | A iniciar |
 |  11  | Usuário | Gráficos de desempenho das minhas notas na dashboard | Uma noção individual de performance | Desejável | 4 | A iniciar |
