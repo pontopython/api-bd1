@@ -22,20 +22,20 @@
 
 ## :white_medium_square: Backlog do produto
 
-|  **ID**   | **COMO UM** |  **EU QUERO**  | **PARA** | **PRIORIDADE** | **SPRINT** | **STATUS** |
-|-------------|-----------------------|-------------------------|-------------------------|---------------------|----------------|-------------------------|
-|  01  | Usuário | Criar uma conta | Acessar o sistema e fazer as avaliações | Imprescindível | 1 | **Entregue** |
-|  02  | Usuário | Logar na minha conta já criada | Acessar os sistema e fazer as avalizações | Imprescindível | 1 | **Entregue** |
-|  03  | Administrador | Criar/salvar perfis para mim e para os meus colegas de time | Poder criar times e adicionar os membros | Imprescindível | 2 | A iniciar |
-|  04  | Administrador | Editar e excluir perfis | Erros, alterações e manipulação de dados | Importante | 2 | A iniciar |
-|  05  | Líder de Time | Criar um time para mim e meus colegas de trabalho | Organizar a minha equipe dentro de um time | Imprescindível | 1 | **Entregue** |
-|  06  | Líder de Time | Editar e excluir times | Erros e alterações | Importante | 2 | A iniciar |
-|  07  | Líder de Time | Criar, editar e salvar as sprints | Organizar o cronograma  da equipe | Imprescindível | 2 | A iniciar |
-|  08  | Usuário | Realizar a minha avaliação e dos meus colegas de equipe | Completar a avaliação 360° | Imprescindível | 2 | A iniciar |
-|  09  | Usuário | Ver os resultados das médias das minhas notas | Ter uma noção de como fui avaliado | Desejável | 3 | A iniciar |
-|  10  | Líder de Time | Dashboard com informações sobre as sprints, meus colegas de time e minhas avalizações | Melhor visibilidade sobre o time e as sprints | Desejável | 4 | A iniciar |
-|  11  | Usuário | Gráficos de desempenho das minhas notas na dashboard | Uma noção individual de performance | Desejável | 4 | A iniciar |
-|  12  | Administrador | Atribuir perfis à uma função especial (Instrutor, Líder técnico, etc) | Ter acesso a mais informações e avaliações adicionais | Imprescindível | 3 | A iniciar |
+| **COMO UM** |  **EU QUERO**  | **PARA** | **PRIORIDADE** | **SPRINT** | **STATUS** |
+|-----------------------|-------------------------|-------------------------|---------------------|----------------|-------------------------|
+| Administrador | Criar e armazenar contas | Acessar o sistema | Imprescindível | 1 | **Realizado** |
+| Administrador | Editar e excluir contas| Corrigir erros e fazer alterações | Importante | 3 | A inicar |
+| Usuário | Login/Log-off| Acessar o sistema | Imprescindível | 1 | **Realizado** |
+| Líder de time | Criar e armazenar times | Organizar minha equipe | Imprescindível | 1 | **Realizado** |
+| Líder de Time | Editar e excluir times  | Corrigir erros e fazer alterações | Importante | 3 | A iniciar |
+| Líder de Time | Criar, editar e salvar as sprints | Organizar o cronograma da equipe | Imprescindível | 3 | A iniciar |
+| Líder de Time | Adicionar usuários ao time | Montar a equipe | Imprescindível | 1 | **Realizado** |
+| Usuário | Auto-avaliação, avaliação do time e aval. adcionais | Completar a avaliação 360° | Imprescindível | 2 | **Em desenvolvimento** |
+| Usuário | Ver as médias das minhas notas | Noção de performance | Desejável | 3 | A iniciar |
+| Líder de Time | Dashboard com informações de sprints e notas | Visibilidade sobre o time | Desejável | 4 | A iniciar |
+| Usuário | Gráficos de desempenho | Noção de performance | Desejável | 4 | A iniciar |
+| Desenvolvedor | Aplicar restrições e hierarquia de usuários | Organizar as funcionalidades | Imprescindível | 2 | **Em desenvolvimento** |
 
 <span id="entrega">
 
@@ -44,7 +44,7 @@
 | **SPRINT** | **PERÍODO**| **O QUE SERÁ ENTREGUE** | **BACKLOG DAS SPRINTS** |
 |:-------------:|:-----------------------:|:-------------------------:|:-------------------------:|
 |  01  | 29/08 a 18/09 | Criação de cadastro, login na conta criada e criação de times | [Sprint 1](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-1)
-|  02  | 19/09 a 09/10 |
+|  02  | 19/09 a 09/10 | Finalização do sistema de cadastro, sistema de avaliação e restrições e permissões dos usuários | [Sprint 2](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-2)
 |  03  | 17/10 a 06/11 |
 |  04  | 07/11 a 27/11 |
 
