@@ -7,9 +7,11 @@ from .validation import (
     prompt_for_valid_password,
     prompt_for_valid_username,
     prompt_for_user_search_type,
+    prompt_for_confirmation
 )
 
 USERS_FILE = "data/users.txt"
+LOGIN_FILE = "data/login.txt"
 
 
 def create_user_dict(id, category, name, email, password):
@@ -63,7 +65,7 @@ def save_user_to_file(user):
     green_print("\n             Usuário salvo com sucesso!")
 
 
-def search_user_on_file(email):
+def search_user_on_file_by_email(email):
     file = open(USERS_FILE, "r")
 
     for line in file:
@@ -128,17 +130,13 @@ def find_and_show_user():
 
 def find_by_email(): 
     email = input("         Qual o email do usuário? ")
-    user = search_user_on_file(email)
+    user = search_user_on_file_by_email(email)
     return user
 
 def find_by_name():
     name = input("         Qual o nome do usuário? ")
     user = search_user_on_file_by_name(name)
     return user
-
-
-
-
 
 
 def generate_users_list():
@@ -161,3 +159,60 @@ def list_all_users():
         category = user["category"]
         print(f"{name} - {email} - {category}")
     print("----------\n")
+
+
+######
+#def change_line_edit_user():
+#    open(USERS_FILE, "r") 
+#    data = file.readline
+########
+
+
+def find_and_delete_user():
+    options = {
+        1: find_by_name, 
+        2: find_by_email
+    }
+    option = prompt_for_user_search_type(options)
+    user = option()
+   
+    if user is None:
+        red_print("\n         Usuário não encontrado!")
+    else:
+        login_file = open(LOGIN_FILE, 'r')
+        login_lines = login_file.readlines()
+        if login_lines[0] == user["id"]:
+            red_print("\n         O usuário não pode excluir ele mesmo.")
+            return
+
+        with open(USERS_FILE, 'r') as file:
+            lines = file.readlines()
+            for index, line in enumerate(lines):
+                file_user = line_to_user_dict(line)
+                if user["id"] == file_user["id"]:
+                    username = user["name"]
+                    bright_print(f"\n             Usuário {username} encontrado!")
+
+                    confirmation = prompt_for_confirmation (f"""
+                    Tem certeza que gostaria de excluir o usuário {username}?
+                    1 - Sim
+                    2 - Não
+                    """)
+                    if confirmation:
+                        lines.pop(index)
+                        write_file = open(USERS_FILE, 'w')
+                        write_file.writelines(lines)
+                        file.close()
+                        write_file.close()
+                        green_print(f"\n             Usuário excluído com sucesso!")
+                    
+                    break
+                    
+
+        
+
+
+
+
+
+

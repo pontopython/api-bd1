@@ -164,3 +164,17 @@ def prompt_for_user_search_type(options):
     return options[option]
 
 
+def prompt_for_confirmation(question):
+
+    bright_print(question)
+    response = int(input("     Opção: "))
+
+    while response > 2 or response < 1:
+        red_print("         Você digitou uma opção inválida, tente novamente.")
+        response = int(input("     Opção: "))
+    
+    return response == 1
+
+
+
+

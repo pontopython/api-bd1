@@ -6,6 +6,7 @@ from .users import (
     find_and_show_user,
     list_all_users,
     save_user_to_file,
+    find_and_delete_user
 )
 
 
@@ -17,9 +18,11 @@ def main_menu():
         2 - Meu Perfil
         3 - Criar novo usuário
         4 - Procurar usuário
-        5 - Criar Time
-        6 - Listar Times
-        7 - Buscar Time
+        5 - Editar usuário
+        6 - Excluir usuário
+        7 - Criar Time
+        8 - Listar Times
+        9 - Buscar Time
         97 - Deslogar apenas
         98 - Sair apenas
         99 - Deslogar e sair
@@ -37,10 +40,14 @@ def main_menu():
     elif option == 4:
         find_and_show_user()
     elif option == 5:
-        create_team_interactively()
+        print("Editar")
     elif option == 6:
-        list_all_teams()
+        find_and_delete_user()
     elif option == 7:
+        create_team_interactively()
+    elif option == 8:
+        list_all_teams()
+    elif option == 9:
         find_and_show_team()
     elif option == 97:
         logout_user()
