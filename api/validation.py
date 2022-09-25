@@ -145,3 +145,22 @@ def prompt_for_valid_category():
         option = int(input("     Opção: "))
 
     return categories[option]
+
+def prompt_for_user_search_type(options):
+    
+    bright_print(
+        """
+     Buscar usuário por :
+         1 - Nome
+         2 - Email
+         """
+    )
+
+    option = int(input("     Opção: "))
+    while option > 2 or option < 1:
+        red_print("         Você digitou uma opção inválida, tente novamente.")
+        option = int(input("     Opção: "))
+
+    return options[option]
+
+

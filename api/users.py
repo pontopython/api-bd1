@@ -1,11 +1,12 @@
 import uuid
 
-from .utils import blue_bright_print, green_print, red_print, bright_print
+from .utils import (blue_bright_print, green_print, red_print, bright_print)
 from .validation import (
     prompt_for_valid_category,
     prompt_for_valid_email,
     prompt_for_valid_password,
     prompt_for_valid_username,
+    prompt_for_user_search_type,
 )
 
 USERS_FILE = "data/users.txt"
@@ -67,7 +68,19 @@ def search_user_on_file(email):
 
     for line in file:
         user = line_to_user_dict(line)
-        if email == user["email"]:
+        if email.lower() == user["email"].lower():
+            file.close()
+            return user
+
+    file.close()
+    return None
+
+def search_user_on_file_by_name(name):
+    file = open(USERS_FILE, "r")
+
+    for line in file:
+        user = line_to_user_dict(line)
+        if name.lower() == user["name"].lower():
             file.close()
             return user
 
@@ -102,13 +115,30 @@ def detail_user(user, title="\n     Detalhes do Usuário"):
 
 
 def find_and_show_user():
-    email = input("         Qual o email do usuário? ")
-    user = search_user_on_file(email)
-
+    options = {
+        1: find_by_name, 
+        2: find_by_email
+    }
+    option = prompt_for_user_search_type(options)
+    user = option()
     if user is None:
         red_print("         Usuário não encontrado!")
     else:
         detail_user(user)
+
+def find_by_email(): 
+    email = input("         Qual o email do usuário? ")
+    user = search_user_on_file(email)
+    return user
+
+def find_by_name():
+    name = input("         Qual o nome do usuário? ")
+    user = search_user_on_file_by_name(name)
+    return user
+
+
+
+
 
 
 def generate_users_list():
