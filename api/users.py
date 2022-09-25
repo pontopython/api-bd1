@@ -161,11 +161,11 @@ def list_all_users():
     print("----------\n")
 
 
-####### edição de usuário
+##### edição de usuário #####
 #def change_line_edit_user():
 #    open(USERS_FILE, "r") 
 #    
-#########
+#######
 
 
 def find_and_delete_user():
