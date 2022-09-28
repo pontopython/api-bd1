@@ -1,4 +1,3 @@
-from unicodedata import category
 from teams import search_teams_on_file_by_name
 
 categories = {
