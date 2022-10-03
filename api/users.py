@@ -1,6 +1,7 @@
 import uuid
 
-from .utils import (blue_bright_print, green_print, red_print, bright_print)
+from .utils import (blue_bright_print, cyan_print,
+                    green_print, red_print, bright_print, bright_input)
 from .validation import (
     prompt_for_valid_category,
     prompt_for_valid_email,
@@ -77,6 +78,7 @@ def search_user_on_file_by_email(email):
     file.close()
     return None
 
+
 def search_user_on_file_by_name(name):
     file = open(USERS_FILE, "r")
 
@@ -118,7 +120,7 @@ def detail_user(user, title="\n     Detalhes do Usuário"):
 
 def find_and_show_user():
     options = {
-        1: find_by_name, 
+        1: find_by_name,
         2: find_by_email
     }
     option = prompt_for_user_search_type(options)
@@ -128,13 +130,15 @@ def find_and_show_user():
     else:
         detail_user(user)
 
-def find_by_email(): 
+
+def find_by_email():
     email = input("         Qual o email do usuário? ")
     user = search_user_on_file_by_email(email)
     return user
 
+
 def find_by_name():
-    name = input("         Qual o nome do usuário? ")
+    name = bright_input("         Qual o nome do usuário? ")
     user = search_user_on_file_by_name(name)
     return user
 
@@ -162,20 +166,20 @@ def list_all_users():
 
 
 ##### edição de usuário #####
-#def change_line_edit_user():
-#    open(USERS_FILE, "r") 
-#    
+# def change_line_edit_user():
+#    open(USERS_FILE, "r")
+#
 #######
 
 
 def find_and_delete_user():
     options = {
-        1: find_by_name, 
+        1: find_by_name,
         2: find_by_email
     }
     option = prompt_for_user_search_type(options)
     user = option()
-   
+
     if user is None:
         red_print("\n         Usuário não encontrado!")
     else:
@@ -191,9 +195,9 @@ def find_and_delete_user():
                 file_user = line_to_user_dict(line)
                 if user["id"] == file_user["id"]:
                     username = user["name"]
-                    bright_print(f"\n             Usuário {username} encontrado!")
+                    cyan_print(f"\n\t\tUsuário {username} encontrado!")
 
-                    confirmation = prompt_for_confirmation (f"""
+                    confirmation = prompt_for_confirmation(f"""
                     Tem certeza que gostaria de excluir o usuário {username}?
                     1 - Sim
                     2 - Não
@@ -204,15 +208,7 @@ def find_and_delete_user():
                         write_file.writelines(lines)
                         file.close()
                         write_file.close()
-                        green_print(f"\n             Usuário excluído com sucesso!")
-                    
+                        green_print(
+                            f"\n             Usuário excluído com sucesso!")
+
                     break
-                    
-
-        
-
-
-
-
-
-

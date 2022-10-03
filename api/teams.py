@@ -6,7 +6,7 @@ from .users import (
     line_to_user_dict,
     search_user_on_file_by_id,
 )
-from .utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print
+from .utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print, bright_input
 from .validation import prompt_for_edit_team_search_type, prompt_for_valid_email, prompt_for_valid_team_name, prompt_for_user_search_type, prompt_for_confirmation
 
 TEAMS_FILE = "data/teams.txt"
@@ -189,7 +189,7 @@ def list_all_teams():
 
 
 def find_by_name():
-    name = input("         Qual o nome do Time? ")
+    name = bright_input("         Qual o nome do Time? ")
     team = search_team_on_file_by_name(name)
     return team
 
@@ -211,11 +211,11 @@ def find_and_delete_team():
                 file_team = line_to_team_dict(line)
                 if team["id"] == file_team["id"]:
                     team_name = team["name"]
-                    bright_print(
-                        f"\n             Time {team_name} encontrado!")
+                    cyan_print(
+                        f"\n\t\tTime {team_name} encontrado!")
 
                     confirmation = prompt_for_confirmation(f"""
-                    Tem certeza que gostaria de excluir o usuário {team_name}?
+                    Tem certeza que gostaria de excluir o time {team_name}?
                     1 - Sim
                     2 - Não
                     """)
