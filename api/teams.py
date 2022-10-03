@@ -7,7 +7,7 @@ from .users import (
     search_user_on_file_by_id,
 )
 from .utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print
-from .validation import prompt_for_valid_email, prompt_for_valid_team_name
+from .validation import prompt_for_edit_team_search_type, prompt_for_valid_email, prompt_for_valid_team_name, prompt_for_user_search_type, prompt_for_confirmation
 
 TEAMS_FILE = "data/teams.txt"
 
@@ -130,6 +130,16 @@ def search_teams_on_file_by_name(name):
     return teams
 
 
+def search_team_on_file_by_name(name):
+    file = open(TEAMS_FILE, "r")
+
+    for line in file:
+        team = line_to_team_dict(line)
+        if name.lower() in team["name"].lower():
+            file.close()
+            return team
+
+
 def detail_team(team):
     id = team["id"]
     team_name = team["name"]
@@ -148,7 +158,7 @@ def detail_team(team):
 
 def find_and_show_team():
     name = input("         Qual nome do time? ")
-    teams = search_teams_on_file_by_name(name)
+    teams = search_team_on_file_by_name(name)
 
     if len(teams) == 0:
         red_print("         Nenhum time encontrado!\n")
@@ -176,3 +186,66 @@ def list_all_teams():
         print()
         print("\n")
     print("----------\n")
+
+
+def find_by_name():
+    name = input("         Qual o nome do Time? ")
+    team = search_team_on_file_by_name(name)
+    return team
+
+# def change_team_name():
+#     name = input("         Qual o nome atual do Time? ")
+#     team = search_teams_on_file_by_name(name)
+#     return team
+#     new_name = input ("         Qual o novo nome do Time? ")
+
+
+def find_and_delete_team():
+    team = find_by_name()
+    if team is None:
+        red_print("\n         Time não encontrado!")
+    else:
+        with open(TEAMS_FILE, 'r') as file:
+            lines = file.readlines()
+            for index, line in enumerate(lines):
+                file_team = line_to_team_dict(line)
+                if team["id"] == file_team["id"]:
+                    team_name = team["name"]
+                    bright_print(
+                        f"\n             Time {team_name} encontrado!")
+
+                    confirmation = prompt_for_confirmation(f"""
+                    Tem certeza que gostaria de excluir o usuário {team_name}?
+                    1 - Sim
+                    2 - Não
+                    """)
+                    if confirmation:
+                        lines.pop(index)
+                        write_file = open(TEAMS_FILE, 'w')
+                        write_file.writelines(lines)
+                        file.close()
+                        write_file.close()
+                        green_print(
+                            f"\n             Usuário excluído com sucesso!")
+
+                    break
+
+
+def change_team_name():
+    input("Qual nome atual do time?")
+
+
+def edit_team():
+    options = {
+        1: change_team_name,
+        2: prompt_for_team_members
+        # 3: delete_user,
+        # 4: mudar função do usuario ?
+    }
+    option = prompt_for_edit_team_search_type(option)
+    edit = option()
+
+    if edit == 1:
+        change_team_name()
+    else:
+        prompt_for_team_members()

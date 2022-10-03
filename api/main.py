@@ -1,5 +1,5 @@
 from .login import get_logged_user, login_user, logout_user, show_profile
-from .teams import create_team_interactively, find_and_show_team, list_all_teams
+from .teams import create_team_interactively, edit_team, find_and_delete_team, find_and_show_team, list_all_teams
 from .utils import bright_input, bright_print, cyan_print, red_print
 from .users import (
     create_user_interactively,
@@ -23,6 +23,8 @@ def main_menu():
         7 - Criar Time
         8 - Listar Times
         9 - Buscar Time
+        10 - Editar Time
+        11 - Excluir Time
         97 - Deslogar apenas
         98 - Sair apenas
         99 - Deslogar e sair
@@ -49,6 +51,10 @@ def main_menu():
         list_all_teams()
     elif option == 9:
         find_and_show_team()
+    elif option == 10:
+        edit_team()
+    elif option == 11:
+        find_and_delete_team()
     elif option == 97:
         logout_user()
     elif option == 98:
