@@ -28,7 +28,7 @@
 | Administrador | Editar e excluir contas| Corrigir erros e fazer alterações | Importante | 2 | **Em desenvolvimento** |
 | Usuário | Login/Log-off| Acessar o sistema | Imprescindível | 1 | **Realizado** |
 | Líder de time | Criar e armazenar times | Organizar minha equipe | Imprescindível | 1 | **Realizado** |
-| Líder de Time | Editar e excluir times  | Corrigir erros e fazer alterações | Importante | 3 | **Em desenvolvimento** |
+| Líder de Time | Editar e excluir times  | Corrigir erros e fazer alterações | Importante | 2 | **Em desenvolvimento** |
 | Líder de Time | Criar, editar e salvar as sprints | Organizar o cronograma da equipe | Imprescindível | 3 | A iniciar |
 | Líder de Time | Adicionar usuários ao time | Montar a equipe | Imprescindível | 1 | **Realizado** |
 | Usuário | Auto-avaliação, avaliação do time e aval. adcionais | Completar a avaliação 360° | Imprescindível | 2 | **Em desenvolvimento** |
