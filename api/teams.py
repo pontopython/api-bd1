@@ -158,7 +158,7 @@ def detail_team(team):
 
 def find_and_show_team():
     name = input("         Qual nome do time? ")
-    teams = search_team_on_file_by_name(name)
+    teams = search_teams_on_file_by_name(name)
 
     if len(teams) == 0:
         red_print("         Nenhum time encontrado!\n")
@@ -193,6 +193,7 @@ def find_by_name():
     team = search_team_on_file_by_name(name)
     return team
 
+
 def find_and_delete_team():
     team = find_by_name()
     if team is None:
@@ -219,26 +220,118 @@ def find_and_delete_team():
                         file.close()
                         write_file.close()
                         green_print(
-                            f"\n             Usuário excluído com sucesso!")
+                            f"\n             Time excluído com sucesso!")
 
                     break
 
 
+######################## 
+# função para mudar o nome do time, esta dando erro precisa arrumar
 def change_team_name():
-    input("Qual nome atual do time?")
+    team_name = find_by_name()
+    if team_name is None:
+        red_print("\n         Time não encontrado!")
+        return
+    else:
+        new_team_name = team_name["name"]
+        cyan_print(f"\n\t\tTime {new_team_name} encontrado!")
+
+# with open(TEAMS_FILE, 'r+') as file:
+#     lines = file.readlines()
+#     team_name_update = None
+#     for team_name, line in enumerate(lines):
+#         file_team_name = line_to_team_dict(line)
+#         if team_name["id"] == file_team_name["id"]:
+#             team_name_update = team_name
+#             lines.pop(team_name_update)
+#             name_to_update = input("\t Qual o novo nome para o Time? ")
+#             new_team_name = team_dict_to_line(name_to_update)
+#             lines.append(new_team_name)
+#             file.writelines(lines)
+#             file.close()
+#             break
+
+
+# função para adicionar membros ao time, precisa consertar o erro
+# erro: esta adicionando uma linha nova com o usuario adicionado, mas não esta apagando a linha antiga.
+def add_member_to_a_team():
+    team_to_update = find_by_name()
+
+    if team_to_update is None:
+        red_print("\n         Time não encontrado!")
+        return
+    else:
+        team_name = team_to_update["name"]
+        cyan_print(
+            f"\n\t\tTime {team_name} encontrado!")
+
+    # Ler todos os times
+    file = open(TEAMS_FILE, 'r+') #coloquei r+ porque o wr estava dando erro pra ler
+    lines = file.readlines()
+    team_to_update_line_number = None
+    # Procurar linha que contem o time e atualizar
+    for line_number, line in enumerate(lines):
+        team = line_to_team_dict(line)
+        if team_to_update["id"] == team["id"]:
+            team_to_update_line_number = line_number
+            break
+    lines.pop(team_to_update_line_number)
+    # Novos membros
+    new_members = prompt_for_team_members()
+
+    team_to_update["members"] = team_to_update["members"] + new_members
+
+    team_to_update_line = team_dict_to_line(team_to_update)
+
+    lines.append(team_to_update_line) 
+
+    file.writelines(lines)
+    file.close()
+    green_print("\tUsuário adicionado ao time com sucesso!")
+
+
+# função para adicionar membros ao time, precisa consertar o erro
+def delete_member_to_a_team():
+    search_team = find_by_name()
+
+    if search_team is None:
+        red_print("\n         Time não encontrado!")
+        return
+    else:
+        team_name = search_team["name"]
+        cyan_print(
+            f"\n\t\tTime {team_name} encontrado!")
+
+    # Ler o time -> achar os usuarios dentro do time e selecionar o escolhido para deletar
+    # Procurar linha que contem o time, achar o usuario na linha pelo id(?) pra poder excluir 
+
 
 
 def edit_team():
     options = {
         1: change_team_name,
-        2: prompt_for_team_members
-        # 3: delete_user,
+        2: add_member_to_a_team,  # função para adicionar mais um usuário
+        3: delete_member_to_a_team  # função pra deletar usuario da equipe
         # 4: mudar função do usuario ?
     }
-    option = prompt_for_edit_team_search_type(option)
+    option = prompt_for_edit_team_search_type(options)
     edit = option()
 
     if edit == 1:
         change_team_name()
-    else:
-        prompt_for_team_members()
+    elif edit == 2:
+        add_member_to_a_team()
+    elif edit == 3:
+        delete_member_to_a_team()
+
+
+def select_team(teams):
+    print("Qual time?")
+
+    for index, team in enumerate(teams):
+        team_name = team["name"]
+        print(f"{index} - {team_name}")
+
+    option = int(input("Qual dos times?"))
+
+    return teams[option]

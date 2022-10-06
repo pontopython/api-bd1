@@ -196,3 +196,4 @@ def prompt_for_edit_team_search_type(options):
         option = int(input("     Opção: "))
 
     return options[option]
+
