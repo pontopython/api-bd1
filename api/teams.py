@@ -1,6 +1,6 @@
 import uuid
 
-from .users import (
+from users import (
     USERS_FILE,
     generate_users_list,
     line_to_user_dict,
@@ -149,15 +149,16 @@ def line_to_team_dict(line):
 
 def search_teams_on_file_by_name(name):
     file = open(TEAMS_FILE, "r")
-    teams = []
-
+    found_team = None
+    
     for line in file:
         team = line_to_team_dict(line)
         if name.lower() in team["name"].lower():
-            teams.append(team)
+            found_team = team
+            break
 
     file.close()
-    return teams
+    return found_team
 
 
 def search_team_on_file_by_name(name):

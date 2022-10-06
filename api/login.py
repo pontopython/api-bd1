@@ -3,6 +3,7 @@ import stdiomask
 from .users import detail_user, search_user_on_file_by_email, search_user_on_file_by_id
 from .utils import bright_input, cyan_print, red_print
 
+
 LOGIN_FILE = "data/login.txt"
 
 
