@@ -1,5 +1,3 @@
-from traceback import print_tb
-from unicodedata import name
 from utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print
 from teams import search_teams_on_file_by_name, generate_teams_list, line_to_team_dict
 from login import get_logged_user_id_from_file
@@ -53,7 +51,7 @@ def select_team_member(team):
         return select_team_member(team)
 
 
-def evaluation_form(user):
+def evaluation_form(user, show=True):
     print(f"\n     Avaliação de {user['name']}\n")
     questions = {
         '1': {
@@ -77,27 +75,50 @@ def evaluation_form(user):
             'answers': {'0': 'Muito Ruim', '1': 'Ruim', '2': 'Regular', '3': 'Bom', '4': 'Muito Bom'},
         }
     }
-    return questions
+    if show == True:
+        lista = []
+        for qk, qv in questions.items():
+            print('\n', f'{qk}:{qv["question"]}')
 
+            print('\nEscolha entre as opções indicadas:\n')
+            for ak, av in qv['answers'].items():
+                print(f'[{ak}]:{av}')
 
-def show_questions(questions):
-    lista = []
-    for qk, qv in questions.items():
-        print('\n', f'{qk}:{qv["question"]}')
-
-        print('\nEscolha entre as opções indicadas:\n')
-        for ak, av in qv['answers'].items():
-            print(f'[{ak}]:{av}')
-
-        answers_user = int(input('\nOpção:'))
-        while answers_user < 0 or answers_user > 4:
-            print('\nOpção inválida! Tente novamente.\n')
             answers_user = int(input('\nOpção:'))
-        lista.append(answers_user)
-    
-    print (lista)
-    return lista
-    
+            while answers_user < 0 or answers_user > 4:
+                print('\nOpção inválida! Tente novamente.\n')
+                answers_user = int(input('\nOpção:'))
+            lista.append(answers_user)
+
+        return evaluation(lista, user)
+
+    else:
+        return questions
+
+
+def evaluation(lista, user):
+    evaluation = {'skill_1': lista[0], 'skill_2':lista[1], 'skill_3':lista[2], 'skill_4':lista[3], 'skill_5':lista[4]}
+    id_sprint = 1
+    id_user_log = get_logged_user()['id']
+    id_av_user = user['id']
+    skill_1 = evaluation["skill_1"]
+    skill_2 = evaluation["skill_2"]
+    skill_3 = evaluation["skill_3"]
+    skill_4 = evaluation["skill_4"]
+    skill_5 = evaluation["skill_5"]
+
+    line = f"{id_sprint};{id_user_log};{id_av_user};{skill_1};{skill_2};{skill_3};{skill_4};{skill_5}"
+
+    return save_evaluation(line)
+
+
+def save_evaluation(line):
+    file = open('data/evaluations.txt', "a")
+    file.write(line)
+    file.write("\n")
+    file.close()
+
+
 
 
 if __name__ == '__main__':
@@ -105,4 +126,3 @@ if __name__ == '__main__':
     search_teams_on_file_by_user(user_log)
     av_user = select_team()
     questions = evaluation_form(av_user)
-    show_questions(questions)
