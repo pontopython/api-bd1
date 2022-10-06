@@ -34,7 +34,7 @@ def search_teams_on_file_by_user(user):
 def select_team():
     input_team = input('Qual time deseja avaliar? ')
     team = search_teams_on_file_by_name(input_team)
-    return select_team_member(team)
+    return select_team_member(team), team['id']
 
 
 def select_team_member(team):
@@ -51,7 +51,7 @@ def select_team_member(team):
         return select_team_member(team)
 
 
-def evaluation_form(user, show=True):
+def evaluation_form(user, team, show=True):
     print(f"\n     Avaliação de {user['name']}\n")
     questions = {
         '1': {
@@ -90,15 +90,16 @@ def evaluation_form(user, show=True):
                 answers_user = int(input('\nOpção:'))
             lista.append(answers_user)
 
-        return evaluation(lista, user)
+        return evaluation(lista, user, team)
 
     else:
         return questions
 
 
-def evaluation(lista, user):
+def evaluation(lista, user, team):
     evaluation = {'skill_1': lista[0], 'skill_2':lista[1], 'skill_3':lista[2], 'skill_4':lista[3], 'skill_5':lista[4]}
     id_sprint = 1
+    id_team = team
     id_user_log = get_logged_user()['id']
     id_av_user = user['id']
     skill_1 = evaluation["skill_1"]
@@ -107,7 +108,7 @@ def evaluation(lista, user):
     skill_4 = evaluation["skill_4"]
     skill_5 = evaluation["skill_5"]
 
-    line = f"{id_sprint};{id_user_log};{id_av_user};{skill_1};{skill_2};{skill_3};{skill_4};{skill_5}"
+    line = f"{id_sprint};{id_team};{id_user_log};{id_av_user};{skill_1};{skill_2};{skill_3};{skill_4};{skill_5}"
 
     return save_evaluation(line)
 
@@ -124,5 +125,5 @@ def save_evaluation(line):
 if __name__ == '__main__':
     user_log = get_logged_user()
     search_teams_on_file_by_user(user_log)
-    av_user = select_team()
-    questions = evaluation_form(av_user)
+    av_user, id_team = select_team()
+    questions = evaluation_form(av_user, id_team)
