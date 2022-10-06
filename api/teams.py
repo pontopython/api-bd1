@@ -193,13 +193,6 @@ def find_by_name():
     team = search_team_on_file_by_name(name)
     return team
 
-# def change_team_name():
-#     name = input("         Qual o nome atual do Time? ")
-#     team = search_teams_on_file_by_name(name)
-#     return team
-#     new_name = input ("         Qual o novo nome do Time? ")
-
-
 def find_and_delete_team():
     team = find_by_name()
     if team is None:
