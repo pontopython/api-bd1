@@ -119,11 +119,67 @@ def save_evaluation(line):
     file.write("\n")
     file.close()
 
+def line_to_evaluation_dict(line):
+    splitted_line = line.rstrip("\n").split(";")
+    id_sprint = splitted_line[0]
+    id_team = splitted_line[1]
+    id_user_log = splitted_line[2]
+    id_av_user = splitted_line[3]
+    skill_1 = splitted_line[4]
+    skill_2 = splitted_line[5]
+    skill_3 = splitted_line[6]
+    skill_4 = splitted_line[7]
+    skill_5 = splitted_line[8]
+    dict = {
+            "id_sprint": id_sprint,
+            "id_team": id_team,
+            "id_user_log": id_user_log,
+            "id_av_user": id_av_user,
+            "skill_1": skill_1,
+            "skill_2": skill_2,
+            "skill_3": skill_3,
+            "skill_4": skill_4,
+            "skill_5": skill_5 
+            }
+    return dict
 
+
+def mean_grades(team, user):
+    file = open ('data/evaluations.txt', "r")
+    skill_1 = []
+    skill_2 = []
+    skill_3 = []
+    skill_4 = []
+    skill_5 = []
+    for line in file:
+        splitted_line = line.rstrip("\n").split(";")
+        if team == splitted_line[1] and user == splitted_line[3]:
+            skill_1.append(int(splitted_line[4]))
+            skill_2.append(int(splitted_line[5]))
+            skill_3.append(int(splitted_line[6]))
+            skill_4.append(int(splitted_line[7]))
+            skill_5.append(int(splitted_line[8]))
+    mean_skill_1 = sum(skill_1)/len(skill_1)
+    mean_skill_2 = sum(skill_2)/len(skill_2)
+    mean_skill_3 = sum(skill_3)/len(skill_3)
+    mean_skill_4 = sum(skill_4)/len(skill_4)
+    mean_skill_5 = sum(skill_5)/len(skill_5)
+    total_mean = (mean_skill_1 + mean_skill_2 + mean_skill_3 + mean_skill_4 + mean_skill_5)/5
+
+    return [mean_skill_1, mean_skill_2, mean_skill_3, mean_skill_4, mean_skill_5, total_mean]
+
+def print_mean_grades(team, user):
+    mean = mean_grades(team,user['id'])
+    questions = evaluation_form(user, team, show=False)
+    for n, question in enumerate(questions):
+        print(f'{questions[question]["question"]} {mean[n]}')
+
+    print(f'Média total: {mean[5]}')    
 
 
 if __name__ == '__main__':
     user_log = get_logged_user()
     search_teams_on_file_by_user(user_log)
     av_user, id_team = select_team()
-    questions = evaluation_form(av_user, id_team)
+    questions = evaluation_form(av_user, id_team)    
+    print_mean_grades(id_team, user_log)   
