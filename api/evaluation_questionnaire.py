@@ -2,6 +2,7 @@ from utils import blue_bright_print, red_print, cyan_print, green_print, bright_
 from teams import search_teams_on_file_by_name, generate_teams_list, line_to_team_dict
 from login import get_logged_user_id_from_file
 from users import search_user_on_file_by_id
+import statistics
 
 
 categories = {
@@ -145,36 +146,36 @@ def line_to_evaluation_dict(line):
 
 
 def mean_grades(team, user):
-    file = open ('data/evaluations.txt', "r")
-    skill_1 = []
-    skill_2 = []
-    skill_3 = []
-    skill_4 = []
-    skill_5 = []
-    for line in file:
-        splitted_line = line.rstrip("\n").split(";")
-        if team == splitted_line[1] and user == splitted_line[3]:
-            skill_1.append(int(splitted_line[4]))
-            skill_2.append(int(splitted_line[5]))
-            skill_3.append(int(splitted_line[6]))
-            skill_4.append(int(splitted_line[7]))
-            skill_5.append(int(splitted_line[8]))
-    mean_skill_1 = sum(skill_1)/len(skill_1)
-    mean_skill_2 = sum(skill_2)/len(skill_2)
-    mean_skill_3 = sum(skill_3)/len(skill_3)
-    mean_skill_4 = sum(skill_4)/len(skill_4)
-    mean_skill_5 = sum(skill_5)/len(skill_5)
-    total_mean = (mean_skill_1 + mean_skill_2 + mean_skill_3 + mean_skill_4 + mean_skill_5)/5
+    skills = [[],[],[],[],[]]
 
-    return [mean_skill_1, mean_skill_2, mean_skill_3, mean_skill_4, mean_skill_5, total_mean]
+    with open ('data/evaluations.txt', "r") as file:
+        for line in file:
+            splitted_line = line.rstrip("\n").split(";")
+            if team == splitted_line[1] and user == splitted_line[3]:
+                skills[0].append(int(splitted_line[4]))
+                skills[1].append(int(splitted_line[5]))
+                skills[2].append(int(splitted_line[6]))
+                skills[3].append(int(splitted_line[7]))
+                skills[4].append(int(splitted_line[8]))
+
+    mean = [
+        round(statistics.mean(skills[0]), 1),
+        round(statistics.mean(skills[1]), 1),
+        round(statistics.mean(skills[2]), 1),
+        round(statistics.mean(skills[3]), 1),
+        round(statistics.mean(skills[4]), 1),
+    ]
+
+    total_mean = round(statistics.mean(mean), 1)
+
+    return [mean, total_mean]
 
 def print_mean_grades(team, user):
     mean = mean_grades(team,user['id'])
     questions = evaluation_form(user, team, show=False)
     for n, question in enumerate(questions):
-        print(f'{questions[question]["question"]} {mean[n]}')
-
-    print(f'Média total: {mean[5]}')    
+        print(f'{questions[question]["question"]} {mean[0][n]}')
+    print(f'Média total: {mean[1]}')
 
 
 if __name__ == '__main__':
