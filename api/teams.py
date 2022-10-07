@@ -55,7 +55,7 @@ def has_team_valid_members(members):
     """
     Verifica se o time tem pelo menos 1 Líder Técnico e 1 PO
     """
-    needed_categories = set(["LT", "PO"])
+    needed_categories = set(["LT", "PO", "LG", "FC"])
     category_of_members = set([member["category"] for member in members])
     return needed_categories.issubset(category_of_members)
 
