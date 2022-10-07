@@ -1,4 +1,4 @@
-from utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print
+from utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print, bright_input
 from teams import search_teams_on_file_by_name, generate_teams_list, line_to_team_dict
 from login import get_logged_user_id_from_file, get_logged_user
 from users import search_user_on_file_by_id
@@ -21,41 +21,40 @@ def search_teams_on_file_by_user(user):
                 teams.append(team)
 
     if len(teams) > 0:
-        print('\nSeus times:'.center(30)) 
+        blue_bright_print('\n          Seus times:') 
         for indice, team in enumerate(teams):
             print(f'{indice+1}. {team["name"]}'.rjust(15,' '))
         
-        input_team = int(input('\nQual time deseja avaliar? '))
+        input_team = int(bright_input('\nQual time deseja avaliar? '))
         
         if input_team > 0 and input_team <= len(teams):
             team = teams[input_team - 1]
             return select_team_member(team), team['id']
         
         else:
-            print('\nOpção inválida. Tente novamente!\n')
+            red_print('\nOpção inválida. Tente novamente!\n')
             return search_teams_on_file_by_user(user)
     else:
-        print('Você não está inserido em nenhum time ainda.')
+        green_print('Você não está inserido em nenhum time ainda.')
 
 
 def select_team_member(team):
     print()
-    print(f'Membros de {team["name"]}:'.center(30))
+    blue_bright_print(f'     Membros de {team["name"]}:')
     for indice, member in enumerate(team['members']):
         print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
     
-    input_member = int(input('\nQual membro deseja avaliar? '))
+    input_member = int(bright_input('\nQual membro deseja avaliar? '))
 
     if input_member > 0 and input_member <= len(team['members']):
         return team['members'][input_member-1]
 
     else:
-        print('Usuário inválido. Tente novamente!')
+        red_print('Usuário inválido. Tente novamente!')
         return select_team_member(team)
 
 
 def evaluation_form(user, team, show=True):
-    print(f"\n     Avaliação de {user['name']}\n")
     questions = {
         '1': {
             'question': "Trabalho em equipe, cooperação e descentralização de conhecimento:",
@@ -79,18 +78,20 @@ def evaluation_form(user, team, show=True):
         }
     }
     if show:
+        blue_bright_print(f"\n           Avaliação de {user['name']}\n")
         lista = []
         for qk, qv in questions.items():
-            print('\n', f'{qk}:{qv["question"]}')
+            green_print(f'\n{qk}. {qv["question"]}')
 
             print('\nEscolha entre as opções indicadas:\n')
             for ak, av in qv['answers'].items():
-                print(f'[{ak}]:{av}')
+                print(f'[{ak}]: {av}')
 
-            answers_user = int(input('\nOpção:'))
+            answers_user = int(bright_input('\nOpção: '))
+            print()
             while answers_user < 0 or answers_user > 4:
-                print('\nOpção inválida! Tente novamente.\n')
-                answers_user = int(input('\nOpção:'))
+                red_print('\nOpção inválida! Tente novamente.\n')
+                answers_user = int(bright_input('\nOpção: '))
             lista.append(answers_user)
 
         return evaluation(lista, user, team)
@@ -121,6 +122,7 @@ def save_evaluation(line):
     file.write(line)
     file.write("\n")
     file.close()
+
 
 def line_to_evaluation_dict(line):
     splitted_line = line.rstrip("\n").split(";")
@@ -172,12 +174,25 @@ def mean_grades(team, user):
 
     return [mean, total_mean]
 
+
 def print_mean_grades(team, user):
     mean = mean_grades(team,user['id'])
     questions = evaluation_form(user, team, show=False)
+    blue_bright_print(f"\n          Médias de {user['name']}\n")    
     for n, question in enumerate(questions):
-        print(f'{questions[question]["question"]} {mean[0][n]}')
-    print(f'Média total: {mean[1]}')
+        bright_print(f'{questions[question]["question"]}')
+        if mean[0][n] > 2:
+            green_print(f'{mean[0][n]}')
+        elif mean[0][n] == 2:
+            magenta_print(f'{mean[0][n]}')
+        else:
+            red_print(f'{mean[0][n]}')
+    if mean[1] >= 2:
+        green_print(f'\nMédia total: {mean[1]}\n')
+    elif mean[1] == 2:
+        magenta_print(f'\nMédia total: {mean[1]}\n')
+    else:
+        red_print(f'\nMédia total: {mean[1]}\n')
 
 
 if __name__ == '__main__':
