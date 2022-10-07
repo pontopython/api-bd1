@@ -1,6 +1,6 @@
 from utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print
 from teams import search_teams_on_file_by_name, generate_teams_list, line_to_team_dict
-from login import get_logged_user_id_from_file
+from login import get_logged_user_id_from_file, get_logged_user
 from users import search_user_on_file_by_id
 import statistics
 
@@ -11,38 +11,40 @@ categories = {
     'MT':  'Membro do time'
 }
 
-def get_logged_user():
-    id = get_logged_user_id_from_file()
-    return search_user_on_file_by_id(id)
-
 
 def search_teams_on_file_by_user(user):
-    file = open('data/teams.txt', "r")
     teams = []
+    with open('data/teams.txt', "r") as file:
+        for line in file:
+            team = line_to_team_dict(line)
+            if user in team["members"]:
+                teams.append(team)
 
-    for line in file:
-        team = line_to_team_dict(line)
-        if user in team["members"]:
-            teams.append(team["name"])
-
-    file.close()
-    for name in teams:
-        print(name)
-
-    return teams
-
-
-def select_team():
-    input_team = input('Qual time deseja avaliar? ')
-    team = search_teams_on_file_by_name(input_team)
-    return select_team_member(team), team['id']
+    if len(teams) > 0:
+        print('\nSeus times:'.center(30)) 
+        for indice, team in enumerate(teams):
+            print(f'{indice+1}. {team["name"]}'.rjust(15,' '))
+        
+        input_team = int(input('\nQual time deseja avaliar? '))
+        
+        if input_team > 0 and input_team <= len(teams):
+            team = teams[input_team - 1]
+            return select_team_member(team), team['id']
+        
+        else:
+            print('\nOpção inválida. Tente novamente!\n')
+            return search_teams_on_file_by_user(user)
+    else:
+        print('Você não está inserido em nenhum time ainda.')
 
 
 def select_team_member(team):
+    print()
+    print(f'Membros de {team["name"]}:'.center(30))
     for indice, member in enumerate(team['members']):
         print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
     
-    input_member = int(input('Qual membro deseja avaliar? '))
+    input_member = int(input('\nQual membro deseja avaliar? '))
 
     if input_member > 0 and input_member <= len(team['members']):
         return team['members'][input_member-1]
@@ -76,7 +78,7 @@ def evaluation_form(user, team, show=True):
             'answers': {'0': 'Muito Ruim', '1': 'Ruim', '2': 'Regular', '3': 'Bom', '4': 'Muito Bom'},
         }
     }
-    if show == True:
+    if show:
         lista = []
         for qk, qv in questions.items():
             print('\n', f'{qk}:{qv["question"]}')
@@ -180,7 +182,6 @@ def print_mean_grades(team, user):
 
 if __name__ == '__main__':
     user_log = get_logged_user()
-    search_teams_on_file_by_user(user_log)
-    av_user, id_team = select_team()
+    av_user, id_team = search_teams_on_file_by_user(user_log)
     questions = evaluation_form(av_user, id_team)    
     print_mean_grades(id_team, user_log)   
