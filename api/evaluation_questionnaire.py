@@ -29,21 +29,31 @@ def search_teams_on_file_by_user(user):
         
         if input_team > 0 and input_team <= len(teams):
             team = teams[input_team - 1]
-            return select_team_member(team), team['id']
+            return select_team_member(user, team), team['id']
         
         else:
             red_print('\nOpção inválida. Tente novamente!\n')
             return search_teams_on_file_by_user(user)
     else:
         green_print('Você não está inserido em nenhum time ainda.')
+        return None
 
 
-def select_team_member(team):
+def select_team_member(user ,team):
     print()
     blue_bright_print(f'     Membros de {team["name"]}:')
     for indice, member in enumerate(team['members']):
-        print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
-    
+        if user['category'] == 'PO' or user['category'] == 'LT' or user['category'] == 'MT':
+            if member['category'] == 'PO' or member['category'] == 'LT' or member['category'] == 'MT':
+                print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
+        elif user['category'] == 'LG':
+            if member['category'] == 'LT':
+                print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
+        elif user['category'] == 'FC':
+            if member['category'] == 'PO':
+                print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
+
+   
     input_member = int(bright_input('\nQual membro deseja avaliar? '))
 
     if input_member > 0 and input_member <= len(team['members']):
@@ -197,6 +207,9 @@ def print_mean_grades(team, user):
 
 if __name__ == '__main__':
     user_log = get_logged_user()
-    av_user, id_team = search_teams_on_file_by_user(user_log)
-    questions = evaluation_form(av_user, id_team)    
-    print_mean_grades(id_team, user_log)   
+    try:
+        av_user, id_team = search_teams_on_file_by_user(user_log)
+        questions = evaluation_form(av_user, id_team)    
+        print_mean_grades(id_team, user_log)
+    except:
+        print('Até a proxima')
