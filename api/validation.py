@@ -186,7 +186,6 @@ def prompt_for_edit_team_search_type(options):
          1 - Alterar nome do time
          2 - Adicionar novo usuário
          3 - Excluir um usuário
-         4 - Mudar função do usuário (?)
          """
     )
 
