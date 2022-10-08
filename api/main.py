@@ -3,6 +3,7 @@ from .teams import create_team_interactively, edit_team, find_and_delete_team, f
 from .utils import bright_input, bright_print, cyan_print, red_print
 from .users import (
     create_user_interactively,
+    edit_user,
     find_and_show_user,
     list_all_users,
     save_user_to_file,
@@ -42,7 +43,7 @@ def main_menu():
     elif option == 4:
         find_and_show_user()
     elif option == 5:
-        print("Editar")
+        edit_user()
     elif option == 6:
         find_and_delete_user()
     elif option == 7:

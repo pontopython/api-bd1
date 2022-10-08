@@ -196,3 +196,21 @@ def prompt_for_edit_team_search_type(options):
 
     return options[option]
 
+
+def prompt_for_edit_user_search_type(options):
+
+    bright_print(
+        """
+     Escolha a opção desejada :
+         1 - Alterar nome do usuário
+         2 - Alterar categoria do usuário
+         
+         """
+    )
+
+    option = int(input("     Opção: "))
+    while option > 4 or option < 1:
+        red_print("         Você digitou uma opção inválida, tente novamente.")
+        option = int(input("     Opção: "))
+
+    return options[option]
