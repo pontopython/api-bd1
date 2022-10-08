@@ -12,7 +12,7 @@ categories = {
 }
 
 
-def search_teams_on_file_by_user(user):
+def search_teams_on_file_by_user(user,select_member=True, show=True):
     teams = []
     with open('data/teams.txt', "r") as file:
         for line in file:
@@ -20,51 +20,58 @@ def search_teams_on_file_by_user(user):
             if user in team["members"]:
                 teams.append(team)
 
-    if len(teams) > 0:
-        blue_bright_print('\n          Seus times:') 
-        for indice, team in enumerate(teams):
-            print(f'{indice+1}. {team["name"]}'.rjust(15,' '))
-        
-        input_team = int(bright_input('\nQual time deseja avaliar? '))
-        
-        if input_team > 0 and input_team <= len(teams):
-            team = teams[input_team - 1]
-            return select_team_member(user, team), team['id']
-        
+    if show:
+        if len(teams) > 0:
+            blue_bright_print('\n          Seus times:') 
+            for indice, team in enumerate(teams):
+                print(f'{indice+1}. {team["name"]}'.rjust(15,' '))
+            
+            input_team = int(bright_input('\nQual time deseja selecionar? '))
+            
+            if input_team > 0 and input_team <= len(teams):
+                team = teams[input_team - 1]
+                if select_member:
+                    return select_team_member(user, team), team['id']
+                else:
+                    return None, team['id']
+            
+            else:
+                red_print('\nOpção inválida. Tente novamente!\n')
+                return search_teams_on_file_by_user(user)
         else:
-            red_print('\nOpção inválida. Tente novamente!\n')
-            return search_teams_on_file_by_user(user)
+            green_print('Você não está inserido em nenhum time ainda.')
+            return None
     else:
-        green_print('Você não está inserido em nenhum time ainda.')
-        return None
+        return teams
 
 
 def select_team_member(user ,team):
     print()
     blue_bright_print(f'     Membros de {team["name"]}:')
-    for indice, member in enumerate(team['members']):
+    valid_members = []
+    for member in team['members']:
         if user['category'] == 'PO' or user['category'] == 'LT' or user['category'] == 'MT':
             if member['category'] == 'PO' or member['category'] == 'LT' or member['category'] == 'MT':
-                print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
+                valid_members.append(member)
         elif user['category'] == 'LG':
             if member['category'] == 'LT':
-                print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
+                valid_members.append(member)
         elif user['category'] == 'FC':
             if member['category'] == 'PO':
-                print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
-
+                valid_members.append(member)
+    for indice, member in enumerate(valid_members):
+        print(f'{indice+1}. {categories[member["category"]].ljust(20," ")}{member["name"]}')
    
     input_member = int(bright_input('\nQual membro deseja avaliar? '))
-
-    if input_member > 0 and input_member <= len(team['members']):
-        return team['members'][input_member-1]
+    if input_member > 0 and input_member <= len(valid_members):
+        return valid_members[input_member-1]
 
     else:
         red_print('Usuário inválido. Tente novamente!')
         return select_team_member(team)
 
 
-def evaluation_form(user, team, show=True):
+def evaluation_form(user=None, team=None, show=True):
     questions = {
         '1': {
             'question': "Trabalho em equipe, cooperação e descentralização de conhecimento:",
@@ -115,14 +122,17 @@ def evaluation(lista, user, team):
     id_sprint = 1
     id_team = team
     id_user_log = get_logged_user()['id']
+    category_user_log = get_logged_user()['category']
     id_av_user = user['id']
+    category_av_user = user['category']
+    name_av_user = user['name']
     skill_1 = evaluation["skill_1"]
     skill_2 = evaluation["skill_2"]
     skill_3 = evaluation["skill_3"]
     skill_4 = evaluation["skill_4"]
     skill_5 = evaluation["skill_5"]
 
-    line = f"{id_sprint};{id_team};{id_user_log};{id_av_user};{skill_1};{skill_2};{skill_3};{skill_4};{skill_5}"
+    line = f"{id_sprint};{id_team};{id_user_log};{category_user_log};{id_av_user};{category_av_user};{name_av_user};{skill_1};{skill_2};{skill_3};{skill_4};{skill_5}"
 
     return save_evaluation(line)
 
@@ -139,17 +149,23 @@ def line_to_evaluation_dict(line):
     id_sprint = splitted_line[0]
     id_team = splitted_line[1]
     id_user_log = splitted_line[2]
-    id_av_user = splitted_line[3]
-    skill_1 = splitted_line[4]
-    skill_2 = splitted_line[5]
-    skill_3 = splitted_line[6]
-    skill_4 = splitted_line[7]
-    skill_5 = splitted_line[8]
+    category_user_log = splitted_line[3]
+    id_av_user = splitted_line[4]
+    category_av_user = splitted_line[5]
+    name_av_user = splitted_line[6]
+    skill_1 = splitted_line[7]
+    skill_2 = splitted_line[8]
+    skill_3 = splitted_line[9]
+    skill_4 = splitted_line[10]
+    skill_5 = splitted_line[11]
     dict = {
             "id_sprint": id_sprint,
             "id_team": id_team,
             "id_user_log": id_user_log,
+            "category_user_log": category_user_log,
             "id_av_user": id_av_user,
+            "category_av_user": category_av_user,
+            "name_av_user": name_av_user,
             "skill_1": skill_1,
             "skill_2": skill_2,
             "skill_3": skill_3,
@@ -165,12 +181,12 @@ def mean_grades(team, user):
     with open ('data/evaluations.txt', "r") as file:
         for line in file:
             splitted_line = line.rstrip("\n").split(";")
-            if team == splitted_line[1] and user == splitted_line[3]:
-                skills[0].append(int(splitted_line[4]))
-                skills[1].append(int(splitted_line[5]))
-                skills[2].append(int(splitted_line[6]))
-                skills[3].append(int(splitted_line[7]))
-                skills[4].append(int(splitted_line[8]))
+            if team == splitted_line[1] and user == splitted_line[4]:
+                skills[0].append(int(splitted_line[7]))
+                skills[1].append(int(splitted_line[8]))
+                skills[2].append(int(splitted_line[9]))
+                skills[3].append(int(splitted_line[10]))
+                skills[4].append(int(splitted_line[11]))
 
     mean = [
         round(statistics.mean(skills[0]), 1),
@@ -204,12 +220,71 @@ def print_mean_grades(team, user):
     else:
         red_print(f'\nMédia total: {mean[1]}\n')
 
+def print_mean_grades_LG(team, LT = False):
+    lista = []
+    with open ('data/evaluations.txt', "r") as file:
+        for line in file:
+            dict_line = line_to_evaluation_dict(line)
+            if team == dict_line['id_team']:
+                if LT and dict_line['category_av_user'] == 'LT':
+                    if dict_line['id_av_user'] not in [item[0] for item in lista]:
+                        lt_mean = mean_grades(team, dict_line['id_av_user'])
+                        lista.append((dict_line['id_av_user'], dict_line['name_av_user'], lt_mean))
+                else:
+                    if dict_line['id_av_user'] not in [item[0] for item in lista]:
+                        member_mean = mean_grades(team, dict_line['id_av_user'])
+                        lista.append((dict_line['id_av_user'], dict_line['category_av_user'], dict_line['name_av_user'], member_mean))
+    
+    questions = evaluation_form(show=False)
+    if LT:    
+        for item in lista:
+            blue_bright_print(f"\n          Médias de {item[1]}\n")    
+            for n, question in enumerate(questions):
+                bright_print(f'{questions[question]["question"]}', end = ' ')
+                if item[2][0][n] > 2:
+                    green_print(f'{item[2][0][n]}')
+                elif item[2][0][n] == 2:
+                    magenta_print(f'{item[2][0][n]}')
+                else:
+                    red_print(f'{item[2][0][n]}')
+            if item[2][1] >= 2:
+                green_print(f'\nMédia total: {item[2][1]}\n')
+            elif item[2][1] == 2:
+                magenta_print(f'\nMédia total: {item[2][1]}\n')
+            else:
+                red_print(f'\nMédia total: {item[2][1]}\n')
+    else:
+        for item in lista:
+            blue_bright_print(f"\n          Médias de {item[2]}\n")    
+            for n, question in enumerate(questions):
+                bright_print(f'{questions[question]["question"]}', end = ' ')
+                if item[3][0][n] > 2:
+                    green_print(f'{item[3][0][n]}')
+                elif item[3][0][n] == 2:
+                    magenta_print(f'{item[3][0][n]}')
+                else:
+                    red_print(f'{item[3][0][n]}')
+            if item[3][1] >= 2:
+                green_print(f'\nMédia total: {item[3][1]}\n')
+            elif item[3][1] == 2:
+                magenta_print(f'\nMédia total: {item[3][1]}\n')
+            else:
+                red_print(f'\nMédia total: {item[3][1]}\n')
+
+
+
+
 
 if __name__ == '__main__':
     user_log = get_logged_user()
-    try:
-        av_user, id_team = search_teams_on_file_by_user(user_log)
+    if user_log['category']!= 'LG':    
+        try:
+            av_user, id_team = search_teams_on_file_by_user(user_log)
+            questions = evaluation_form(av_user, id_team)    
+            print_mean_grades(id_team, user_log)
+        except:
+            print('Até a proxima')
+    else:
+        av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
         questions = evaluation_form(av_user, id_team)    
-        print_mean_grades(id_team, user_log)
-    except:
-        print('Até a proxima')
+        print_mean_grades_LG(id_team)
