@@ -1,6 +1,6 @@
 import stdiomask
 
-from .users import detail_user, search_user_on_file, search_user_on_file_by_id
+from .users import detail_user, search_user_on_file_by_email, search_user_on_file_by_id
 from .utils import bright_input, cyan_print, red_print
 
 LOGIN_FILE = "data/login.txt"
@@ -15,7 +15,7 @@ def prompt_for_user_credentials():
 
 
 def is_user_credentials_valid(email, password, show_errors=False):
-    user = search_user_on_file(email)
+    user = search_user_on_file_by_email(email)
 
     if user is None:
         if show_errors:
@@ -56,7 +56,7 @@ def get_logged_user():
 def login_user():
     email, password = prompt_for_user_credentials()
     if is_user_credentials_valid(email, password):
-        user = search_user_on_file(email)
+        user = search_user_on_file_by_email(email)
         save_user_id_on_login_file(user["id"])
     else:
         red_print("         Credenciais inválidas! Tente Novamente.")

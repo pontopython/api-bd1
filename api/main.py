@@ -1,11 +1,13 @@
 from .login import get_logged_user, login_user, logout_user, show_profile
-from .teams import create_team_interactively, find_and_show_team, list_all_teams
+from .teams import create_team_interactively, edit_team, find_and_delete_team, find_and_show_team, list_all_teams
 from .utils import bright_input, bright_print, cyan_print, red_print
 from .users import (
     create_user_interactively,
+    edit_user,
     find_and_show_user,
     list_all_users,
     save_user_to_file,
+    find_and_delete_user
 )
 
 
@@ -17,9 +19,13 @@ def main_menu():
         2 - Meu Perfil
         3 - Criar novo usuário
         4 - Procurar usuário
-        5 - Criar Time
-        6 - Listar Times
-        7 - Buscar Time
+        5 - Editar usuário
+        6 - Excluir usuário
+        7 - Criar Time
+        8 - Listar Times
+        9 - Buscar Time
+        10 - Editar Time
+        11 - Excluir Time
         97 - Deslogar apenas
         98 - Sair apenas
         99 - Deslogar e sair
@@ -37,11 +43,19 @@ def main_menu():
     elif option == 4:
         find_and_show_user()
     elif option == 5:
-        create_team_interactively()
+        edit_user()
     elif option == 6:
-        list_all_teams()
+        find_and_delete_user()
     elif option == 7:
+        create_team_interactively()
+    elif option == 8:
+        list_all_teams()
+    elif option == 9:
         find_and_show_team()
+    elif option == 10:
+        edit_team()
+    elif option == 11:
+        find_and_delete_team()
     elif option == 97:
         logout_user()
     elif option == 98:
