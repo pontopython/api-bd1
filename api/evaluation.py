@@ -1,9 +1,7 @@
-from utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print, bright_input
-from teams import search_teams_on_file_by_name, generate_teams_list, line_to_team_dict
-from login import get_logged_user_id_from_file, get_logged_user
-from users import search_user_on_file_by_id
+from .utils import blue_bright_print, red_print, green_print, bright_print, magenta_print, bright_input
+from .teams import line_to_team_dict
+from .login import get_logged_user
 import statistics
-
 
 categories = {
     'PO': 'Product Owner',
@@ -37,7 +35,7 @@ def search_teams_on_file_by_user(user,select_member=True, show=True):
             
             else:
                 red_print('\nOpção inválida. Tente novamente!\n')
-                return search_teams_on_file_by_user(user)
+                return search_teams_on_file_by_user(user, select_member)
         else:
             green_print('Você não está inserido em nenhum time ainda.')
             return None
@@ -271,20 +269,80 @@ def print_mean_grades_LG(team, LT = False):
             else:
                 red_print(f'\nMédia total: {item[3][1]}\n')
 
+def print_mean_grades_FC(team):
+    lista = []
+    with open ('data/evaluations.txt', "r") as file:
+        for line in file:
+            dict_line = line_to_evaluation_dict(line)
+            if team == dict_line['id_team']:
+                if dict_line['category_av_user'] == 'PO':
+                    if dict_line['id_av_user'] not in [item[0] for item in lista]:
+                        po_mean = mean_grades(team, dict_line['id_av_user'])
+                        lista.append((dict_line['id_av_user'], dict_line['name_av_user'], po_mean))
+    
+    questions = evaluation_form(show=False)
+    for item in lista:
+        blue_bright_print(f"\n          Médias de {item[1]}\n")    
+        for n, question in enumerate(questions):
+            bright_print(f'{questions[question]["question"]}', end = ' ')
+            if item[2][0][n] > 2:
+                green_print(f'{item[2][0][n]}')
+            elif item[2][0][n] == 2:
+                magenta_print(f'{item[2][0][n]}')
+            else:
+                red_print(f'{item[2][0][n]}')
+        if item[2][1] >= 2:
+            green_print(f'\nMédia total: {item[2][1]}\n')
+        elif item[2][1] == 2:
+            magenta_print(f'\nMédia total: {item[2][1]}\n')
+        else:
+            red_print(f'\nMédia total: {item[2][1]}\n')
+
+def run_evaluation():
+    user_log = get_logged_user()
+    if user_log['category']!= 'LG' and user_log['category']!= 'FC':    
+        try:
+            av_user, id_team = search_teams_on_file_by_user(user_log)
+            evaluation_form(av_user, id_team)    
+        except:
+            print('Até a proxima')
+    elif user_log['category'] == 'LG':
+        try:    
+            av_user, id_team = search_teams_on_file_by_user(user_log)
+            evaluation_form(av_user, id_team)    
+        except:
+            print('Até a proxima')
+    else:
+        try:
+            av_user, id_team = search_teams_on_file_by_user(user_log)
+            evaluation_form(av_user, id_team)    
+        except:
+            print('Até a proxima')
+
+def run_mean_grades():
+    user_log = get_logged_user()
+    if user_log['category']!= 'LG' and user_log['category']!= 'FC':    
+        try:
+            av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
+            print_mean_grades(id_team, user_log)
+        except:
+            print('Até a proxima')
+    elif user_log['category'] == 'LG':
+        try:
+            av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
+            print_mean_grades_LG(id_team, LT=True)
+        except:   
+            print('Até a proxima')
+    elif user_log['category'] == 'FC':    
+        try:
+            av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
+            print_mean_grades_FC(id_team)
+        except:   
+            print('Até a proxima')
 
 
 
 
 if __name__ == '__main__':
-    user_log = get_logged_user()
-    if user_log['category']!= 'LG':    
-        try:
-            av_user, id_team = search_teams_on_file_by_user(user_log)
-            questions = evaluation_form(av_user, id_team)    
-            print_mean_grades(id_team, user_log)
-        except:
-            print('Até a proxima')
-    else:
-        av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
-        questions = evaluation_form(av_user, id_team)    
-        print_mean_grades_LG(id_team)
+    run_evaluation()
+    run_mean_grades()

@@ -1,3 +1,4 @@
+from .evaluation import run_evaluation, run_mean_grades
 from .login import get_logged_user, login_user, logout_user, show_profile
 from .teams import create_team_interactively, edit_team, find_and_delete_team, find_and_show_team, list_all_teams
 from .utils import bright_input, bright_print, cyan_print, red_print
@@ -15,17 +16,19 @@ def main_menu():
     cyan_print("\n      Bem vindo ao menu principal\n")
     bright_print(
         """
-        1 - Listar todos os usuários
-        2 - Meu Perfil
-        3 - Criar novo usuário
-        4 - Procurar usuário
-        5 - Editar usuário
-        6 - Excluir usuário
-        7 - Criar Time
-        8 - Listar Times
-        9 - Buscar Time
-        10 - Editar Time
-        11 - Excluir Time
+         1 - Listar todos os usuários
+         2 - Meu Perfil
+         3 - Criar novo usuário
+         4 - Procurar usuário
+         5 - Editar usuário
+         6 - Excluir usuário
+         7 - Criar time
+         8 - Listar times
+         9 - Buscar time
+        10 - Editar time
+        11 - Excluir time
+        12 - Avaliar membro de um time
+        13 - Ver médias
         97 - Deslogar apenas
         98 - Sair apenas
         99 - Deslogar e sair
@@ -56,6 +59,10 @@ def main_menu():
         edit_team()
     elif option == 11:
         find_and_delete_team()
+    elif option == 12:
+        run_evaluation()
+    elif option == 13:
+        run_mean_grades()
     elif option == 97:
         logout_user()
     elif option == 98:

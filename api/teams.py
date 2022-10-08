@@ -1,6 +1,6 @@
 import uuid
 
-from users import (
+from .users import (
     USERS_FILE,
     generate_users_list,
     line_to_user_dict,

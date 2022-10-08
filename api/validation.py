@@ -2,7 +2,7 @@ import re
 
 import stdiomask
 
-from utils import bright_print, red_print, bright_input
+from .utils import bright_print, red_print, bright_input
 
 
 def has_name_valid_characters(name):
