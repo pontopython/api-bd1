@@ -7,7 +7,7 @@ from .users import (
     search_user_on_file_by_id,
 )
 from .utils import blue_bright_print, red_print, cyan_print, green_print, bright_print, magenta_print, bright_input
-from .validation import prompt_for_edit_team_search_type, prompt_for_valid_email, prompt_for_valid_team_name, prompt_for_user_search_type, prompt_for_confirmation
+from .validation import prompt_for_edit_team_search_type, prompt_for_valid_email, prompt_for_valid_team_name, prompt_for_confirmation
 
 TEAMS_FILE = "data/teams.txt"
 
@@ -76,7 +76,9 @@ def find_team_line_number_on_file(team):
     for line_number, line in enumerate(lines):  # enumera cada linha do arquivo
         line_team = line_to_team_dict(line)  # procura um time com mesmo id
         if line_team["id"] == id:  # se o id da linha for o mesmo do time , retorna o numero da linha
+            file.close()
             return line_number
+    file.close()
     return None
 
 
