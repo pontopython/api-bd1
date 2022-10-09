@@ -1,8 +1,14 @@
 import stdiomask
 
-from .users import detail_user, search_user_on_file_by_email, search_user_on_file_by_id
+from .permissions import current_user_has_permission
+from .users import (
+    detail_user,
+    search_user_on_file_by_email,
+    search_user_on_file_by_id,
+    update_user_on_file,
+)
 from .utils import bright_input, cyan_print, red_print
-
+from .validation import prompt_for_valid_username
 
 LOGIN_FILE = "data/login.txt"
 
@@ -70,7 +76,18 @@ def logout_user():
 
 
 def show_profile():
+    if not current_user_has_permission("see_profile"):
+        red_print("Você não tem permissão para visualizar seu perfil!")
+        return
+
     user = get_logged_user()
     print("\n----------")
     detail_user(user, title="Meu Perfil")
     print("----------\n")
+
+
+def change_current_user_name():
+    user = get_logged_user()
+    cyan_print('\tAlterar seu nome de usuário\n')
+    user["name"] = prompt_for_valid_username(change=True)
+    update_user_on_file(user)

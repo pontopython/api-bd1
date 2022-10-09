@@ -46,6 +46,8 @@ def bright_input(message, *args, **kwargs):
 def create_empty_data_if_needed():
     os.makedirs("data", exist_ok=True)
     if not os.path.exists("data/user.txt"):
-        open("data/users.txt", "a").close()  # Create empty file
+        open("data/users.txt", "a").close()
     if not os.path.exists("data/login.txt"):
-        open("data/login.txt", "a").close()  # Create empty file
+        open("data/login.txt", "a").close()
+    if not os.path.exists("data/teams.txt"):
+        open("data/login.txt", "a").close()

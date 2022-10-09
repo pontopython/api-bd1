@@ -1,16 +1,22 @@
 import uuid
 
-from .utils import (blue_bright_print, cyan_print,
-                    green_print, red_print, bright_print, bright_input)
+from .permissions import current_user_has_permission
+from .utils import (
+    blue_bright_print,
+    bright_input,
+    bright_print,
+    cyan_print,
+    green_print,
+    red_print,
+)
 from .validation import (
+    prompt_for_confirmation,
     prompt_for_edit_user_search_type,
+    prompt_for_user_search_type,
     prompt_for_valid_category,
     prompt_for_valid_email,
     prompt_for_valid_password,
     prompt_for_valid_username,
-    prompt_for_user_search_type,
-    prompt_for_confirmation,
-    prompt_for_edit_user_search_type
 )
 
 USERS_FILE = "data/users.txt"
@@ -48,7 +54,11 @@ def line_to_user_dict(line):
     return create_user_dict(id, category, name, email, password)
 
 
-def create_user_interactively():
+def create_user_interactively(prerun=False):
+    if not prerun and not current_user_has_permission("create_users"):
+        red_print("Você não tem permissão para criar novos usuários!")
+        return
+
     blue_bright_print("\n     Formulário de Criação de Usuário\n")
     id = uuid.uuid4()
 
@@ -56,7 +66,8 @@ def create_user_interactively():
     name = prompt_for_valid_username()
     email = prompt_for_valid_email()
     password = prompt_for_valid_password(show=True)
-    return create_user_dict(id, category, name, email, password)
+    user = create_user_dict(id, category, name, email, password)
+    save_user_to_file(user)
 
 
 def save_user_to_file(user):
@@ -74,7 +85,9 @@ def find_user_line_number_on_file(user):
     lines = file.readlines()
     for line_number, line in enumerate(lines):  # enumera cada linha do arquivo
         line_user = line_to_user_dict(line)  # procura um time com mesmo id
-        if line_user["id"] == id:  # se o id da linha for o mesmo do time , retorna o numero da linha
+        if (
+            line_user["id"] == id
+        ):  # se o id da linha for o mesmo do time , retorna o numero da linha
             file.close()
             return line_number
     file.close()
@@ -85,9 +98,8 @@ def remove_user_from_file(user):
     read_file = open(USERS_FILE, "r")  # abre arquivo para leitura
     lines = read_file.readlines()  # cria lista com as linhas
     read_file.close()
-    line_number = find_user_line_number_on_file(
-        user)  # encontra a linha do usuário
-    lines.pop(line_number)     # remove a linha do usuário da lista
+    line_number = find_user_line_number_on_file(user)  # encontra a linha do usuário
+    lines.pop(line_number)  # remove a linha do usuário da lista
     write_file = open(USERS_FILE, "w")  # abre arquivo para escrita
     write_file.writelines(lines)  # escreve as linhas
     write_file.close()  # fecha o arquivo
@@ -151,10 +163,11 @@ def detail_user(user, title="\n     Detalhes do Usuário"):
 
 
 def find_and_show_user():
-    options = {
-        1: find_by_name,
-        2: find_by_email
-    }
+    if not current_user_has_permission("search_users"):
+        red_print("Você não tem permissão para procurar usuários!")
+        return
+
+    options = {1: find_by_name, 2: find_by_email}
     option = prompt_for_user_search_type(options)
     user = option()
     if user is None:
@@ -186,6 +199,10 @@ def generate_users_list():
 
 
 def list_all_users():
+    if not current_user_has_permission("list_users"):
+        red_print("Você não tem permissão para listar usuários!")
+        return
+
     print("\n----------")
     blue_bright_print("Todos os usuários: \n")
     users_list = generate_users_list()
@@ -198,23 +215,24 @@ def list_all_users():
 
 
 def find_and_delete_user():
-    options = {
-        1: find_by_name,
-        2: find_by_email
-    }
+    if not current_user_has_permission("delete_users"):
+        red_print("Você não tem permissão para deletar usuários!")
+        return
+
+    options = {1: find_by_name, 2: find_by_email}
     option = prompt_for_user_search_type(options)
     user = option()
 
     if user is None:
         red_print("\n         Usuário não encontrado!")
     else:
-        login_file = open(LOGIN_FILE, 'r')
+        login_file = open(LOGIN_FILE, "r")
         login_lines = login_file.readlines()
         if login_lines[0] == user["id"]:
             red_print("\n         O usuário não pode excluir ele mesmo.")
             return
 
-        with open(USERS_FILE, 'r') as file:
+        with open(USERS_FILE, "r") as file:
             lines = file.readlines()
             for index, line in enumerate(lines):
                 file_user = line_to_user_dict(line)
@@ -222,19 +240,20 @@ def find_and_delete_user():
                     username = user["name"]
                     cyan_print(f"\n\t\tUsuário {username} encontrado!")
 
-                    confirmation = prompt_for_confirmation(f"""
+                    confirmation = prompt_for_confirmation(
+                        f"""
                     Tem certeza que gostaria de excluir o usuário {username}?
                     1 - Sim
                     2 - Não
-                    """)
+                    """
+                    )
                     if confirmation:
                         lines.pop(index)
-                        write_file = open(USERS_FILE, 'w')
+                        write_file = open(USERS_FILE, "w")
                         write_file.writelines(lines)
                         file.close()
                         write_file.close()
-                        green_print(
-                            f"\n             Usuário excluído com sucesso!")
+                        green_print(f"\n             Usuário excluído com sucesso!")
 
                     break
 
@@ -264,10 +283,11 @@ def change_user_category():
 
 
 def edit_user():
-    options = {
-        1: change_user_name,
-        2: change_user_category
-    }
+    if not current_user_has_permission("edit_users"):
+        red_print("Você não tem permissão para editar usuários!")
+        return
+
+    options = {1: change_user_name, 2: change_user_category}
     option = prompt_for_edit_user_search_type(options)
     edit = option()
 
