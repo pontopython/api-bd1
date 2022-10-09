@@ -22,7 +22,7 @@ def search_teams_on_file_by_user(user,select_member=True, show=True):
         if len(teams) > 0:
             blue_bright_print('\n          Seus times:') 
             for indice, team in enumerate(teams):
-                print(f'{indice+1}. {team["name"]}'.rjust(15,' '))
+                print(f'     {indice+1}. {team["name"]}')
             
             input_team = int(bright_input('\nQual time deseja selecionar? '))
             
@@ -224,50 +224,38 @@ def print_mean_grades_LG(team, LT = False):
         for line in file:
             dict_line = line_to_evaluation_dict(line)
             if team == dict_line['id_team']:
-                if LT and dict_line['category_av_user'] == 'LT':
-                    if dict_line['id_av_user'] not in [item[0] for item in lista]:
-                        lt_mean = mean_grades(team, dict_line['id_av_user'])
-                        lista.append((dict_line['id_av_user'], dict_line['name_av_user'], lt_mean))
-                else:
-                    if dict_line['id_av_user'] not in [item[0] for item in lista]:
-                        member_mean = mean_grades(team, dict_line['id_av_user'])
-                        lista.append((dict_line['id_av_user'], dict_line['category_av_user'], dict_line['name_av_user'], member_mean))
+                if dict_line['id_av_user'] not in [item['id'] for item in lista]:
+                    member_mean = mean_grades(team, dict_line['id_av_user'])
+                    user_mean = {
+                        'id': dict_line['id_av_user'],
+                        'category': dict_line['category_av_user'],
+                        'name': dict_line['name_av_user'],
+                        'mean': member_mean,
+                    }
+                    lista.append(user_mean)
     
     questions = evaluation_form(show=False)
-    if LT:    
-        for item in lista:
-            blue_bright_print(f"\n          Médias de {item[1]}\n")    
-            for n, question in enumerate(questions):
-                bright_print(f'{questions[question]["question"]}', end = ' ')
-                if item[2][0][n] > 2:
-                    green_print(f'{item[2][0][n]}')
-                elif item[2][0][n] == 2:
-                    magenta_print(f'{item[2][0][n]}')
-                else:
-                    red_print(f'{item[2][0][n]}')
-            if item[2][1] >= 2:
-                green_print(f'\nMédia total: {item[2][1]}\n')
-            elif item[2][1] == 2:
-                magenta_print(f'\nMédia total: {item[2][1]}\n')
+    members_to_list = lista
+
+    if LT:
+        members_to_list = [item for item in lista if item['category'] == 'LT']
+
+    for item in members_to_list:
+        blue_bright_print(f"\n          Médias de {item['name']}\n")
+        for n, question in enumerate(questions):
+            bright_print(f'{questions[question]["question"]}', end = ' ')
+            if item["mean"][0][n] > 2:
+                green_print(f'{item["mean"][0][n]}')
+            elif item["mean"][0][n] == 2:
+                magenta_print(f'{item["mean"][0][n]}')
             else:
-                red_print(f'\nMédia total: {item[2][1]}\n')
-    else:
-        for item in lista:
-            blue_bright_print(f"\n          Médias de {item[2]}\n")    
-            for n, question in enumerate(questions):
-                bright_print(f'{questions[question]["question"]}', end = ' ')
-                if item[3][0][n] > 2:
-                    green_print(f'{item[3][0][n]}')
-                elif item[3][0][n] == 2:
-                    magenta_print(f'{item[3][0][n]}')
-                else:
-                    red_print(f'{item[3][0][n]}')
-            if item[3][1] >= 2:
-                green_print(f'\nMédia total: {item[3][1]}\n')
-            elif item[3][1] == 2:
-                magenta_print(f'\nMédia total: {item[3][1]}\n')
-            else:
-                red_print(f'\nMédia total: {item[3][1]}\n')
+                red_print(f'{item["mean"][0][n]}')
+        if item["mean"][1] >= 2:
+            green_print(f'\nMédia total: {item["mean"][1]}\n')
+        elif item["mean"][1] == 2:
+            magenta_print(f'\nMédia total: {item["mean"][1]}\n')
+        else:
+            red_print(f'\nMédia total: {item["mean"][1]}\n')
 
 def print_mean_grades_FC(team):
     lista = []
@@ -300,45 +288,42 @@ def print_mean_grades_FC(team):
 
 def run_evaluation():
     user_log = get_logged_user()
-    if user_log['category']!= 'LG' and user_log['category']!= 'FC':    
-        try:
-            av_user, id_team = search_teams_on_file_by_user(user_log)
-            evaluation_form(av_user, id_team)    
-        except:
-            print('Até a proxima')
+    if user_log['category']!= 'LG' and user_log['category']!= 'FC':
+        av_user, id_team = search_teams_on_file_by_user(user_log)
+        evaluation_form(av_user, id_team)
     elif user_log['category'] == 'LG':
-        try:    
-            av_user, id_team = search_teams_on_file_by_user(user_log)
-            evaluation_form(av_user, id_team)    
-        except:
-            print('Até a proxima')
+        av_user, id_team = search_teams_on_file_by_user(user_log)
+        evaluation_form(av_user, id_team)
     else:
-        try:
-            av_user, id_team = search_teams_on_file_by_user(user_log)
-            evaluation_form(av_user, id_team)    
-        except:
-            print('Até a proxima')
+        av_user, id_team = search_teams_on_file_by_user(user_log)
+        evaluation_form(av_user, id_team)
 
 def run_mean_grades():
     user_log = get_logged_user()
-    if user_log['category']!= 'LG' and user_log['category']!= 'FC':    
-        try:
-            av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
-            print_mean_grades(id_team, user_log)
-        except:
-            print('Até a proxima')
+    
+    if user_log['category']!= 'LG' and user_log['category']!= 'FC':
+        av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
+        print_mean_grades(id_team, user_log)
+    
+    
     elif user_log['category'] == 'LG':
-        try:
-            av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
+        av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
+        only_LT = ['Ver somente as médias dos Líderes Técnicos', 'Ver as notas de todo o time']
+        blue_bright_print('\n       Selecione uma opção:'.center(60))
+        for indice, item in enumerate(only_LT):
+            print(f'     {indice+1}. {item}')
+        awnser = int(input('\n   Opção: '))
+        while awnser != 1 and awnser != 2:
+            awnser = int(input('\n   Opção: '))
+        if awnser == 1:
             print_mean_grades_LG(id_team, LT=True)
-        except:   
-            print('Até a proxima')
-    elif user_log['category'] == 'FC':    
-        try:
-            av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
-            print_mean_grades_FC(id_team)
-        except:   
-            print('Até a proxima')
+        elif awnser == 2:
+            print_mean_grades_LG(id_team)
+    
+    
+    elif user_log['category'] == 'FC':   
+        av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
+        print_mean_grades_FC(id_team)
 
 
 
