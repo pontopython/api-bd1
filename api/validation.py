@@ -35,19 +35,18 @@ def is_name_valid(name, show=False):
         return True
 
 
-def prompt_for_valid_username():
+def prompt_for_valid_username(change=False):
     """
     Loop pedindo para o usuário inserir o nome caso
     o nome seja inválido.
     """
-    input_name = input("        Digite o nome do usuário: ")
+    message = "\tDigite o novo nome para o usuário: " if change else "\tDigite o nome do usuário: "
+    input_name = input(message)
 
     while not is_name_valid(input_name, True):
-        input_name = input(
-            "        Digite um nome para usuário válido: ")
+        input_name = input("\tDigite um nome para usuário válido: ")
 
     return input_name
-
 
 def is_email_valid(email):
     return re.match("^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$", email)
@@ -63,11 +62,12 @@ def prompt_for_valid_email():
     return input_email
 
 
-def prompt_for_valid_team_name():
-    input_team_name = input("        Digite o nome do time: ")
+def prompt_for_valid_team_name(change=False):
+    message = "\tDigite um novo nome para o time: " if change else "\tDigite o nome do time: "
+    input_team_name = input(message)
 
     while not is_name_valid(input_team_name):
-        input_team_name = input("        Digite um nome válido para o time: ")
+        input_team_name = input("\tDigite um nome válido para o time: ")
 
     return input_team_name
 

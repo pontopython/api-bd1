@@ -88,5 +88,6 @@ def show_profile():
 
 def change_current_user_name():
     user = get_logged_user()
-    user["name"] = prompt_for_valid_username()
+    cyan_print('\tAlterar seu nome de usuário\n')
+    user["name"] = prompt_for_valid_username(change=True)
     update_user_on_file(user)

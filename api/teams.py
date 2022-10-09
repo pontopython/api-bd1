@@ -63,7 +63,7 @@ def create_team_interactively():
     members = prompt_for_team_members()
     if not has_team_valid_members(members):
         magenta_print(
-            "         O time precisa ter pelo menos um Líder técnico e um Product Owner"
+            "         O time precisa ter pelo menos um Líder técnico, um Product Owner, um Fake Client e um Líder do Grupo!"
         )
         return create_team_interactively()
     team_dict = create_team_dict(uuid.uuid4(), name, members)
@@ -348,3 +348,15 @@ def edit_team():
         add_member_to_a_team()
     elif edit == 3:
         delete_member_on_a_team()
+
+def change_team_name():
+    team = find_team_by_name()
+
+    if team is None:
+        red_print("\tTime não encontrado!")
+        return
+    
+    team_name = team["name"]
+    cyan_print(f"\n\t\tTime {team_name} encontrado!")
+    team["name"] = prompt_for_valid_team_name(change=True)
+    update_team_on_file(team)
