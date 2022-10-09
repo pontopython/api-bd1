@@ -55,7 +55,7 @@ def has_team_valid_members(members):
     """
     Verifica se o time tem pelo menos 1 Líder Técnico e 1 PO
     """
-    needed_categories = set(["LT", "PO"])
+    needed_categories = set(["LT", "PO", "LG", "FC"])
     category_of_members = set([member["category"] for member in members])
     return needed_categories.issubset(category_of_members)
 
@@ -149,15 +149,16 @@ def line_to_team_dict(line):
 
 def search_teams_on_file_by_name(name):
     file = open(TEAMS_FILE, "r")
-    teams = []
-
+    found_team = None
+    
     for line in file:
         team = line_to_team_dict(line)
         if name.lower() in team["name"].lower():
-            teams.append(team)
+            found_team = team
+            break
 
     file.close()
-    return teams
+    return found_team
 
 
 def search_team_on_file_by_name(name):
