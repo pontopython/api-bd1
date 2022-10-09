@@ -6,7 +6,7 @@ import statistics
 categories = {
     'PO': 'Product Owner',
     'LT': 'Líder Técnico',
-    'MT':  'Membro do time'
+    'MT':  'Membro do time',
 }
 
 
@@ -199,12 +199,17 @@ def mean_grades(team, user):
 
         return [mean, total_mean]
     else:
-        return [[0,0,0,0,0],0]
+        return None
 
 
 def print_mean_grades(team, user):
     mean = mean_grades(team,user['id'])
     questions = evaluation_form(user, team, show=False)
+
+    if mean is None:
+        magenta_print('\nVocê ainda não foi avaliado.')
+        return
+
     blue_bright_print(f"\n          Médias de {user['name']}\n")    
     for n, question in enumerate(questions):
         bright_print(f'{questions[question]["question"]}')
@@ -221,29 +226,34 @@ def print_mean_grades(team, user):
     else:
         red_print(f'\nMédia total: {mean[1]}\n')
 
-def print_mean_grades_LG(team, LT = False):
-    lista = []
+def print_mean_grades_LG(team_id, LT = False):
+    with open('data/teams.txt', 'r') as file:
+        for line in file:
+            team_dict = line_to_team_dict(line)
+            if team_id == team_dict['id']:
+                team = team_dict
+                break
+
+    team_member_mean = {member['id']: {'name': member['name'], 'category': member['category']} for member in team['members']}
+
     with open ('data/evaluations.txt', "r") as file:
         for line in file:
             dict_line = line_to_evaluation_dict(line)
-            if team == dict_line['id_team']:
-                if dict_line['id_av_user'] not in [item['id'] for item in lista]:
-                    member_mean = mean_grades(team, dict_line['id_av_user'])
-                    user_mean = {
-                        'id': dict_line['id_av_user'],
-                        'category': dict_line['category_av_user'],
-                        'name': dict_line['name_av_user'],
-                        'mean': member_mean,
-                    }
-                    lista.append(user_mean)
+            if team_id == dict_line['id_team']:
+                if team_member_mean[dict_line['id_av_user']].get('mean', None) is None:
+                    member_mean = mean_grades(team_id, dict_line['id_av_user'])
+                    team_member_mean[dict_line['id_av_user']]['mean'] = member_mean
     
     questions = evaluation_form(show=False)
-    members_to_list = lista
+    members_to_list = team_member_mean
 
     if LT:
-        members_to_list = [item for item in lista if item['category'] == 'LT']
-
-    for item in members_to_list:
+        members_to_list = {id: item for id, item in team_member_mean.items() if item['category'] == 'LT'}
+    for item in members_to_list.values():
+        if 'mean' not in item:
+            if item['category'] not in ['FC', 'LG']:
+                magenta_print(f'\n{item["name"]} ({categories[item["category"]]}) ainda não foi avaliado.')
+            continue
         blue_bright_print(f"\n          Médias de {item['name']} - {categories[item['category']]}\n")
         for n, question in enumerate(questions):
             bright_print(f'{questions[question]["question"]}', end = ' ')
@@ -271,6 +281,9 @@ def print_mean_grades_FC(team):
                         po_mean = mean_grades(team, dict_line['id_av_user'])
                         lista.append((dict_line['id_av_user'], dict_line['name_av_user'], po_mean))
     
+    if len(lista) < 1:
+        magenta_print('\nO PO desse time ainda não foi avaliado.')
+
     questions = evaluation_form(show=False)
     for item in lista:
         blue_bright_print(f"\n          Médias de {item[1]}\n")    
