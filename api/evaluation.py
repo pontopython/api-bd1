@@ -186,17 +186,20 @@ def mean_grades(team, user):
                 skills[3].append(int(splitted_line[10]))
                 skills[4].append(int(splitted_line[11]))
 
-    mean = [
-        round(statistics.mean(skills[0]), 1),
-        round(statistics.mean(skills[1]), 1),
-        round(statistics.mean(skills[2]), 1),
-        round(statistics.mean(skills[3]), 1),
-        round(statistics.mean(skills[4]), 1),
-    ]
+    if len(skills[0]) > 0:    
+        mean = [
+            round(statistics.mean(skills[0]), 1),
+            round(statistics.mean(skills[1]), 1),
+            round(statistics.mean(skills[2]), 1),
+            round(statistics.mean(skills[3]), 1),
+            round(statistics.mean(skills[4]), 1),
+        ]
 
-    total_mean = round(statistics.mean(mean), 1)
+        total_mean = round(statistics.mean(mean), 1)
 
-    return [mean, total_mean]
+        return [mean, total_mean]
+    else:
+        return [[0,0,0,0,0],0]
 
 
 def print_mean_grades(team, user):
@@ -241,7 +244,7 @@ def print_mean_grades_LG(team, LT = False):
         members_to_list = [item for item in lista if item['category'] == 'LT']
 
     for item in members_to_list:
-        blue_bright_print(f"\n          Médias de {item['name']}\n")
+        blue_bright_print(f"\n          Médias de {item['name']} - {categories[item['category']]}\n")
         for n, question in enumerate(questions):
             bright_print(f'{questions[question]["question"]}', end = ' ')
             if item["mean"][0][n] > 2:
