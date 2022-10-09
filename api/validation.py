@@ -204,7 +204,7 @@ def prompt_for_edit_user_search_type(options):
      Escolha a opção desejada :
          1 - Alterar nome do usuário
          2 - Alterar categoria do usuário
-         
+
          """
     )
 
