@@ -20,7 +20,8 @@ def is_name_valid(name, show=False):
     """
     if len(name) <= 2:
         if show == True:
-            red_print("        O nome deve ter mais de 2 caracteres. Tente novamente!")
+            red_print(
+                "        O nome deve ter mais de 2 caracteres. Tente novamente!")
         return False
     elif not has_name_valid_characters(name):
         if show == True:
@@ -34,19 +35,18 @@ def is_name_valid(name, show=False):
         return True
 
 
-def prompt_for_valid_username():
+def prompt_for_valid_username(change=False):
     """
     Loop pedindo para o usuário inserir o nome caso
     o nome seja inválido.
     """
-    input_name = input("        Digite o nome do usuário: ")
+    message = "\tDigite o novo nome para o usuário: " if change else "\tDigite o nome do usuário: "
+    input_name = input(message)
 
     while not is_name_valid(input_name, True):
-        input_name = input(
-            "        Digite um nome para usuário válido: ")
+        input_name = input("\tDigite um nome para usuário válido: ")
 
     return input_name
-
 
 def is_email_valid(email):
     return re.match("^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$", email)
@@ -62,11 +62,12 @@ def prompt_for_valid_email():
     return input_email
 
 
-def prompt_for_valid_team_name():
-    input_team_name = input("        Digite o nome do time: ")
+def prompt_for_valid_team_name(change=False):
+    message = "\tDigite um novo nome para o time: " if change else "\tDigite o nome do time: "
+    input_team_name = input(message)
 
     while not is_name_valid(input_team_name):
-        input_team_name = input("        Digite um nome válido para o time: ")
+        input_team_name = input("\tDigite um nome válido para o time: ")
 
     return input_team_name
 
@@ -145,3 +146,71 @@ def prompt_for_valid_category():
         option = int(input("     Opção: "))
 
     return categories[option]
+
+
+def prompt_for_user_search_type(options):
+
+    bright_print(
+        """
+     Buscar usuário por :
+         1 - Nome
+         2 - Email
+         """
+    )
+
+    option = int(input("     Opção: "))
+    while option > 2 or option < 1:
+        red_print("         Você digitou uma opção inválida, tente novamente.")
+        option = int(input("     Opção: "))
+
+    return options[option]
+
+
+def prompt_for_confirmation(question):
+
+    bright_print(question)
+    response = int(input("     Opção: "))
+
+    while response > 2 or response < 1:
+        red_print("         Você digitou uma opção inválida, tente novamente.")
+        response = int(input("     Opção: "))
+
+    return response == 1
+
+
+def prompt_for_edit_team_search_type(options):
+
+    bright_print(
+        """
+     Escolha a opção desejada :
+         1 - Alterar nome do time
+         2 - Adicionar novo usuário
+         3 - Excluir um usuário
+         """
+    )
+
+    option = int(input("     Opção: "))
+    while option > 4 or option < 1:
+        red_print("         Você digitou uma opção inválida, tente novamente.")
+        option = int(input("     Opção: "))
+
+    return options[option]
+
+
+def prompt_for_edit_user_search_type(options):
+
+    bright_print(
+        """
+     Escolha a opção desejada :
+         1 - Alterar nome do usuário
+         2 - Alterar categoria do usuário
+
+         """
+    )
+
+    option = int(input("     Opção: "))
+    while option > 4 or option < 1:
+        red_print("         Você digitou uma opção inválida, tente novamente.")
+        option = int(input("     Opção: "))
+
+    return options[option]
