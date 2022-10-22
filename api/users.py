@@ -1,6 +1,5 @@
 import uuid
 
-from .permissions import current_user_has_permission
 from .utils import (
     blue_bright_print,
     bright_input,
@@ -13,63 +12,63 @@ from .validation import (
     prompt_for_confirmation,
     prompt_for_edit_user_search_type,
     prompt_for_user_search_type,
-    prompt_for_valid_all_category,
-    prompt_for_valid_category,
     prompt_for_valid_email,
     prompt_for_valid_password,
     prompt_for_valid_username,
-    initial_category,
-    prompt_for_valid_all_category
+    prompt_for_valid_option,
 )
 
 USERS_FILE = "data/users.txt"
 LOGIN_FILE = "data/login.txt"
 
+USER_TYPES = {
+    "ADMIN": "Administrador",
+    "LIDER": "Líder de Turma",
+    "FAKEC": "Fake Client",
+    "COMUM": "Comum",
+}
 
-def create_user_dict(id, category, name, email, password):
+
+def create_user_dict(id, name, email, password, type):
     return {
         "id": id,
-        "category": category,
         "name": name,
         "email": email,
         "password": password,
+        "type": type,
     }
 
 
 def user_dict_to_line(user):
     id = user["id"]
-    category = user["category"]
     name = user["name"]
     email = user["email"]
     password = user["password"]
+    type = user["type"]
 
-    return f"{id};{category};{name};{email};{password}"
+    return f"{id};{name};{email};{password};{type}"
 
 
 def line_to_user_dict(line):
     splitted_line = line.rstrip("\n").split(";")
     id = splitted_line[0]
-    category = splitted_line[1]
-    name = splitted_line[2]
-    email = splitted_line[3]
-    password = splitted_line[4]
+    name = splitted_line[1]
+    email = splitted_line[2]
+    password = splitted_line[3]
+    type = splitted_line[4]
 
-    return create_user_dict(id, category, name, email, password)
+    return create_user_dict(id, name, email, password, type)
 
 
-def create_user_interactively(prerun=False):
-    if not prerun and not current_user_has_permission("create_users"):
-        red_print("Você não tem permissão para criar novos usuários!")
-        return
-
+def create_user_interactively():
     blue_bright_print("\n\tFormulário de Criação de Usuário\n")
     id = uuid.uuid4()
 
-    category = initial_category()
     name = prompt_for_valid_username()
     email = prompt_for_valid_email()
     password = prompt_for_valid_password(show=True)
-    user = create_user_dict(id, category, name, email, password)
+    type = prompt_for_valid_option("Selecione o tipo do usuário:", USER_TYPES)
+    user = create_user_dict(id, name, email, password, type)
     save_user_to_file(user)
 
 
@@ -101,8 +100,7 @@ def remove_user_from_file(user):
     read_file = open(USERS_FILE, "r")  # abre arquivo para leitura
     lines = read_file.readlines()  # cria lista com as linhas
     read_file.close()
-    line_number = find_user_line_number_on_file(
-        user)  # encontra a linha do usuário
+    line_number = find_user_line_number_on_file(user)  # encontra a linha do usuário
     lines.pop(line_number)  # remove a linha do usuário da lista
     write_file = open(USERS_FILE, "w")  # abre arquivo para escrita
     write_file.writelines(lines)  # escreve as linhas
@@ -155,22 +153,19 @@ def search_user_on_file_by_id(id):
 
 def detail_user(user, title="\n     Detalhes do Usuário"):
     id = user["id"]
-    category = user["category"]
     name = user["name"]
     email = user["email"]
+    type = user["type"]
+    type_description = USER_TYPES[type]
 
     blue_bright_print(title)
     bright_print(f"         Id: {id}")
-    bright_print(f"         Categoria: {category}")
     bright_print(f"         Nome: {name}")
     bright_print(f"         Email: {email}")
+    bright_print(f"         Tipo: {type_description}")
 
 
 def find_and_show_user():
-    if not current_user_has_permission("search_users"):
-        red_print("Você não tem permissão para procurar usuários!")
-        return
-
     options = {1: find_by_name, 2: find_by_email}
     option = prompt_for_user_search_type(options)
     user = option()
@@ -203,26 +198,19 @@ def generate_users_list():
 
 
 def list_all_users():
-    if not current_user_has_permission("list_users"):
-        red_print("Você não tem permissão para listar usuários!")
-        return
-
     print("\n----------")
     blue_bright_print("Todos os usuários: \n")
     users_list = generate_users_list()
     for user in users_list:
         name = user["name"]
         email = user["email"]
-        category = user["category"]
-        print(f"{name} - {email} - {category}")
+        type = user["type"]
+        type_description = USER_TYPES[type]
+        print(f"{name} - {email} - {type_description}")
     print("----------\n")
 
 
 def find_and_delete_user():
-    if not current_user_has_permission("delete_users"):
-        red_print("Você não tem permissão para deletar usuários!")
-        return
-
     options = {1: find_by_name, 2: find_by_email}
     option = prompt_for_user_search_type(options)
     user = option()
@@ -257,14 +245,13 @@ def find_and_delete_user():
                         write_file.writelines(lines)
                         file.close()
                         write_file.close()
-                        green_print(
-                            f"\n             Usuário excluído com sucesso!")
+                        green_print(f"\n             Usuário excluído com sucesso!")
 
                     break
 
 
 def change_user_name():
-    user = find_by_name()
+    user = find_user_interactively()
     if user is None:
         red_print("\n         Usuário não encontrado!")
         return
@@ -289,7 +276,8 @@ def change_user_category_on_team():
         update_user_on_file(user)
     while True:
         asking = bright_input(
-            "\n     Deseja mudar a categoria de mais algum usuário do time? ").lower()
+            "\n     Deseja mudar a categoria de mais algum usuário do time? "
+        ).lower()
         if asking == "n" or asking == "nao" or asking == "não":
             break
         while asking == "s" or asking == "sim":
@@ -299,8 +287,10 @@ def change_user_category_on_team():
             user["category"] = prompt_for_valid_category()
             update_user_on_file(user)
             asking = bright_input(
-                "\n     Deseja mudar a categoria de mais algum usuário do time? ").lower()
+                "\n     Deseja mudar a categoria de mais algum usuário do time? "
+            ).lower()
         return
+
 
 def edit_user_category_on_team():
     cyan_print("\n\tPesquise o usuário para mudar a categoria")
@@ -316,7 +306,8 @@ def edit_user_category_on_team():
         update_user_on_file(user)
     while True:
         asking = bright_input(
-            "\n     Deseja mudar a categoria de mais algum usuário do time? ").lower()
+            "\n     Deseja mudar a categoria de mais algum usuário do time? "
+        ).lower()
         if asking == "n" or asking == "nao" or asking == "não":
             break
         while asking == "s" or asking == "sim":
@@ -326,20 +317,53 @@ def edit_user_category_on_team():
             user["category"] = prompt_for_valid_all_category()
             update_user_on_file(user)
             asking = bright_input(
-                "\n     Deseja mudar a categoria de mais algum usuário do time? ").lower()
+                "\n     Deseja mudar a categoria de mais algum usuário do time? "
+            ).lower()
         return
 
 
 def edit_user():
-    if not current_user_has_permission("edit_users"):
-        red_print("Você não tem permissão para editar usuários!")
-        return
-
-    options = {1: change_user_name, 2: change_user_category}
+    options = {1: change_user_name}
     option = prompt_for_edit_user_search_type(options)
     edit = option()
 
     if edit == 1:
         change_user_name()
-    elif edit == 2:
-        change_user_category()
+
+
+def select_user_interactively(users):
+
+    bright_print("Selecione um usuários abaixo: ")
+
+    for index, user in enumerate(users):
+        name = user["name"]
+        email = user["email"]
+        type = user["type"]
+        type_description = USER_TYPES[type]
+        bright_print(f"{index} - {name} <{email}> ({type_description})")
+
+    option = int(bright_input("    Opção: "))
+    while option >= len(users) or option < 0:
+        red_print("        Você digitou uma opção inválida, tente novamente.")
+        option = int(bright_input("    Opção: "))
+
+    return users[option]
+
+
+def find_user_interactively():
+    filtered_users = []
+    all_users = generate_users_list()
+
+    search_text = input("Digite alguma do usuário ai: ")
+
+    for user in all_users:
+        type_description = USER_TYPES[user["type"]]
+        if (
+            search_text.lower() in user["name"].lower()
+            or search_text.lower() in user["email"].lower()
+            or search_text.lower() in type_description.lower()
+            or search_text == user["id"]
+        ):
+            filtered_users.append(user)
+
+    return select_user_interactively(filtered_users)

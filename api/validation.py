@@ -127,56 +127,33 @@ def prompt_for_valid_password(show=False):
     return input_password
 
 
-def initial_category():
-    categories = {0: "MT", 1: "LG", 2: "FC"}
+def prompt_for_valid_option(question, options):
+    bright_print(f"    {question}")
+
+    descriptions = options.values()
+
+    for index, description in enumerate(descriptions):
+        bright_print(f"        {index} - {description}")
+
+    option = int(bright_input("    Opção: "))
+    while option >= len(descriptions) or option < 0:
+        red_print("        Você digitou uma opção inválida, tente novamente.")
+        option = int(bright_input("    Opção: "))
+
+    keys = list(options.keys())
+
+    return keys[option]
+
+def prompt_for_valid_category_admin():
+    categories = {0: "AD", 1: "MT", 2: "LG", 3: "FC"}
 
     bright_print(
         """
      Qual a categoria do usuário?
-         0 - Membro do Time
-         1 - Líder do Grupo
-         2 - Fake Client
-        """
-    )
-
-    option = int(input("     Opção: "))
-    while option > 3 or option < 0:
-        red_print("         Você digitou uma opção inválida, tente novamente.")
-        option = int(input("     Opção: "))
-
-    return categories[option]
-
-
-def prompt_for_valid_category():
-    categories = {0: "MT", 1: "PO", 2: "LT"}
-
-    bright_print(
-        """
-     Qual a categoria do usuário?
-         0 - Membro do Time
-         1 - Product Owner
-         2 - Líder Técnico
-        """
-    )
-
-    option = int(input("     Opção: "))
-    while option > 3 or option < 0:
-        red_print("         Você digitou uma opção inválida, tente novamente.")
-        option = int(input("     Opção: "))
-
-    return categories[option]
-
-def prompt_for_valid_all_category():
-    categories = {0: "PO", 1: "LT", 2: "LG", 3: "FC", 4: "MT"}
-
-    bright_print(
-        """
-     Qual a categoria do usuário?
-         0 - Product Owner
-         1 - Líder Técnico
-         2 - Líder de Grupo
+         0 - Administrador
+         1 - Membro do Time
+         2 - Líder do Grupo
          3 - Fake Client
-         4 - Membro do Time
         """
     )
 
@@ -186,6 +163,7 @@ def prompt_for_valid_all_category():
         option = int(input("     Opção: "))
 
     return categories[option]
+
 
 def prompt_for_user_search_type(options):
 

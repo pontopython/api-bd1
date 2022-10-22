@@ -1,6 +1,5 @@
 import stdiomask
 
-from .permissions import current_user_has_permission
 from .users import (
     detail_user,
     search_user_on_file_by_email,
@@ -76,10 +75,6 @@ def logout_user():
 
 
 def show_profile():
-    if not current_user_has_permission("see_profile"):
-        red_print("Você não tem permissão para visualizar seu perfil!")
-        return
-
     user = get_logged_user()
     print("\n----------")
     detail_user(user, title="Meu Perfil")

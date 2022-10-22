@@ -1,13 +1,11 @@
 import uuid
 
-from .permissions import current_user_has_permission
 from .users import (
     USERS_FILE,
     edit_user_category_on_team,
     generate_users_list,
     line_to_user_dict,
     search_user_on_file_by_id,
-    initial_category,
     change_user_category_on_team,
 )
 from .utils import (
@@ -24,7 +22,6 @@ from .validation import (
     prompt_for_edit_team_search_type,
     prompt_for_valid_email,
     prompt_for_valid_team_name,
-    prompt_for_valid_all_category
 )
 
 TEAMS_FILE = "data/teams.txt"
@@ -58,10 +55,6 @@ def prompt_for_team_members():
 
 
 def create_team_interactively():
-    if not current_user_has_permission("create_teams"):
-        red_print("Você não tem permissão para criar times!")
-        return
-
     cyan_print("\n\tFormulário de Criação de Time\n")
 
     name = prompt_for_valid_team_name()
@@ -215,10 +208,6 @@ def detail_team(team):
 
 
 def find_and_show_team():
-    if not current_user_has_permission("search_teams"):
-        red_print("Você não tem permissão para procurar times!")
-        return
-
     name = input("         Qual nome do time? ")
     team = search_teams_on_file_by_name(name)
 
@@ -239,10 +228,6 @@ def generate_teams_list():
 
 
 def list_all_teams():
-    if not current_user_has_permission("list_teams"):
-        red_print("Você não tem permissão para listar times!")
-        return
-
     print("\n----------")
     blue_bright_print("      Todos os Times:")
     teams_list = generate_teams_list()
@@ -260,10 +245,6 @@ def find_team_by_name():
 
 
 def find_and_delete_team():
-    if not current_user_has_permission("delete_teams"):
-        red_print("Você não tem permissão para deletar times!")
-        return
-
     team = find_team_by_name()
 
     if team is None:
@@ -336,10 +317,6 @@ def delete_member_on_a_team():
 
 
 def edit_team():  # colocar pesquisar times para fazer edição
-    if not current_user_has_permission("edit_teams"):
-        red_print("Você não tem permissão para editar times!")
-        return
-
     options = {
         1: change_team_name,
         2: add_member_to_a_team,
