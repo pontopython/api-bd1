@@ -13,10 +13,13 @@ from .validation import (
     prompt_for_confirmation,
     prompt_for_edit_user_search_type,
     prompt_for_user_search_type,
+    prompt_for_valid_all_category,
     prompt_for_valid_category,
     prompt_for_valid_email,
     prompt_for_valid_password,
     prompt_for_valid_username,
+    initial_category,
+    prompt_for_valid_all_category
 )
 
 USERS_FILE = "data/users.txt"
@@ -59,10 +62,10 @@ def create_user_interactively(prerun=False):
         red_print("Você não tem permissão para criar novos usuários!")
         return
 
-    blue_bright_print("\n     Formulário de Criação de Usuário\n")
+    blue_bright_print("\n\tFormulário de Criação de Usuário\n")
     id = uuid.uuid4()
 
-    category = prompt_for_valid_category()
+    category = initial_category()
     name = prompt_for_valid_username()
     email = prompt_for_valid_email()
     password = prompt_for_valid_password(show=True)
@@ -76,7 +79,7 @@ def save_user_to_file(user):
     file.write(line)
     file.write("\n")
     file.close()
-    green_print("\n             Usuário salvo com sucesso!")
+    green_print("\n\tUsuário salvo com sucesso!")
 
 
 def find_user_line_number_on_file(user):
@@ -98,7 +101,8 @@ def remove_user_from_file(user):
     read_file = open(USERS_FILE, "r")  # abre arquivo para leitura
     lines = read_file.readlines()  # cria lista com as linhas
     read_file.close()
-    line_number = find_user_line_number_on_file(user)  # encontra a linha do usuário
+    line_number = find_user_line_number_on_file(
+        user)  # encontra a linha do usuário
     lines.pop(line_number)  # remove a linha do usuário da lista
     write_file = open(USERS_FILE, "w")  # abre arquivo para escrita
     write_file.writelines(lines)  # escreve as linhas
@@ -183,7 +187,7 @@ def find_by_email():
 
 
 def find_by_name():
-    name = bright_input("         Qual o nome do usuário? ")
+    name = bright_input("\n     Qual o nome do usuário? ")
     user = search_user_on_file_by_name(name)
     return user
 
@@ -253,7 +257,8 @@ def find_and_delete_user():
                         write_file.writelines(lines)
                         file.close()
                         write_file.close()
-                        green_print(f"\n             Usuário excluído com sucesso!")
+                        green_print(
+                            f"\n             Usuário excluído com sucesso!")
 
                     break
 
@@ -270,16 +275,59 @@ def change_user_name():
         update_user_on_file(user)
 
 
-def change_user_category():
+def change_user_category_on_team():
+    cyan_print("\n\tPesquise o usuário para adicionar a categoria")
     user = find_by_name()
     if user is None:
-        red_print("\n         Usuário não encontrado!")
+        red_print("\n\tUsuário não encontrado! Tente novamente\n")
+        user = find_by_name()
         return
     else:
         user_name = user["name"]
-        cyan_print(f"\n\t\tUsuário {user_name} encontrado!")
+        green_print(f"\n\tUsuário {user_name} encontrado!")
         user["category"] = prompt_for_valid_category()
         update_user_on_file(user)
+    while True:
+        asking = bright_input(
+            "\n     Deseja mudar a categoria de mais algum usuário do time? ").lower()
+        if asking == "n" or asking == "nao" or asking == "não":
+            break
+        while asking == "s" or asking == "sim":
+            user = find_by_name()
+            user_name = user["name"]
+            green_print(f"\n\tUsuário {user_name} encontrado!")
+            user["category"] = prompt_for_valid_category()
+            update_user_on_file(user)
+            asking = bright_input(
+                "\n     Deseja mudar a categoria de mais algum usuário do time? ").lower()
+        return
+
+def edit_user_category_on_team():
+    cyan_print("\n\tPesquise o usuário para mudar a categoria")
+    user = find_by_name()
+    if user is None:
+        red_print("\n\tUsuário não encontrado! Tente novamente\n")
+        user = find_by_name()
+        return
+    else:
+        user_name = user["name"]
+        green_print(f"\n\tUsuário {user_name} encontrado!")
+        user["category"] = prompt_for_valid_all_category()
+        update_user_on_file(user)
+    while True:
+        asking = bright_input(
+            "\n     Deseja mudar a categoria de mais algum usuário do time? ").lower()
+        if asking == "n" or asking == "nao" or asking == "não":
+            break
+        while asking == "s" or asking == "sim":
+            user = find_by_name()
+            user_name = user["name"]
+            green_print(f"\n\tUsuário {user_name} encontrado!")
+            user["category"] = prompt_for_valid_all_category()
+            update_user_on_file(user)
+            asking = bright_input(
+                "\n     Deseja mudar a categoria de mais algum usuário do time? ").lower()
+        return
 
 
 def edit_user():
