@@ -7,7 +7,8 @@ from .users import (
     generate_users_list,
     line_to_user_dict,
     search_user_on_file_by_id,
-    initial_category
+    initial_category,
+    change_user_category_on_team,
 )
 from .utils import (
     blue_bright_print,
@@ -23,13 +24,14 @@ from .validation import (
     prompt_for_edit_team_search_type,
     prompt_for_valid_email,
     prompt_for_valid_team_name,
+    prompt_for_valid_all_category
 )
 
 TEAMS_FILE = "data/teams.txt"
 
 
-def create_team_dict(id, name, members, category):
-    return {"id": id, "name": name, "members": members, "category": category}
+def create_team_dict(id, name, members):
+    return {"id": id, "name": name, "members": members}
 
 
 def prompt_for_team_members():
@@ -42,6 +44,7 @@ def prompt_for_team_members():
         for user in all_users:
             if user["email"] == email:
                 member = user
+                member["category"] = prompt_for_valid_all_category()
                 members.append(member)
                 break
         if not member:
@@ -63,14 +66,12 @@ def create_team_interactively():
 
     name = prompt_for_valid_team_name()
     members = prompt_for_team_members()
-    # acrescentar - listar os usuarios adicionados no time pra depois dar opção de mudança das categorias
-    category_change = change_user_category_on_team()
     if not has_team_valid_members(members):
         magenta_print(
             "\tO time precisa ter pelo menos um Líder técnico, um Product Owner, um Fake Client e um Líder do Grupo!"
         )
         return create_team_interactively()
-    team_dict = create_team_dict(uuid.uuid4(), name, members, category_change)
+    team_dict = create_team_dict(uuid.uuid4(), name, members)
     save_team_to_file(team_dict)
 
 
@@ -111,8 +112,7 @@ def remove_team_from_file(team):
     read_file = open(TEAMS_FILE, "r")  # abre arquivo para leitura
     lines = read_file.readlines()  # cria lista com as linhas
     read_file.close()
-    line_number = find_team_line_number_on_file(
-        team)  # encontra a linha do time
+    line_number = find_team_line_number_on_file(team)  # encontra a linha do time
     lines.pop(line_number)  # remove a linha do time da lista
     write_file = open(TEAMS_FILE, "w")  # abre arquivo para escrita
     write_file.writelines(lines)  # escreve as linhas
@@ -154,19 +154,21 @@ def print_team_members(name):
 def team_dict_to_line(team):
     team_id = team["id"]
     name = team["name"]
-    members = [member["id"] for member in team["members"]]
-    members_id = ",".join(members)
-    return f"{team_id};{name};{members_id}"
+    members = [f"{member['category']}:{member['id']}" for member in team["members"]]
+    members_categories_and_ids = ",".join(members)
+    return f"{team_id};{name};{members_categories_and_ids}"
 
 
 def line_to_team_dict(line):
     splitted_line = line.rstrip("\n").split(";")
     id = splitted_line[0]
     name = splitted_line[1]
-    members_id = splitted_line[2].split(",")
+    members_categories_and_ids = splitted_line[2].split(",")
     members = []
-    for member_id in members_id:
-        user = search_user_on_file_by_id(member_id)
+    for member_category_and_id in members_categories_and_ids:
+        category, id = member_category_and_id.split(":")
+        user = search_user_on_file_by_id(id)
+        user["category"] = category
         members.append(user)
     team_dict = {"id": id, "name": name, "members": members}
     return team_dict
@@ -342,7 +344,7 @@ def edit_team():  # colocar pesquisar times para fazer edição
         1: change_team_name,
         2: add_member_to_a_team,
         3: delete_member_on_a_team,
-        4: edit_user_category_on_team
+        4: edit_user_category_on_team,
     }
     option = prompt_for_edit_team_search_type(options)
     edit = option()
