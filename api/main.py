@@ -19,7 +19,7 @@ from .users import (
     find_and_delete_user,
     find_and_show_user,
     find_user_interactively,
-    generate_users_list,
+    create_users_list,
     list_all_users,
     select_user_interactively,
 )

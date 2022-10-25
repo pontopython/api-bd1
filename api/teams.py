@@ -3,10 +3,9 @@ import uuid
 from .users import (
     USERS_FILE,
     edit_user_category_on_team,
-    generate_users_list,
+    create_users_list,
     line_to_user_dict,
-    search_user_on_file_by_id,
-    change_user_category_on_team,
+    search_user_on_file_by_id
 )
 from .utils import (
     blue_bright_print,
@@ -21,10 +20,17 @@ from .validation import (
     prompt_for_confirmation,
     prompt_for_edit_team_search_type,
     prompt_for_valid_email,
+    prompt_for_valid_option,
     prompt_for_valid_team_name,
 )
 
 TEAMS_FILE = "data/teams.txt"
+
+MEMBER_ROLES = {
+    "Líder técnico": "Líder Técnico",
+    "Product Owner": "Product Owner",
+    "Membro comum": "Membro Comum"
+}
 
 
 def create_team_dict(id, name, members):
@@ -32,7 +38,7 @@ def create_team_dict(id, name, members):
 
 
 def prompt_for_team_members():
-    all_users = generate_users_list()
+    all_users = create_users_list()
     members = []
     while True:
         bright_print("\n     Adicionar Usuário")
@@ -41,7 +47,7 @@ def prompt_for_team_members():
         for user in all_users:
             if user["email"] == email:
                 member = user
-                member["category"] = prompt_for_valid_all_category()
+                member["type"] = prompt_for_valid_option("Qual a função deste membro? ", MEMBER_ROLES)
                 members.append(member)
                 break
         if not member:
@@ -217,7 +223,7 @@ def find_and_show_team():
         detail_team(team)
 
 
-def generate_teams_list():
+def create_teams_list():
     file = open(TEAMS_FILE, "r")
     teams_list = []
     for line in file:
@@ -230,7 +236,7 @@ def generate_teams_list():
 def list_all_teams():
     print("\n----------")
     blue_bright_print("      Todos os Times:")
-    teams_list = generate_teams_list()
+    teams_list = create_teams_list()
     for team in teams_list:
         detail_team(team)
         print()

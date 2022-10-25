@@ -187,7 +187,7 @@ def find_by_name():
     return user
 
 
-def generate_users_list():
+def create_users_list():
     file = open(USERS_FILE, "r")
     users_list = []
     for line in file:
@@ -196,11 +196,32 @@ def generate_users_list():
     file.close()
     return users_list
 
+# CRIA LISTAS DE USUÁRIOS BASEADAS NO ATRIBUTO E NO VALOR, DIRETO DO DICT DO USUÁRIO
+def create_users_list_dynamic(attribute, value):
+    file = open(USERS_FILE, "r")
+    list = []
+    for line in file:
+        user = line_to_user_dict(line)
+        if value == user[f"{attribute}"]:
+            list.append(user)
+    file.close()
+    return print(list)
+
+def create_alunos_list():
+    file = open(USERS_FILE, "r")
+    lista_alunos = []
+    for line in file:
+        user = line_to_user_dict(line)
+        if user["type"] == "Comum":
+            lista_alunos.append(user)
+    file.close()
+    return lista_alunos
+
 
 def list_all_users():
     print("\n----------")
     blue_bright_print("Todos os usuários: \n")
-    users_list = generate_users_list()
+    users_list = create_users_list()
     for user in users_list:
         name = user["name"]
         email = user["email"]
@@ -262,64 +283,64 @@ def change_user_name():
         update_user_on_file(user)
 
 
-def change_user_category_on_team():
-    cyan_print("\n\tPesquise o usuário para adicionar a categoria")
-    user = find_by_name()
-    if user is None:
-        red_print("\n\tUsuário não encontrado! Tente novamente\n")
-        user = find_by_name()
-        return
-    else:
-        user_name = user["name"]
-        green_print(f"\n\tUsuário {user_name} encontrado!")
-        user["category"] = prompt_for_valid_category()
-        update_user_on_file(user)
-    while True:
-        asking = bright_input(
-            "\n     Deseja mudar a categoria de mais algum usuário do time? "
-        ).lower()
-        if asking == "n" or asking == "nao" or asking == "não":
-            break
-        while asking == "s" or asking == "sim":
-            user = find_by_name()
-            user_name = user["name"]
-            green_print(f"\n\tUsuário {user_name} encontrado!")
-            user["category"] = prompt_for_valid_category()
-            update_user_on_file(user)
-            asking = bright_input(
-                "\n     Deseja mudar a categoria de mais algum usuário do time? "
-            ).lower()
-        return
+# def change_user_category_on_team():
+#     cyan_print("\n\tPesquise o usuário para adicionar a categoria")
+#     user = find_by_name()
+#     if user is None:
+#         red_print("\n\tUsuário não encontrado! Tente novamente\n")
+#         user = find_by_name()
+#         return
+#     else:
+#         user_name = user["name"]
+#         green_print(f"\n\tUsuário {user_name} encontrado!")
+#         user["category"] = prompt_for_valid_category()
+#         update_user_on_file(user)
+#     while True:
+#         asking = bright_input(
+#             "\n     Deseja mudar a categoria de mais algum usuário do time? "
+#         ).lower()
+#         if asking == "n" or asking == "nao" or asking == "não":
+#             break
+#         while asking == "s" or asking == "sim":
+#             user = find_by_name()
+#             user_name = user["name"]
+#             green_print(f"\n\tUsuário {user_name} encontrado!")
+#             user["category"] = prompt_for_valid_category()
+#             update_user_on_file(user)
+#             asking = bright_input(
+#                 "\n     Deseja mudar a categoria de mais algum usuário do time? "
+#             ).lower()
+#         return
 
 
-def edit_user_category_on_team():
-    cyan_print("\n\tPesquise o usuário para mudar a categoria")
-    user = find_by_name()
-    if user is None:
-        red_print("\n\tUsuário não encontrado! Tente novamente\n")
-        user = find_by_name()
-        return
-    else:
-        user_name = user["name"]
-        green_print(f"\n\tUsuário {user_name} encontrado!")
-        user["category"] = prompt_for_valid_all_category()
-        update_user_on_file(user)
-    while True:
-        asking = bright_input(
-            "\n     Deseja mudar a categoria de mais algum usuário do time? "
-        ).lower()
-        if asking == "n" or asking == "nao" or asking == "não":
-            break
-        while asking == "s" or asking == "sim":
-            user = find_by_name()
-            user_name = user["name"]
-            green_print(f"\n\tUsuário {user_name} encontrado!")
-            user["category"] = prompt_for_valid_all_category()
-            update_user_on_file(user)
-            asking = bright_input(
-                "\n     Deseja mudar a categoria de mais algum usuário do time? "
-            ).lower()
-        return
+# def edit_user_category_on_team():
+#     cyan_print("\n\tPesquise o usuário para mudar a categoria")
+#     user = find_by_name()
+#     if user is None:
+#         red_print("\n\tUsuário não encontrado! Tente novamente\n")
+#         user = find_by_name()
+#         return
+#     else:
+#         user_name = user["name"]
+#         green_print(f"\n\tUsuário {user_name} encontrado!")
+#         user["category"] = prompt_for_valid_all_category()
+#         update_user_on_file(user)
+#     while True:
+#         asking = bright_input(
+#             "\n     Deseja mudar a categoria de mais algum usuário do time? "
+#         ).lower()
+#         if asking == "n" or asking == "nao" or asking == "não":
+#             break
+#         while asking == "s" or asking == "sim":
+#             user = find_by_name()
+#             user_name = user["name"]
+#             green_print(f"\n\tUsuário {user_name} encontrado!")
+#             user["category"] = prompt_for_valid_all_category()
+#             update_user_on_file(user)
+#             asking = bright_input(
+#                 "\n     Deseja mudar a categoria de mais algum usuário do time? "
+#             ).lower()
+#         return
 
 
 def edit_user():
@@ -352,7 +373,7 @@ def select_user_interactively(users):
 
 def find_user_interactively():
     filtered_users = []
-    all_users = generate_users_list()
+    all_users = create_users_list()
 
     search_text = input("Digite alguma do usuário ai: ")
 

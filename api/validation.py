@@ -48,6 +48,19 @@ def prompt_for_valid_username(change=False):
 
     return input_name
 
+def prompt_for_valid_turma_name(change=False):
+    """
+    Loop pedindo para o usuário inserir o nome caso
+    o nome seja inválido.
+    """
+    message = "\tDigite o novo nome para a turma: " if change else "\tDigite o nome da turma: "
+    input_name = input(message)
+
+    while not is_name_valid(input_name, True):
+        input_name = input("\tDigite um nome de turma válido: ")
+
+    return input_name
+
 
 def is_email_valid(email):
     return re.match("^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$", email)
