@@ -2,7 +2,6 @@ import uuid
 
 from .old_users import (
     USERS_FILE,
-    edit_user_category_on_team,
     create_users_list,
     line_to_user_dict,
     search_user_on_file_by_id
@@ -327,7 +326,7 @@ def edit_team():  # colocar pesquisar times para fazer edição
         1: change_team_name,
         2: add_member_to_a_team,
         3: delete_member_on_a_team,
-        4: edit_user_category_on_team,
+        #4: edit_user_category_on_team,
     }
     option = prompt_for_edit_team_search_type(options)
     edit = option()
@@ -338,8 +337,8 @@ def edit_team():  # colocar pesquisar times para fazer edição
         add_member_to_a_team()
     elif edit == 3:
         delete_member_on_a_team()
-    elif edit == 4:
-        edit_user_category_on_team
+    # elif edit == 4:
+    #     edit_user_category_on_team()
 
 
 def change_team_name():

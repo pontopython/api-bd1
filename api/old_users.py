@@ -205,14 +205,14 @@ def create_users_list_dynamic(attribute, value):
         if value == user[f"{attribute}"]:
             list.append(user)
     file.close()
-    return print(list)
+    return list
 
 def create_alunos_list():
     file = open(USERS_FILE, "r")
     lista_alunos = []
     for line in file:
         user = line_to_user_dict(line)
-        if user["type"] == "Comum":
+        if user["type"] == "COMUM":
             lista_alunos.append(user)
     file.close()
     return lista_alunos
@@ -282,6 +282,7 @@ def change_user_name():
         user["name"] = prompt_for_valid_username()
         update_user_on_file(user)
 
+# REPENSAR
 
 # def change_user_category_on_team():
 #     cyan_print("\n\tPesquise o usuário para adicionar a categoria")
@@ -353,9 +354,7 @@ def edit_user():
 
 
 def select_user_interactively(users):
-
     bright_print("Selecione um usuários abaixo: ")
-
     for index, user in enumerate(users):
         name = user["name"]
         email = user["email"]
