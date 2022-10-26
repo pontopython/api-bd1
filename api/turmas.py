@@ -11,11 +11,6 @@ from .utils import (
     red_print,
 )
 from .validation import (
-    prompt_for_confirmation,
-    prompt_for_edit_user_search_type,
-    prompt_for_user_search_type,
-    prompt_for_valid_email,
-    prompt_for_valid_password,
     prompt_for_valid_turma_name,
     prompt_for_valid_username,
     prompt_for_valid_option,
