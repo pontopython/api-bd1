@@ -1,6 +1,6 @@
 import uuid
 
-from .users import (
+from .old_users import (
     USERS_FILE,
     edit_user_category_on_team,
     create_users_list,

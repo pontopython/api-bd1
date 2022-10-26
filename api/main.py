@@ -13,7 +13,7 @@ from .teams import (
     find_and_show_team,
     list_all_teams,
 )
-from .users import (
+from .old_users import (
     create_user_interactively,
     edit_user,
     find_and_delete_user,

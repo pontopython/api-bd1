@@ -1,4 +1,6 @@
 import os
+from uuid import uuid4
+import shortuuid
 
 from colorama import Fore, Style
 
@@ -51,3 +53,6 @@ def create_empty_data_if_needed():
         open("data/login.txt", "a").close()
     if not os.path.exists("data/teams.txt"):
         open("data/login.txt", "a").close()
+    
+def generate_id():
+    return shortuuid.uuid()
