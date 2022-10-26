@@ -207,16 +207,6 @@ def create_users_list_dynamic(attribute, value):
     file.close()
     return list
 
-def create_alunos_list():
-    file = open(USERS_FILE, "r")
-    lista_alunos = []
-    for line in file:
-        user = line_to_user_dict(line)
-        if user["type"] == "COMUM":
-            lista_alunos.append(user)
-    file.close()
-    return lista_alunos
-
 
 def list_all_users():
     print("\n----------")
