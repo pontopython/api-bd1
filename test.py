@@ -1,5 +1,6 @@
 from os import remove
 from venv import create
 from api.users.tui import *
+from api.teams.repository import search_members
 
-new_user()
+search_members()

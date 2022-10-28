@@ -105,7 +105,7 @@ def find_team_line_number_on_file(team):
     file.close()
     return None
 
-
+#updated to team module
 def remove_team_from_file(team):
     read_file = open(TEAMS_FILE, "r")  # abre arquivo para leitura
     lines = read_file.readlines()  # cria lista com as linhas
@@ -147,29 +147,6 @@ def print_team_members(name):
     print("Time: ", found_team["name"])
     for member in members:
         print(member["name"], member["category"])
-
-
-def team_dict_to_line(team):
-    team_id = team["id"]
-    name = team["name"]
-    members = [f"{member['category']}:{member['id']}" for member in team["members"]]
-    members_categories_and_ids = ",".join(members)
-    return f"{team_id};{name};{members_categories_and_ids}"
-
-
-def line_to_team_dict(line):
-    splitted_line = line.rstrip("\n").split(";")
-    id = splitted_line[0]
-    name = splitted_line[1]
-    members_categories_and_ids = splitted_line[2].split(",")
-    members = []
-    for member_category_and_id in members_categories_and_ids:
-        category, id = member_category_and_id.split(":")
-        user = search_user_on_file_by_id(id)
-        user["category"] = category
-        members.append(user)
-    team_dict = {"id": id, "name": name, "members": members}
-    return team_dict
 
 
 def search_teams_on_file_by_name(name):
@@ -221,7 +198,7 @@ def find_and_show_team():
     else:
         detail_team(team)
 
-
+#repository.get_teams
 def create_teams_list():
     file = open(TEAMS_FILE, "r")
     teams_list = []
