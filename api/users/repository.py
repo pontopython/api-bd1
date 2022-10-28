@@ -6,7 +6,7 @@ _users = []
 
 
 def reload_users():
-    global _users 
+    global _users
     _users = read_users()
 
 
@@ -16,7 +16,7 @@ def update_users():
 
 def get_users():
     if len(_users) == 0:
-        reload_users()    
+        reload_users()
     return _users
 
 
@@ -44,6 +44,10 @@ def get_first_user_by(field, value):
         if value == user[field]:
             return user
     return None
+
+
+def get_user_by_id(id):
+    return get_first_user_by("id", id)
 
 
 def get_users_by(field, value):
@@ -75,3 +79,4 @@ def search_users(search_term):
         ):
             users.append(user)
     return users
+

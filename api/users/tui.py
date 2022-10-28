@@ -1,6 +1,6 @@
 from .common import USER_TYPES
 from .repository import create_user, delete_user, get_users, search_users, update_users
-from .prompt import prompt_user_name, prompt_user_type
+from .prompt import prompt_user_name, prompt_user_password, prompt_user_type
 
 
 def summary_user(user):
@@ -47,6 +47,22 @@ def search_and_select_user():
             return users[option - 1]
         print("Opção inválida.")
 
+def search_and_select_instructor():
+    search_term = input("Procurar Instrutor: ")
+    users = search_users(search_term)
+
+    if len(users) == 0:
+        return None
+
+    for index, user in enumerate(users):
+        print(f"{index+1} - {summary_user(user)}")
+
+    while True:
+        option = int(input("Opção: "))
+        if option > 0 and option <= len(users):
+            return users[option - 1]
+        print("Opção inválida.")
+
 
 def show_user():
     user = search_and_select_user()
@@ -60,7 +76,7 @@ def new_user():
     print("Novo Usuário")
     name = prompt_user_name()
     email = input("Email: ")
-    password = input("Senha: ")
+    password = prompt_user_password()
     type = prompt_user_type()
 
     create_user(name, email, password, type)
