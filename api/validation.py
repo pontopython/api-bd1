@@ -48,22 +48,23 @@ def prompt_for_valid_username(change=False):
 
     return input_name
 
+
 def is_email_valid(email):
     return re.match("^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$", email)
 
 
 def prompt_for_valid_email():
-    input_email = input("        Digite o email: ")
+    input_email = input("\t Digite o email: ")
 
     while not is_email_valid(input_email):
-        red_print("          E-mail inválido. Digite novamente!")
+        red_print("\t E-mail inválido. Digite novamente!")
         input_email = input("        Digite o e-mail: ")
 
     return input_email
 
 
 def prompt_for_valid_team_name(change=False):
-    message = "\tDigite um novo nome para o time: " if change else "\tDigite o nome do time: "
+    message = "     Digite um novo nome para o time: " if change else "     Digite o nome do time: "
     input_team_name = input(message)
 
     while not is_name_valid(input_team_name):
@@ -90,11 +91,11 @@ def is_password_valid(password, show=False):
     """
     if len(password) < 8:
         if show == True:
-            red_print("         A senha deve ter mais de 8 caracteres.")
+            red_print("\tA senha deve ter mais de 8 caracteres.")
         return False
     elif not has_password_valid_characters(password):
         if show == True:
-            red_print("         Formato inválido!")
+            red_print("\tFormato inválido!")
         return False
     else:
         return True
@@ -126,22 +127,38 @@ def prompt_for_valid_password(show=False):
     return input_password
 
 
-def prompt_for_valid_category():
-    categories = {0: "PO", 1: "LT", 2: "LG", 3: "FC", 4: "MT"}
+def prompt_for_valid_option(question, options):
+    bright_print(f"    {question}")
+
+    descriptions = options.values()
+
+    for index, description in enumerate(descriptions):
+        bright_print(f"        {index} - {description}")
+
+    option = int(bright_input("    Opção: "))
+    while option >= len(descriptions) or option < 0:
+        red_print("        Você digitou uma opção inválida, tente novamente.")
+        option = int(bright_input("    Opção: "))
+
+    keys = list(options.keys())
+
+    return keys[option]
+
+def prompt_for_valid_category_admin():
+    categories = {0: "AD", 1: "MT", 2: "LG", 3: "FC"}
 
     bright_print(
         """
      Qual a categoria do usuário?
-         0 - PO
-         1 - Líder Técnico
+         0 - Administrador
+         1 - Membro do Time
          2 - Líder do Grupo
          3 - Fake Client
-         4 - Membro do Time
         """
     )
 
     option = int(input("     Opção: "))
-    while option > 4 or option < 0:
+    while option > 3 or option < 0:
         red_print("         Você digitou uma opção inválida, tente novamente.")
         option = int(input("     Opção: "))
 
@@ -186,6 +203,7 @@ def prompt_for_edit_team_search_type(options):
          1 - Alterar nome do time
          2 - Adicionar novo usuário
          3 - Excluir um usuário
+         4 - Mudar categoria do usuário
          """
     )
 

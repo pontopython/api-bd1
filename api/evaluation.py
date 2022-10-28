@@ -1,7 +1,6 @@
 import statistics
 
 from .login import get_logged_user
-from .permissions import current_user_has_permission
 from .teams import line_to_team_dict
 from .utils import (
     blue_bright_print,
@@ -378,10 +377,6 @@ def print_mean_grades_FC(team):
 
 
 def run_evaluation():
-    if not current_user_has_permission("evaluate_team_member"):
-        red_print("Você não tem permissão para avaliar membros de time!")
-        return
-
     user_log = get_logged_user()
     av_user, id_team = search_teams_on_file_by_user(user_log)
     if av_user is None and id_team is None:
@@ -390,10 +385,6 @@ def run_evaluation():
 
 
 def run_mean_grades():
-    if not current_user_has_permission("see_grades"):
-        red_print("Você não tem permissão para visualizar notas!")
-        return
-
     user_log = get_logged_user()
 
     if user_log["category"] != "LG" and user_log["category"] != "FC":

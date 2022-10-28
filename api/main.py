@@ -13,12 +13,15 @@ from .teams import (
     find_and_show_team,
     list_all_teams,
 )
-from .users import (
+from .old_users import (
     create_user_interactively,
     edit_user,
     find_and_delete_user,
     find_and_show_user,
+    find_user_interactively,
+    create_users_list,
     list_all_users,
+    select_user_interactively,
 )
 from .utils import bright_input, bright_print, cyan_print, red_print
 
@@ -40,6 +43,7 @@ def admin_menu():
         11 - Excluir time
         12 - Avaliar membro de um time
         13 - Ver médias
+        14 - Selecionar Usuário
         97 - Deslogar apenas
         98 - Sair apenas
         99 - Deslogar e sair
@@ -73,6 +77,8 @@ def admin_menu():
         run_evaluation()
     elif option == 13:
         run_mean_grades()
+    elif option == 14:
+        find_user_interactively()
     elif option == 97:
         logout_user()
     elif option == 98:
@@ -219,13 +225,4 @@ def program_loop():
         if current_user is None:
             login_user()
         else:
-            category = current_user["category"]
-            if category == "PO" or category == "LT" or category == "MT":
-                user_menu()
-            elif category == "LG":
-                team_leader_menu()
-            elif category == "FC":
-                fake_client_menu()
-            else:
-                red_print("Usuário com categoria inválida!")
-                break
+            admin_menu()

@@ -1,11 +1,10 @@
 import uuid
 
-from .permissions import current_user_has_permission
-from .users import (
+from .old_users import (
     USERS_FILE,
-    generate_users_list,
+    create_users_list,
     line_to_user_dict,
-    search_user_on_file_by_id,
+    search_user_on_file_by_id
 )
 from .utils import (
     blue_bright_print,
@@ -20,10 +19,17 @@ from .validation import (
     prompt_for_confirmation,
     prompt_for_edit_team_search_type,
     prompt_for_valid_email,
+    prompt_for_valid_option,
     prompt_for_valid_team_name,
 )
 
 TEAMS_FILE = "data/teams.txt"
+
+MEMBER_ROLES = {
+    "Líder técnico": "Líder Técnico",
+    "Product Owner": "Product Owner",
+    "Membro comum": "Membro Comum"
+}
 
 
 def create_team_dict(id, name, members):
@@ -31,21 +37,22 @@ def create_team_dict(id, name, members):
 
 
 def prompt_for_team_members():
-    all_users = generate_users_list()
+    all_users = create_users_list()
     members = []
     while True:
-        bright_print("\n      Adicionar Usuário")
+        bright_print("\n     Adicionar Usuário")
         email = prompt_for_valid_email()
         member = None
         for user in all_users:
             if user["email"] == email:
                 member = user
+                member["type"] = prompt_for_valid_option("Qual a função deste membro? ", MEMBER_ROLES)
                 members.append(member)
                 break
         if not member:
-            red_print("         Usuário não encontrado.")
+            red_print("\tUsuário não encontrado.")
 
-        asking = input("\n      Deseja adicionar mais um usuário? ").lower()
+        asking = bright_input("\n     Deseja adicionar mais um usuário? ").lower()
         if asking == "n" or asking == "nao" or asking == "não":
             break
 
@@ -53,17 +60,13 @@ def prompt_for_team_members():
 
 
 def create_team_interactively():
-    if not current_user_has_permission("create_teams"):
-        red_print("Você não tem permissão para criar times!")
-        return
-
-    cyan_print("\n      Formulário de Criação de Time\n")
+    cyan_print("\n\tFormulário de Criação de Time\n")
 
     name = prompt_for_valid_team_name()
     members = prompt_for_team_members()
     if not has_team_valid_members(members):
         magenta_print(
-            "         O time precisa ter pelo menos um Líder técnico, um Product Owner, um Fake Client e um Líder do Grupo!"
+            "\tO time precisa ter pelo menos um Líder técnico, um Product Owner, um Fake Client e um Líder do Grupo!"
         )
         return create_team_interactively()
     team_dict = create_team_dict(uuid.uuid4(), name, members)
@@ -102,7 +105,7 @@ def find_team_line_number_on_file(team):
     file.close()
     return None
 
-
+#updated to team module
 def remove_team_from_file(team):
     read_file = open(TEAMS_FILE, "r")  # abre arquivo para leitura
     lines = read_file.readlines()  # cria lista com as linhas
@@ -146,27 +149,6 @@ def print_team_members(name):
         print(member["name"], member["category"])
 
 
-def team_dict_to_line(team):
-    team_id = team["id"]
-    name = team["name"]
-    members = [member["id"] for member in team["members"]]
-    members_id = ",".join(members)
-    return f"{team_id};{name};{members_id}"
-
-
-def line_to_team_dict(line):
-    splitted_line = line.rstrip("\n").split(";")
-    id = splitted_line[0]
-    name = splitted_line[1]
-    members_id = splitted_line[2].split(",")
-    members = []
-    for member_id in members_id:
-        user = search_user_on_file_by_id(member_id)
-        members.append(user)
-    team_dict = {"id": id, "name": name, "members": members}
-    return team_dict
-
-
 def search_teams_on_file_by_name(name):
     file = open(TEAMS_FILE, "r")
     found_team = None
@@ -208,10 +190,6 @@ def detail_team(team):
 
 
 def find_and_show_team():
-    if not current_user_has_permission("search_teams"):
-        red_print("Você não tem permissão para procurar times!")
-        return
-
     name = input("         Qual nome do time? ")
     team = search_teams_on_file_by_name(name)
 
@@ -220,8 +198,8 @@ def find_and_show_team():
     else:
         detail_team(team)
 
-
-def generate_teams_list():
+#repository.get_teams
+def create_teams_list():
     file = open(TEAMS_FILE, "r")
     teams_list = []
     for line in file:
@@ -232,13 +210,9 @@ def generate_teams_list():
 
 
 def list_all_teams():
-    if not current_user_has_permission("list_teams"):
-        red_print("Você não tem permissão para listar times!")
-        return
-
     print("\n----------")
     blue_bright_print("      Todos os Times:")
-    teams_list = generate_teams_list()
+    teams_list = create_teams_list()
     for team in teams_list:
         detail_team(team)
         print()
@@ -253,10 +227,6 @@ def find_team_by_name():
 
 
 def find_and_delete_team():
-    if not current_user_has_permission("delete_teams"):
-        red_print("Você não tem permissão para deletar times!")
-        return
-
     team = find_team_by_name()
 
     if team is None:
@@ -328,16 +298,12 @@ def delete_member_on_a_team():
     update_team_on_file(search_team)
 
 
-def edit_team():
-    if not current_user_has_permission("edit_teams"):
-        red_print("Você não tem permissão para editar times!")
-        return
-
+def edit_team():  # colocar pesquisar times para fazer edição
     options = {
         1: change_team_name,
         2: add_member_to_a_team,
         3: delete_member_on_a_team,
-        # 4: mudar função do usuario ?
+        #4: edit_user_category_on_team,
     }
     option = prompt_for_edit_team_search_type(options)
     edit = option()
@@ -348,6 +314,9 @@ def edit_team():
         add_member_to_a_team()
     elif edit == 3:
         delete_member_on_a_team()
+    # elif edit == 4:
+    #     edit_user_category_on_team()
+
 
 def change_team_name():
     team = find_team_by_name()
@@ -355,7 +324,7 @@ def change_team_name():
     if team is None:
         red_print("\tTime não encontrado!")
         return
-    
+
     team_name = team["name"]
     cyan_print(f"\n\t\tTime {team_name} encontrado!")
     team["name"] = prompt_for_valid_team_name(change=True)
