@@ -1,5 +1,6 @@
 USER_TYPES = {
     "ADMIN": "Administrador",
+    "INSTR": "Instrutor",
     "COMUM": "Usuário Comum",
 }
 

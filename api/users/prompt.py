@@ -1,5 +1,6 @@
+import email
 from .common import USER_TYPES
-from .validation import validate_user_name, validate_user_password
+from .validation import validate_user_email, validate_user_name, validate_user_password
 import stdiomask
 
 
@@ -14,6 +15,16 @@ def prompt_user_name(prompt="Nome: "):
         for error in errors:
             print(error)
 
+def prompt_user_email(prompt="Email: "):
+    while True:
+        email = input(prompt)
+        valid, errors = validate_user_email(email)
+
+        if valid:
+            return email
+
+        for error in errors:
+            print(error)
 
 def prompt_user_password():
     print("""Sua senha deve conter:
@@ -24,8 +35,7 @@ def prompt_user_password():
             No mínimo 1 carácter especial (@!%*?&)""")
     
     while True:
-        password = input(stdiomask.getpass(
-        prompt="Senha: ", mask="*"))
+        password = stdiomask.getpass(prompt="Senha: ", mask="*")
         valid, errors = validate_user_password(password)
 
         if valid:
@@ -39,10 +49,11 @@ def prompt_user_type(prompt="Qual tipo de usuário?"):
     while True:
         print(prompt)
         print("1 - Administrador")
-        print("2 - Usuário Comum")
+        print("2 - Instrutor")
+        print("3 - Usuário Comum")
         option = int(input())
 
-        if option in [1, 2]:
+        if option in [1, 2, 3]:
             return list(USER_TYPES.keys())[option - 1]
 
         print("Opção inválida")

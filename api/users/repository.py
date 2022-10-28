@@ -20,6 +20,14 @@ def get_users():
     return _users
 
 
+def get_instructors():
+    instructors = []
+    for user in get_users():
+        if user["type"] == "INSTR":
+            instructors.append(user)
+    return instructors
+
+
 def create_user(name, email, password, type):
     id = generate_id()
     user = create_user_dict(
@@ -39,11 +47,19 @@ def delete_user(user):
     update_users()
 
 
-def get_first_user_by(field, value):
-    for user in get_users():
+def _get_first_user_by(field, value, users):
+    for user in users:
         if value == user[field]:
             return user
     return None
+
+
+def get_first_user_by(field, value):
+    return _get_first_user_by(field, value, get_users())
+
+
+def get_first_instructor_by(field, value):
+    return _get_first_user_by(field, value, get_instructors())
 
 
 def get_user_by_id(id):
@@ -66,10 +82,10 @@ def search_users_by(field, value):
     return users
 
 
-def search_users(search_term):
+def _search_users(search_term, users):
     search_term = search_term.lower()
     users = []
-    for user in get_users():
+    for user in users:
         if (
             search_term in user["id"].lower()
             or search_term in user["name"].lower()
@@ -80,3 +96,10 @@ def search_users(search_term):
             users.append(user)
     return users
 
+
+def search_users(search_term):
+    return _search_users(search_term, get_users())
+
+
+def search_instructors(search_term):
+    return _search_users(search_term, get_instructors())

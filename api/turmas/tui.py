@@ -1,7 +1,7 @@
 # from api.users.repository import
 from .repository import delete_turma, get_turmas, search_turmas, create_turma, delete_turma
 from .prompt import prompt_turma_name
-from ..users.tui import search_and_select_user, list_users
+from ..users.tui import search_and_select_instructor, search_and_select_user
 
 
 def summary_turma(turma):
@@ -68,12 +68,16 @@ def new_turma():
     name = prompt_turma_name()
 
     print("Selecione um Líder de Grupo")
-    group_leader = search_and_select_user()
-    print("Líder do Grupo selecionado")
+    group_leader = search_and_select_instructor()
+    while group_leader is None:
+        group_leader = search_and_select_instructor()
+        print("Líder do Grupo selecionado")
 
     print("Selecione um Fake Client")
-    fake_client = search_and_select_user()
-    print("Fake Client selecionado")
+    fake_client = search_and_select_instructor()
+    while fake_client is None:
+        fake_client = search_and_select_instructor()
+        print("Fake Client selecionado")
 
     students = [search_and_select_user()]
     teams = []

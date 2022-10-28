@@ -1,5 +1,5 @@
 from .common import USER_TYPES
-from .repository import create_user, delete_user, get_users, search_users, update_users
+from .repository import create_user, delete_user, get_users, get_instructors, search_users, search_instructors, update_users
 from .prompt import prompt_user_name, prompt_user_password, prompt_user_type
 
 
@@ -31,11 +31,18 @@ def list_users():
         print(summary_user(user))
 
 
+def list_instructors():
+    print("Instrutores:")
+    for user in get_instructors():
+        print(summary_user(user))
+
+
 def search_and_select_user():
     search_term = input("Procurar: ")
     users = search_users(search_term)
 
     if len(users) == 0:
+        print("Nenhum instrutor encontrado.")
         return None
 
     for index, user in enumerate(users):
@@ -47,11 +54,13 @@ def search_and_select_user():
             return users[option - 1]
         print("Opção inválida.")
 
+
 def search_and_select_instructor():
     search_term = input("Procurar Instrutor: ")
-    users = search_users(search_term)
+    users = search_instructors(search_term)
 
     if len(users) == 0:
+        print("Nenhum instrutor encontrado.")
         return None
 
     for index, user in enumerate(users):
