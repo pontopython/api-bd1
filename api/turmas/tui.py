@@ -80,7 +80,14 @@ def new_turma():
         fake_client = search_and_select_instructor()
         print("Fake Client selecionado")
 
+    print("Selecione os estudantes:")
     students = [search_and_select_user()]
+    while True:
+        should_continue = input("Deseja adicionar mais um estudante (S/N)? ")
+        if should_continue != "s" and should_continue != "S":
+            break
+        students.append(search_and_select_user())
+
     teams = []
 
     create_turma(name, group_leader, fake_client, students, teams)

@@ -1,3 +1,3 @@
-from api.users.tui import instructor_create_a_new_common_user
+from api.turmas.tui import new_turma
 
-instructor_create_a_new_common_user()
+new_turma()
