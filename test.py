@@ -1,3 +1,3 @@
-from api.turmas.tui import new_turma
+from api.turmas.tui import edit_turma
 
-new_turma()
+edit_turma()

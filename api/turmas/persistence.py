@@ -10,9 +10,8 @@ def turma_dict_to_line(turma):
     group_leader_id = turma["group_leader"]["id"]
     fake_client_id = turma["fake_client"]["id"]
     students_ids = ",".join([student["id"] for student in turma["students"]])
-    teams_ids = ",".join([team["id"] for team in turma["teams"]])
 
-    return f"{id};{name};{group_leader_id};{fake_client_id};{students_ids};{teams_ids}"
+    return f"{id};{name};{group_leader_id};{fake_client_id};{students_ids}"
 
 
 def line_to_turma_dict(line):
@@ -25,9 +24,8 @@ def line_to_turma_dict(line):
     fake_client = get_user_by_id(fake_client_id)
     students_ids = splitted_line[4].split(",")
     students = [get_user_by_id(id) for id in students_ids]
-    teams = splitted_line[5].split(",")
 
-    return create_turma_dict(id, name, group_leader, fake_client, students, teams)
+    return create_turma_dict(id, name, group_leader, fake_client, students)
 
 
 def write_turmas(turmas):

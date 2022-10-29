@@ -2,7 +2,7 @@ from api.utils import blue_bright_print, bright_input
 from ..users.tui import search_and_select_user
 
 from .common import MEMBERSHIP_CATEGORIES
-from .repository import *
+from .repository import search_members
 
 def summary_team(team):
     name = team["name"]
@@ -42,12 +42,12 @@ def search_and_select_member(team):
         print("Opção inválida.")
 
 
-def add_members(team):
+def add_members(team, turma):
     while True:
         should_add = input("Deseja adicionar mais um membro (S/N)? ")
         if should_add == "S" or should_add == "s":
             print("Selecione um Membro")
-            new_member = search_and_select_user()
+            new_member = search_and_select_student(turma)
             new_member["category"] = "COMUM"
             team["members"].append(new_member)
         else:
