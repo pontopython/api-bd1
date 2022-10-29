@@ -38,7 +38,6 @@ def validate_user_password(password):
         valid = False
         errors.append("A senha deve conter mais de 8 caracteres.")
 
-
     if not re.search("[A-Z]", password):
         valid = False
         errors.append("A senha deve conter pelo menos uma letra maiúscula.")

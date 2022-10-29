@@ -1,5 +1,13 @@
 from .common import USER_TYPES
-from .repository import create_user, delete_user, get_users, get_instructors, search_users, search_instructors, update_users
+from .repository import (
+    create_user,
+    delete_user,
+    get_users,
+    get_instructors,
+    search_users,
+    search_instructors,
+    update_users,
+)
 from .prompt import prompt_user_name, prompt_user_password, prompt_user_type
 
 
@@ -42,7 +50,7 @@ def search_and_select_user():
     users = search_users(search_term)
 
     if len(users) == 0:
-        print("Nenhum instrutor encontrado.")
+        print("Nenhum usuário encontrado.")
         return None
 
     for index, user in enumerate(users):
@@ -81,7 +89,7 @@ def show_user():
     detail_user(user)
 
 
-def new_user():
+def admin_create_a_new_user():
     print("Novo Usuário")
     name = prompt_user_name()
     email = input("Email: ")
@@ -91,12 +99,20 @@ def new_user():
     create_user(name, email, password, type)
 
 
+def instructor_create_a_new_common_user():
+    print("Novo Usuário")
+    name = prompt_user_name()
+    email = input("Email: ")
+    password = prompt_user_password()
+
+    create_user(name, email, password, "COMUM")
+
+
 def edit_user():
     print("Editar usuário")
     user = search_and_select_user()
 
     if user is None:
-        print("Nenhum usuário encontrado.")
         return
 
     print(f"Nome: {user['name']}")
@@ -112,7 +128,7 @@ def edit_user():
     print(f"Senha: ******")
     should_update = input("Deseja alterar (S/N)? ")
     if should_update == "S" or should_update == "s":
-        user["password"] = input("Nova senha: ")
+        user["password"] = prompt_user_password()
 
     type_description = USER_TYPES[user["type"]]
     print(f"Tipo: {type_description}")

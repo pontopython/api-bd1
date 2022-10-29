@@ -84,7 +84,7 @@ def search_users_by(field, value):
 
 def _search_users(search_term, users):
     search_term = search_term.lower()
-    users = []
+    users_found = []
     for user in users:
         if (
             search_term in user["id"].lower()
@@ -93,8 +93,8 @@ def _search_users(search_term, users):
             or search_term in user["type"].lower()
             or search_term in USER_TYPES[user["type"]].lower()
         ):
-            users.append(user)
-    return users
+            users_found.append(user)
+    return users_found
 
 
 def search_users(search_term):
