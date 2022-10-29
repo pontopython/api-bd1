@@ -50,10 +50,10 @@ def get_turma_by_id(id):
     return get_first_turma_by("id", id)
 
 
-def get_turmas_by(field, value):
+def get_turmas_by(field, value, dict_field = None):
     turmas = []
     for turma in get_turmas():
-        if value == turma[field]:
+        if value == turma[field] or (dict_field and value == turma[field][dict_field]):
             turmas.append(turma)
     return turmas
 

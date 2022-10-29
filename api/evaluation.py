@@ -1,7 +1,7 @@
 import statistics
 
 from .login import get_logged_user
-from .teams import line_to_team_dict
+from .teams.persistence import line_to_team_dict
 from .utils import (
     blue_bright_print,
     bright_input,

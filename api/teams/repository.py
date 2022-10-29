@@ -63,4 +63,7 @@ def search_members():
     #teste
     print(get_teams())
 
-
+def search_team_by(field, value):
+    for team in get_teams():
+        if value.lower() == team[field].lower():
+            return team

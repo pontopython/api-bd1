@@ -1,4 +1,4 @@
-
+from ..old_users import search_user_on_file_by_id
 
 TEAMS_FILE = "data/teams.txt"
 
@@ -11,7 +11,7 @@ def team_dict_to_line(team):
 
 def line_to_team_dict(line):
     splitted_line = line.rstrip("\n").split(";")
-    id = splitted_line[0]
+    team_id = splitted_line[0]
     name = splitted_line[1]
     members_categories_and_ids = splitted_line[2].split(",")
     members = []
@@ -20,7 +20,7 @@ def line_to_team_dict(line):
         user = search_user_on_file_by_id(id)
         user["category"] = category
         members.append(user)
-    team_dict = {"id": id, "name": name, "members": members}
+    team_dict = {"id": team_id, "name": name, "members": members}
     return team_dict
 
 def write_teams(teams):
