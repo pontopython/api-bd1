@@ -1,6 +1,10 @@
 from api.teams.common import create_team_dict
 from api.turmas.repository import get_turma_by_id
 from api.users.repository import get_user_by_id
+from ..users.repository import get_user_by_id
+from ..turmas.repository import get_turma_by_id
+
+from .common import create_team_dict
 
 TEAMS_FILE = "data/teams.txt"
 

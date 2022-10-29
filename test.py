@@ -1,3 +1,3 @@
-from api.turmas.tui import edit_turma
+from api.teams.tui import show_team
 
-edit_turma()
+show_team()

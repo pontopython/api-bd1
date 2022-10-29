@@ -6,4 +6,4 @@ MEMBERSHIP_CATEGORIES = {
 
 
 def create_team_dict(id, name, turma, members):
-    return {"id": id, "name": name, "turma":turma, "members": members}
+    return {"id": id, "name": name, "turma": turma, "members": members}

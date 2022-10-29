@@ -1,8 +1,11 @@
 from api.utils import blue_bright_print, bright_input
 from ..users.tui import search_and_select_user
 
+from ..turmas.tui import search_and_select_turma, search_and_select_student
+
 from .common import MEMBERSHIP_CATEGORIES
-from .repository import search_members
+from .repository import search_members, get_teams, search_teams, create_team, update_teams, delete_team
+
 
 def summary_team(team):
     name = team["name"]
@@ -68,11 +71,16 @@ def remove_members(team):
 def detail_team(team, title="Detalhes do Time:"):
     id = team["id"]
     name = team["name"]
+    turma_name = team["turma"]["name"]
 
     print(title)
     print(f"Id: {id}")
     print(f"Nome: {name}")
+    print(f"Turma:  {turma_name}")
     print("Membros:")
+
+    for member in team["members"]:
+        print(f"    - {summary_member(member)}")
 
 
 def list_teams():
@@ -106,23 +114,28 @@ def show_team():
     detail_team(team)
 
 
-def new_user():
+def new_team():
     print("Novo Time")
+
+    turma = search_and_select_turma()
+
+    if turma is None:
+        return
     
     name = input("Nome: ")
     
     print("Selecione um Líder Técnico")
-    tech_leader = search_and_select_user()
+    tech_leader = search_and_select_student(turma)
     tech_leader["category"] = "LIDER"
     
     print("Selecione um Product Owner")
-    product_owner = search_and_select_user()
+    product_owner = search_and_select_student(turma)
     product_owner["category"] = "PRODU"
 
     members = [tech_leader, product_owner]
 
-    team = create_team(name, members)
-    add_members(team)
+    team = create_team(name, turma, members)
+    add_members(team, turma)
     update_teams()
 
 
@@ -141,10 +154,10 @@ def edit_team():
         team["name"] = input("Novo nome: ")
     
     show_members(team)
-    add_members(team)
+    add_members(team, team["turma"])
 
     show_members(team)
-    remove_members(team)
+    remove_members(team, team["turma"])
 
 
 def remove_team():
@@ -154,6 +167,7 @@ def remove_team():
         print("Nenhum time encontrado.")
         return
     delete_team(team)
+
 
 def select_team(team_ids: list):
     teams = []
