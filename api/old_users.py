@@ -334,7 +334,7 @@ def change_user_name():
 #         return
 
 
-def edit_user():
+def old_edit_user():
     options = {1: change_user_name}
     option = prompt_for_edit_user_search_type(options)
     edit = option()

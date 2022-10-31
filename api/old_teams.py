@@ -300,7 +300,7 @@ def delete_member_on_a_team():
     update_team_on_file(search_team)
 
 
-def edit_team():  # colocar pesquisar times para fazer edição
+def old_edit_team():  # colocar pesquisar times para fazer edição
     options = {
         1: change_team_name,
         2: add_member_to_a_team,

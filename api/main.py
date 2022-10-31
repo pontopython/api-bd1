@@ -1,3 +1,6 @@
+from api.teams.tui import list_teams, new_team, remove_team, show_members, edit_team, show_team
+from api.turmas.tui import edit_turma, list_turmas, new_turma, remove_turma, show_turma
+from api.users.tui import list_instructors, list_users, new_user, remove_user, search_and_select_instructor, search_and_select_user, show_user, edit_user
 from .evaluation import run_evaluation, run_mean_grades
 from .login import (
     change_current_user_name,
@@ -12,6 +15,7 @@ from .old_teams import (
     find_and_delete_team,
     find_and_show_team,
     list_all_teams,
+    old_edit_team,
 )
 from .old_users import (
     create_user_interactively,
@@ -21,6 +25,7 @@ from .old_users import (
     find_user_interactively,
     create_users_list,
     list_all_users,
+    old_edit_user,
     select_user_interactively,
 )
 from .utils import bright_input, bright_print, cyan_print, red_print
@@ -60,7 +65,7 @@ def admin_menu():
     elif option == 4:
         find_and_show_user()
     elif option == 5:
-        edit_user()
+        old_edit_user()
     elif option == 6:
         find_and_delete_user()
     elif option == 7:
@@ -218,6 +223,77 @@ def user_menu():
     else:
         red_print("     Opção inválida.\n")
 
+def new_menu():
+    cyan_print("\n      Bem vindo ao menu principal\n")
+    bright_print(
+        """
+         1 - Listar Usuários                    
+         2 - Listar Instrutores                 
+         3 - Criar novo usuário                 
+         4 - Procurar e Detalhar Usuário        
+         5 - Editar usuário                     
+         6 - Excluir usuário                    
+         7 - Mostrar Membros do Time            
+         8 - Criar Novo Time                    
+         9 - Editar Time                        
+        10 - Excluir Time                       
+        11 - Listar Times                       
+        12 - Procurar e Detalhar Time           
+        13 - Listar Turmas                      
+        14 - Detalhar Turma                     
+        15 - Criar Nova Turma                   
+        16 - Editar Turma                       
+        17 - Excluir Turma                      
+        97 - Deslogar apenas
+        98 - Sair apenas
+        99 - Deslogar e sair
+        """
+    )
+
+    option = int(input("     Opção: "))
+    if option == 1:
+        list_users()
+    elif option == 2:
+        list_instructors()
+    elif option == 3:
+        new_user()
+    elif option == 4:
+        show_user()
+    elif option == 5:
+        edit_user()
+    elif option == 6:
+        remove_user()
+    elif option == 7:
+        show_members()
+    elif option == 8:
+        new_team()
+    elif option == 9:
+        edit_team()
+    elif option == 10:
+        remove_team()
+    elif option == 11:
+        list_teams()
+    elif option == 12:
+        show_team()
+    elif option == 13:
+        list_turmas()
+    elif option == 14:
+        show_turma()
+    elif option == 15:
+        new_turma()
+    elif option == 16:
+        edit_turma()
+    elif option == 17:
+        remove_turma()
+    elif option == 97:
+        logout_user()
+    elif option == 98:
+        exit()
+    elif option == 99:
+        logout_user()
+        exit()
+    else:
+        red_print("     Opção inválida.\n")
 
 def program_loop():
     while True:
@@ -225,4 +301,4 @@ def program_loop():
         if current_user is None:
             login_user()
         else:
-            admin_menu()
+            new_menu()
