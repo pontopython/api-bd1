@@ -125,7 +125,7 @@ def edit_user():
     if should_update == "S" or should_update == "s":
         user["email"] = input("Novo e-mail: ")
 
-    print(f"Senha: ******")
+    print(f"Senha: ********")
     should_update = input("Deseja alterar (S/N)? ")
     if should_update == "S" or should_update == "s":
         user["password"] = prompt_user_password()

@@ -33,7 +33,7 @@ def detail_turma(turma, title="Detalhes da Turma:"):
     print(f"Total de Alunos: {students_count}")
 
 
-def list_turma():
+def list_turmas():
     print("Turmas:")
     for turma in get_turmas():
         print(f"    - {summary_turma(turma)}")

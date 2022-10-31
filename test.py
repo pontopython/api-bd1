@@ -1,3 +1,3 @@
-from api.teams.tui import show_team
+from api.new_main import admin_main
 
-show_team()
+admin_main()
