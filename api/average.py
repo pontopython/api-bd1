@@ -2,7 +2,7 @@ import statistics
 
 from api.evaluation import evaluation_form, line_to_evaluation_dict, search_groups, select_group
 from api.sprints.sprints import select_sprint_tui
-from api.utils import blue_bright_print, bright_print, green_print, magenta_print, red_print
+from api.utils import blue_bright_print, bright_input, bright_print, green_print, magenta_print, red_print
 
 EVALUATIONS_TXT_FILE =  "data/evaluations.txt"
 
@@ -173,10 +173,10 @@ def by_sprint_question(team):
     
     for indice, item in enumerate(by_sprint):
         print(f"     {indice+1}. {item}")
-    awnser_sprint = int(input("\n   Opção: "))
+    awnser_sprint = int(bright_input("\n   Opção: "))
     
     while awnser_sprint != 1 and awnser_sprint != 2:
-        awnser_sprint = int(input("\n   Opção: "))
+        awnser_sprint = int(bright_input("\n   Opção: "))
     
     if awnser_sprint == 1:
         sprint = select_sprint_tui(team['id'], closed=True)

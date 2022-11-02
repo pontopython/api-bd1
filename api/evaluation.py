@@ -1,4 +1,3 @@
-import statistics
 from api.sprints.sprints import get_opened_sprint
 
 from api.turmas.repository import get_turmas, get_turmas_by
@@ -55,12 +54,12 @@ def select_group(user, groups, select_member=True):
         menu = [(user_type, group) for user_type, groups in groups.items() for group in groups]
         enumerate_menu = enumerate(menu)
 
-        print("Suas turmas:")
+        blue_bright_print("\n          Suas turmas:")
         
         for index, (user_type, group) in enumerate_menu:
-            print(f'{index + 1}. {user_type} - {group["name"]}')
+            print(f'     {index + 1}. {user_type} - {group["name"]}')
         
-        input_group = int(input('Qual turma deseja selecionar? '))
+        input_group = int(bright_input('\nQual turma deseja selecionar? '))
     
         if input_group > 0 and input_group <= len(menu):
             group = menu[input_group - 1]

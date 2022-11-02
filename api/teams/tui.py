@@ -1,3 +1,4 @@
+from api.utils import blue_bright_print, bright_input
 from ..users.tui import search_and_select_user
 
 from .common import MEMBERSHIP_CATEGORIES
@@ -161,13 +162,15 @@ def select_team(team_ids: list):
         team = search_team_by("id", team_id)
         teams.append(team)
 
+    blue_bright_print("\n          Selecione um time:")
+
     for index, team in enumerate(teams):
-        print(f'{index + 1}. {team["name"]}')
+        print(f'    {index + 1}. {team["name"]}')
     
-    input_team = int(input("Qual time deseja selecionar? "))
+    input_team = int(bright_input("\nQual time deseja selecionar? "))
 
     if input_team > 0 and input_team <= len(teams):
         return teams[input_team - 1]
     else:
-        print("Opção inválida. Tente novamente!")
+        red_print("Opção inválida. Tente novamente!")
         return select_team(team_ids)
