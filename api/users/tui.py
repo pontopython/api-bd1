@@ -8,7 +8,7 @@ from .repository import (
     search_instructors,
     update_users,
 )
-from .prompt import prompt_user_name, prompt_user_password, prompt_user_type
+from .prompt import prompt_user_email, prompt_user_name, prompt_user_password, prompt_user_type
 
 
 def summary_user(user):
@@ -92,7 +92,7 @@ def show_user():
 def admin_create_a_new_user():
     print("Novo Usuário")
     name = prompt_user_name()
-    email = input("Email: ")
+    email = prompt_user_email()
     password = prompt_user_password()
     type = prompt_user_type()
 
@@ -102,7 +102,7 @@ def admin_create_a_new_user():
 def instructor_create_a_new_common_user():
     print("Novo Usuário")
     name = prompt_user_name()
-    email = input("Email: ")
+    email = prompt_user_email()
     password = prompt_user_password()
 
     create_user(name, email, password, "COMUM")

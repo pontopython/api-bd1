@@ -23,9 +23,9 @@ def validate_user_email(email):
         valid = False
         errors.append("O nome deve conter mais de 2 caracteres.")
 
-    if not re.match("^[A-zÀ-ú ]+$", email):
+    if not re.match("^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$", email):
         valid = False
-        errors.append("O nome contém caracteres inválidos.")
+        errors.append("Digite um email válido.")
 
     return valid, errors
 

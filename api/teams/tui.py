@@ -116,7 +116,7 @@ def show_team():
 
 def new_team():
     print("Novo Time")
-
+    
     turma = search_and_select_turma()
 
     if turma is None:
