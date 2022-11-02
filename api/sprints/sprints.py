@@ -32,7 +32,6 @@ def close_sprint_tui():
     selected_group = select_leader_group(id)
 
     if selected_group is None:
-        print("Deu ruim")
         return
 
     selected_group_team_ids = selected_group['teams']
@@ -41,7 +40,6 @@ def close_sprint_tui():
     selected_sprint = select_sprint_tui(selected_team['id'])
     selected_sprint['status'] = 'fechada'
     update_sprint('id', selected_sprint['id'], selected_sprint)
-    return sprint
 
 def create_sprint_tui():
     user = get_logged_user()
