@@ -195,6 +195,9 @@ def run_average_grades():
     if user["type"] == 'COMUM':
         print_average_grades(team, user, sprint)
 
+    elif user["type"] == 'ADMIN':
+        print_average_grades_LG(team, sprint)
+
     elif user["id"] == team['turma']['group_leader']['id']:
         only_LT = [
             "Ver somente as médias dos Líderes Técnicos",

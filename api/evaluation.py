@@ -1,7 +1,7 @@
 import statistics
 from api.sprints.sprints import get_opened_sprint
 
-from api.turmas.repository import get_turmas_by
+from api.turmas.repository import get_turmas, get_turmas_by
 
 from .login import get_logged_user
 from .teams.persistence import line_to_team_dict
@@ -29,7 +29,8 @@ def search_groups():
     lg_groups = get_turmas_by("group_leader", user['id'], 'id')
     fc_groups = get_turmas_by("fake_client", user['id'], 'id')
     student_groups = get_turmas_by(value=user['id'], function=lambda group, value: [student for student in group['students'] if student['id'] == value])
-
+    admin_groups = get_turmas()
+    
     if len(lg_groups) != 0:
         groups["Líder de Grupo"] = lg_groups
 
@@ -37,7 +38,10 @@ def search_groups():
         groups["Fake Client"] = fc_groups
 
     if len(student_groups) != 0:
-        groups["Estudante"] = student_groups    
+        groups["Estudante"] = student_groups
+
+    if user["type"] == "ADMIN":
+        groups["Administrador"] = admin_groups 
 
     return user, groups
 
@@ -58,13 +62,13 @@ def select_group(user, groups, select_member=True):
         
         input_group = int(input('Qual turma deseja selecionar? '))
     
-        if input_group > 0 and input_group <= len(groups.keys()):
+        if input_group > 0 and input_group <= len(menu):
             group = menu[input_group - 1]
             return select_team(user, group, select_member)
 
         else:
             print("Opção inválida. Tente novamente!")
-            return select_group(user, groups)
+            return select_group(user, groups, select_member)
 
 
 def select_team(user, group, select_member=True, show=True):
@@ -75,7 +79,7 @@ def select_team(user, group, select_member=True, show=True):
         for line in file:
             team = line_to_team_dict(line)
             if team["turma"]['id'] == group[1]['id']:
-                if group[0] in ['Líder de Grupo', 'Fake Client']:
+                if group[0] in ['Líder de Grupo', 'Fake Client', 'Administrador']:
                     teams.append(team)
 
                 if group[0] == 'Estudante':
@@ -106,7 +110,7 @@ def select_team(user, group, select_member=True, show=True):
                 return select_team(user, select_member)
         
         else:
-            red_print("Você não está inserido em nenhum time ainda.")
+            red_print("Você não possui nenhum time ainda.")
             return None, None
     
     else:
