@@ -35,9 +35,9 @@ def get_sprints():
     return SPRINTS
 
 
-def create_sprint(team_id, status='aberta'):
+def create_sprint(team_id, sprint_name, status='aberta'):
     id = generate_id()
-    sprint = create_sprint_dict(id, team_id, status)
+    sprint = create_sprint_dict(id, team_id, sprint_name, status)
     get_sprints().append(sprint)
     update_sprints()
     return sprint

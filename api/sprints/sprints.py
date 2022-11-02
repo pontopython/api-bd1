@@ -1,5 +1,5 @@
 from api.login import get_logged_user
-from api.utils import red_print
+from api.utils import blue_bright_print, bright_input, magenta_print, red_print
 from ..turmas.tui import select_leader_group
 from ..teams.tui import select_team
 from .repository import create_sprint, search_sprint_by, update_sprint
@@ -32,11 +32,11 @@ def select_sprint_tui(team_id, closed=False):
         for sprint in sprints:
             if sprint['status'] == 'fechada':
                 valid_sprints.append(sprint)
-    
+    blue_bright_print("\n          Selecione uma sprint:")
     for index, sprint in enumerate(valid_sprints):
-        print(f'{index + 1}. {sprint["id"]} - {sprint["status"]}')
+        print(f'     {index + 1}. {sprint["name"]} - {sprint["status"]}')
     
-    input_sprint = int(input("Qual sprint deseja selecionar? "))
+    input_sprint = int(bright_input("\nQual sprint deseja selecionar? "))
 
     if input_sprint > 0 and input_sprint <= len(valid_sprints):
         sprint = valid_sprints[input_sprint - 1]
@@ -70,17 +70,16 @@ def create_sprint_tui():
     selected_group = select_leader_group(id)
 
     if selected_group is None:
-        print("Deu ruim")
         return
 
     selected_group_team_ids = selected_group['teams']
     selected_team = select_team(selected_group_team_ids)
 
     if has_opened_sprint(selected_team['id']):
-        print("Já existe uma sprint aberta.")
+        magenta_print("\nJá existe uma sprint aberta.")
         return
-
-    sprint = create_sprint(selected_team['id'])
+    sprint_name = bright_input('Qual o nome da sprint?')
+    sprint = create_sprint(selected_team['id'], sprint_name)
     return sprint
 
 
