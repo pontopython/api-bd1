@@ -88,7 +88,6 @@ def list_teams():
     for team in get_teams():
         print(summary_team(team))
 
-
 def search_and_select_team():
     search_term = input("Procurar: ")
     teams = search_teams(search_term)

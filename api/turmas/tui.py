@@ -86,7 +86,7 @@ def new_turma():
         should_continue = input("Deseja adicionar mais um estudante (S/N)? ")
         if should_continue != "s" and should_continue != "S":
             break
-        students.append(search_and_select_user()) # TODO: Admin e instrutor podem ser estudantes?
+        students.append(search_and_select_user())
 
     create_turma(name, group_leader, fake_client, students)
 
@@ -112,9 +112,37 @@ def edit_turma():
     should_update = input("Deseja alterar (S/N)? ")
     if should_update == "S" or should_update == "s":
         turma['fake_client']['name'] = search_and_select_instructor()
+   
+    list_members_turma(turma)
+    add_student(turma)
 
-    # TODO: NINA, listar estudantes atuais e dar opção de remover e adicionar mais estudantes
+    list_members_turma(turma)
+    remove_student(turma)
+        
+def list_members_turma(turma):
+    print("Estudantes: ")
+    for student in turma["students"]:
+        print(f"    - {summary_student(student)}")
 
+def remove_student(turma):
+    while True:
+        should_add = input("Deseja remover mais um estudante (S/N)? ")
+        if should_add == "S" or should_add == "s":
+            print("Selecione um Estudante")
+            student_to_remove = search_and_select_user()
+            turma["students"].remove(student_to_remove)
+        else:
+            break
+
+def add_student(turma):
+    while True:
+        should_add = input("Deseja adicionar mais um estudante (S/N)? ")
+        if should_add == "S" or should_add == "s":
+            print("Selecione um Estudante")
+            new_student = search_and_select_user()
+            turma["students"].append(new_student)
+        else:
+            break
 
 def remove_turma():
     print("Remover Turma")
