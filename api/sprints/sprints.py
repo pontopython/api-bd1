@@ -1,4 +1,5 @@
 from api.login import get_logged_user
+from api.utils import red_print
 from ..turmas.tui import select_leader_group
 from ..teams.tui import select_team
 from .repository import create_sprint, search_sprint_by, update_sprint
@@ -22,20 +23,27 @@ def has_opened_sprint(team_id):
     return opened_sprints is not None
 
 
-def select_sprint_tui(team_id):
+def select_sprint_tui(team_id, closed=False):
     sprints = search_sprint_by("team_id", team_id)
-
-    for index, sprint in enumerate(sprints):
+    if not closed:
+        valid_sprints = sprints
+    if closed:
+        valid_sprints = []
+        for sprint in sprints:
+            if sprint['status'] == 'fechada':
+                valid_sprints.append(sprint)
+    
+    for index, sprint in enumerate(valid_sprints):
         print(f'{index + 1}. {sprint["id"]} - {sprint["status"]}')
-
+    
     input_sprint = int(input("Qual sprint deseja selecionar? "))
 
-    if input_sprint > 0 and input_sprint <= len(sprints):
-        sprint = sprints[input_sprint - 1]
+    if input_sprint > 0 and input_sprint <= len(valid_sprints):
+        sprint = valid_sprints[input_sprint - 1]
         return sprint
     else:
-        print("Opção inválida. Tente novamente!")
-        return select_sprint_tui(team_id)
+        red_print("Opção inválida. Tente novamente!")
+        return select_sprint_tui(team_id, closed)
 
 
 def close_sprint_tui():
