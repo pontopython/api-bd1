@@ -8,9 +8,7 @@ from .teams.persistence import line_to_team_dict
 from .utils import (
     blue_bright_print,
     bright_input,
-    bright_print,
     green_print,
-    magenta_print,
     red_print,
 )
 import json
@@ -130,9 +128,6 @@ def filter_not_evaluated_members(user, team, sprint):
 
 
 def select_team_member(user, team):
-    #       Mudar: 
-    # - restringir a avaliação por sprint:  verificar qual a sprint que está aberta(sprints.json) e
-    #       depois quais membros do time(teams.txt) o usuario logado ainda não avaliou(evaluations.txt)
     sprint = get_opened_sprint(team['id'])
     if sprint is None:
         print('Não tem sprint aberta')
@@ -250,36 +245,6 @@ def evaluation_form(evaluator=None, evaluated=None, team=None, sprint=None, show
         return questions
 
 
-def create_evaluation_dict_json(lista_skills, user, team):          #tentar implementar depois
-    evaluation_dict = {
-        "id_sprint": 1,
-        "id_time": team,
-        "id_avaliador": get_logged_user()["id"],
-        "id_avaliado": user['id'],
-        "skills": {
-            "skill_1": lista_skills[0],
-            "skill_2": lista_skills[1],
-            "skill_3": lista_skills[2],
-            "skill_4": lista_skills[3],
-            "skill_5": lista_skills[4],
-        }
-    }
-
-    return save_evaluation_json(evaluation_dict)
-
-
-def save_evaluation_json(dict):
-    with open(EVALUATIONS_JSON_FILE, "a") as file:
-        file.write(json.dumps(dict) + '\n')
-
-
-def read_evaluations_json() -> list:
-    with open(EVALUATIONS_JSON_FILE, "r") as file:
-        content = file.read()
-        evaluations = json.loads(content)
-    return evaluations
-
-
 def create_evaluation_dict(lista_skills, evaluator, evaluated, team, sprint):
     evaluation = {
         "skill_1": lista_skills[0],
@@ -348,6 +313,36 @@ def run_evaluation():
     if av_user is None or team is None:
         return
     evaluation_form(user, av_user, team, sprint)
+
+
+def create_evaluation_dict_json(lista_skills, user, team):          #tentar implementar depois
+    evaluation_dict = {
+        "id_sprint": 1,
+        "id_time": team,
+        "id_avaliador": get_logged_user()["id"],
+        "id_avaliado": user['id'],
+        "skills": {
+            "skill_1": lista_skills[0],
+            "skill_2": lista_skills[1],
+            "skill_3": lista_skills[2],
+            "skill_4": lista_skills[3],
+            "skill_5": lista_skills[4],
+        }
+    }
+
+    return save_evaluation_json(evaluation_dict)
+
+
+def save_evaluation_json(dict):                                     #tentar implementar depois
+    with open(EVALUATIONS_JSON_FILE, "a") as file:
+        file.write(json.dumps(dict) + '\n')
+
+
+def read_evaluations_json() -> list:                                #tentar implementar depois
+    with open(EVALUATIONS_JSON_FILE, "r") as file:
+        content = file.read()
+        evaluations = json.loads(content)
+    return evaluations
 
 
 if __name__ == "__main__":
