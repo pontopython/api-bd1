@@ -1,4 +1,5 @@
 import statistics
+from api.sprints.sprints import get_opened_sprint
 
 from api.turmas.repository import get_turmas_by
 
@@ -14,21 +15,9 @@ from .utils import (
 )
 import json
 
-EVALUATIONS_JSON_FILE = "data/evaluations.json"      # tentar implementar pra deixar mais facil de puxar de lá
+EVALUATIONS_JSON_FILE = "data/evaluations.json"      # tentar implementar depois
 
-# dict = {
-#   "id_sprint":
-#   "id_time":
-#   "id_avaliador":
-#   "id_avaliado":
-#   "skills": {
-#       "skill_1":
-#       "skill_2":
-#       "skill_3":
-#       "skill_4":
-#       "skill_5":
-#   }
-# }
+EVALUATIONS_TXT_FILE =  "data/evaluations.txt"
 
 CATEGORIES = {
     "PRODU": "Product Owner",
@@ -55,7 +44,7 @@ def search_groups():
     return user, groups
 
 
-def select_group(user, groups):
+def select_group(user, groups, select_member=True):
     if len(groups) < 1:
         print("Você não faz parte de nenhuma turma")
         return None, None, None
@@ -73,14 +62,14 @@ def select_group(user, groups):
     
         if input_group > 0 and input_group <= len(groups.keys()):
             group = menu[input_group - 1]
-            return search_teams_on_file_by_user(user, group)
+            return select_team(user, group, select_member)
 
         else:
             print("Opção inválida. Tente novamente!")
             return select_group(user, groups)
 
 
-def search_teams_on_file_by_user(user, group, select_member=True, show=True):
+def select_team(user, group, select_member=True, show=True):
     teams = []
     
     with open("data/teams.txt", "r") as file:
@@ -109,14 +98,14 @@ def search_teams_on_file_by_user(user, group, select_member=True, show=True):
                 team = teams[input_team - 1]
                 
                 if select_member:
-                    return select_team_member(user, team), team["id"]
+                    return select_team_member(user, team), team
                 
                 else:
-                    return None, team["id"]
+                    return None, team
 
             else:
                 red_print("\nOpção inválida. Tente novamente!\n")
-                return search_teams_on_file_by_user(user, select_member)
+                return select_team(user, select_member)
         
         else:
             red_print("Você não está inserido em nenhum time ainda.")
@@ -126,26 +115,49 @@ def search_teams_on_file_by_user(user, group, select_member=True, show=True):
         return teams
 
 
+def filter_not_evaluated_members(user, team, sprint):
+    evaluated_members = []
+    with open(EVALUATIONS_TXT_FILE, 'r') as file:
+        for line in file:
+            evaluation = line_to_evaluation_dict(line)
+            if user['id'] == evaluation['evaluator_id'] \
+                and team['id'] == evaluation['id_team'] \
+                and sprint['id'] == evaluation['id_sprint']:
+                evaluated_members.append(evaluation['evaluated_id'])
+    not_evaluated_members = [member for member in team['members'] if member['id'] not in evaluated_members]
+
+    return not_evaluated_members
+
+
 def select_team_member(user, team):
     #       Mudar: 
     # - restringir a avaliação por sprint:  verificar qual a sprint que está aberta(sprints.json) e
     #       depois quais membros do time(teams.txt) o usuario logado ainda não avaliou(evaluations.txt)
+    sprint = get_opened_sprint(team['id'])
+    if sprint is None:
+        print('Não tem sprint aberta')
+        return
+    not_evaluated_members = filter_not_evaluated_members(user, team, sprint)
     print()
     blue_bright_print(f'     Membros de {team["name"]}:')
     valid_members = []
 
     if team['turma']['group_leader']['id'] == user['id']:
-        for member in team['members']:
+        for member in not_evaluated_members:
             if member['category'] == 'LIDER':
                 valid_members.append(member)
 
     elif team['turma']['fake_client']['id'] == user['id']:
-        for member in team['members']:
+        for member in not_evaluated_members:
             if member['category'] == 'PRODU':
                 valid_members.append(member)
 
     else:
-        valid_members = team['members']
+        valid_members = not_evaluated_members
+
+    if len(valid_members) == 0:
+        print('Não há membros para avaliar.')
+        return None
 
     for indice, member in enumerate(valid_members):
         print(
@@ -162,7 +174,7 @@ def select_team_member(user, team):
         return select_team_member(user, team)
 
 
-def evaluation_form(user=None, team=None, show=True):
+def evaluation_form(evaluator=None, evaluated=None, team=None, sprint=None, show=True):
     questions = {
         "1": {
             "question": "Trabalho em equipe, cooperação e descentralização de conhecimento:",
@@ -216,7 +228,7 @@ def evaluation_form(user=None, team=None, show=True):
         },
     }
     if show:
-        blue_bright_print(f"\n           Avaliação de {user['name']}\n")
+        blue_bright_print(f"\n           Avaliação de {evaluated['name']}\n")
         lista = []
         for qk, qv in questions.items():
             green_print(f'\n{qk}. {qv["question"]}')
@@ -225,14 +237,14 @@ def evaluation_form(user=None, team=None, show=True):
             for ak, av in qv["answers"].items():
                 print(f"[{ak}]: {av}")
 
-            answers_user = int(bright_input("\nOpção: "))
+            answer = int(bright_input("\nOpção: "))
             print()
-            while answers_user < 0 or answers_user > 4:
+            while answer < 0 or answer > 4:
                 red_print("\nOpção inválida! Tente novamente.\n")
-                answers_user = int(bright_input("\nOpção: "))
-            lista.append(answers_user)
+                answer = int(bright_input("\nOpção: "))
+            lista.append(answer)
 
-        return create_evaluation_dict(lista, user, team)
+        return create_evaluation_dict(lista, evaluator, evaluated, team, sprint)
 
     else:
         return questions
@@ -268,7 +280,7 @@ def read_evaluations_json() -> list:
     return evaluations
 
 
-def create_evaluation_dict(lista_skills, user, team):
+def create_evaluation_dict(lista_skills, evaluator, evaluated, team, sprint):
     evaluation = {
         "skill_1": lista_skills[0],
         "skill_2": lista_skills[1],
@@ -276,26 +288,25 @@ def create_evaluation_dict(lista_skills, user, team):
         "skill_4": lista_skills[3],
         "skill_5": lista_skills[4],
     }
-    id_sprint = 1
-    id_team = team
-    id_user_log = get_logged_user()["id"]
-    category_user_log = get_logged_user()["category"]
-    id_av_user = user["id"]
-    category_av_user = user["category"]
-    name_av_user = user["name"]
+    id_sprint = sprint['id']                             #colocar a sprint
+    id_team = team['id']
+    evaluator_id = evaluator["id"]
+    evaluated_id = evaluated["id"]
+    evaluated_category = evaluated["category"]
+    evaluated_name = evaluated["name"]
     skill_1 = evaluation["skill_1"]
     skill_2 = evaluation["skill_2"]
     skill_3 = evaluation["skill_3"]
     skill_4 = evaluation["skill_4"]
     skill_5 = evaluation["skill_5"]
 
-    line = f"{id_sprint};{id_team};{id_user_log};{category_user_log};{id_av_user};{category_av_user};{name_av_user};{skill_1};{skill_2};{skill_3};{skill_4};{skill_5}"
+    line = f"{id_sprint};{id_team};{evaluator_id};{evaluated_id};{evaluated_category};{evaluated_name};{skill_1};{skill_2};{skill_3};{skill_4};{skill_5}"
 
     return save_evaluation(line)
 
 
 def save_evaluation(line):
-    file = open("data/evaluations.txt", "a")
+    file = open(EVALUATIONS_TXT_FILE, "a")
     file.write(line)
     file.write("\n")
     file.close()
@@ -305,24 +316,22 @@ def line_to_evaluation_dict(line):
     splitted_line = line.rstrip("\n").split(";")
     id_sprint = splitted_line[0]
     id_team = splitted_line[1]
-    id_user_log = splitted_line[2]
-    category_user_log = splitted_line[3]
-    id_av_user = splitted_line[4]
-    category_av_user = splitted_line[5]
-    name_av_user = splitted_line[6]
-    skill_1 = splitted_line[7]
-    skill_2 = splitted_line[8]
-    skill_3 = splitted_line[9]
-    skill_4 = splitted_line[10]
-    skill_5 = splitted_line[11]
+    evaluator_id = splitted_line[2]
+    evaluated_id = splitted_line[3]
+    evaluated_category = splitted_line[4]
+    evaluated_name = splitted_line[5]
+    skill_1 = splitted_line[6]
+    skill_2 = splitted_line[7]
+    skill_3 = splitted_line[8]
+    skill_4 = splitted_line[9]
+    skill_5 = splitted_line[10]
     dict = {
         "id_sprint": id_sprint,
         "id_team": id_team,
-        "id_user_log": id_user_log,
-        "category_user_log": category_user_log,
-        "id_av_user": id_av_user,
-        "category_av_user": category_av_user,
-        "name_av_user": name_av_user,
+        "evaluator_id": evaluator_id,
+        "evaluated_id": evaluated_id,
+        "evaluated_category": evaluated_category,
+        "evaluated_name": evaluated_name,
         "skill_1": skill_1,
         "skill_2": skill_2,
         "skill_3": skill_3,
@@ -335,10 +344,10 @@ def line_to_evaluation_dict(line):
 def mean_grades(team, user):
     skills = [[], [], [], [], []]
 
-    with open("data/evaluations.txt", "r") as file:
+    with open(EVALUATIONS_TXT_FILE, "r") as file:
         for line in file:
             evaluation = line_to_evaluation_dict(line)
-            if team == evaluation["id_team"] and user == evaluation["id_av_user"]:
+            if team == evaluation["id_team"] and user == evaluation["evaluated_id"]:
                 skills[0].append(int(evaluation["skill_1"]))
                 skills[1].append(int(evaluation["skill_2"]))
                 skills[2].append(int(evaluation["skill_3"]))
@@ -399,13 +408,13 @@ def print_mean_grades_LG(team_id, LT=False):
         for member in team["members"]
     }
 
-    with open("data/evaluations.txt", "r") as file:
+    with open(EVALUATIONS_TXT_FILE, "r") as file:
         for line in file:
             dict_line = line_to_evaluation_dict(line)
             if team_id == dict_line["id_team"]:
-                if team_member_mean[dict_line["id_av_user"]].get("mean", None) is None:
-                    member_mean = mean_grades(team_id, dict_line["id_av_user"])
-                    team_member_mean[dict_line["id_av_user"]]["mean"] = member_mean
+                if team_member_mean[dict_line["evaluated_id"]].get("mean", None) is None:
+                    member_mean = mean_grades(team_id, dict_line["evaluated_id"])
+                    team_member_mean[dict_line["evaluated_id"]]["mean"] = member_mean
 
     questions = evaluation_form(show=False)
     members_to_list = team_member_mean
@@ -414,14 +423,13 @@ def print_mean_grades_LG(team_id, LT=False):
         members_to_list = {
             id: item
             for id, item in team_member_mean.items()
-            if item["category"] == "LT"
+            if item["category"] == "LIDER"
         }
     for item in members_to_list.values():
         if "mean" not in item:
-            if item["category"] not in ["FC", "LG"]:
-                magenta_print(
-                    f'\n{item["name"]} ({CATEGORIES[item["category"]]}) ainda não foi avaliado.'
-                )
+            magenta_print(
+                f'\n{item["name"]} ({CATEGORIES[item["category"]]}) ainda não foi avaliado.'
+            )
             continue
         blue_bright_print(
             f"\n          Médias de {item['name']} - {CATEGORIES[item['category']]}\n"
@@ -444,17 +452,17 @@ def print_mean_grades_LG(team_id, LT=False):
 
 def print_mean_grades_FC(team):
     lista = []
-    with open("data/evaluations.txt", "r") as file:
+    with open(EVALUATIONS_TXT_FILE, "r") as file:
         for line in file:
             dict_line = line_to_evaluation_dict(line)
             if team == dict_line["id_team"]:
-                if dict_line["category_av_user"] == "PO":
-                    if dict_line["id_av_user"] not in [item[0] for item in lista]:
-                        po_mean = mean_grades(team, dict_line["id_av_user"])
+                if dict_line["evaluated_category"] == "PRODU":
+                    if dict_line["evaluated_id"] not in [item[0] for item in lista]:
+                        po_mean = mean_grades(team, dict_line["evaluated_id"])
                         lista.append(
                             (
-                                dict_line["id_av_user"],
-                                dict_line["name_av_user"],
+                                dict_line["evaluated_id"],
+                                dict_line["evaluated_name"],
                                 po_mean,
                             )
                         )
@@ -483,21 +491,21 @@ def print_mean_grades_FC(team):
 
 def run_evaluation():
     user, groups = search_groups()
-    av_user, id_team = select_group(user, groups)
-    if av_user is None and id_team is None:
+    av_user, team = select_group(user, groups)
+    sprint = get_opened_sprint(team['id'])
+    if av_user is None or team is None:
         return
-    evaluation_form(av_user, id_team)
+    evaluation_form(user, av_user, team, sprint)
 
 
 def run_mean_grades():
-    user_log = get_logged_user()
+    user, groups = search_groups()
+    av_user, team = select_group(user, groups, select_member=False)
 
-    if user_log["category"] != "LG" and user_log["category"] != "FC":
-        av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
-        print_mean_grades(id_team, user_log)
+    if user["type"] == 'COMUM':
+        print_mean_grades(team['id'], user)
 
-    elif user_log["category"] == "LG":
-        av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
+    elif user["id"] == team['turma']['group_leader']['id']:
         only_LT = [
             "Ver somente as médias dos Líderes Técnicos",
             "Ver as notas de todo o time",
@@ -509,15 +517,14 @@ def run_mean_grades():
         while awnser != 1 and awnser != 2:
             awnser = int(input("\n   Opção: "))
         if awnser == 1:
-            print_mean_grades_LG(id_team, LT=True)
+            print_mean_grades_LG(team['id'], LT=True)
         elif awnser == 2:
-            print_mean_grades_LG(id_team)
+            print_mean_grades_LG(team['id'])
 
-    elif user_log["category"] == "FC":
-        av_user, id_team = search_teams_on_file_by_user(user_log, select_member=False)
-        print_mean_grades_FC(id_team)
+    elif user["id"] == team['turma']['fake_client']['id']:
+        print_mean_grades_FC(team['id'])
 
 
 if __name__ == "__main__":
     run_evaluation()
-    # run_mean_grades()
+    run_mean_grades()
