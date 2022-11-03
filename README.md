@@ -45,8 +45,8 @@
 |:-------------:|:-----------------------:|:-------------------------:|:-------------------------:|
 |  01  | 29/08 a 18/09 | Criação de cadastro, login na conta criada e criação de times | [Sprint 1](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-1)
 |  02  | 19/09 a 09/10 | Finalização do sistema de cadastro, sistema de avaliação e restrições e permissões dos usuários | [Sprint 2](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-2)
-|  03  | 17/10 a 06/11 |
-|  04  | 07/11 a 27/11 |
+|  03  | 17/10 a 06/11 | | [Sprint 3](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-3)
+|  04  | 07/11 a 27/11 | | [Sprint 4](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-4)
 
 <span id="configurando">
 
