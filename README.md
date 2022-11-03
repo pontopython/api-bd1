@@ -85,8 +85,7 @@ Caso necessário crie a pasta `data` e dentro crie um arquivo `users.txt` vazio.
 <span id="equipe">
 
 ## :white_medium_square: Equipe
-    
-![time ponto py](https://user-images.githubusercontent.com/108769169/199708316-32dbdcda-c5fc-4210-8840-a473db1444b7.png)
+![time ponto py](https://user-images.githubusercontent.com/108769169/199708959-6fcc7464-aa33-48db-82e0-3080cf7635af.png)
 
 
     
