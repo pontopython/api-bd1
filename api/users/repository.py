@@ -19,6 +19,12 @@ def get_users():
         reload_users()
     return _users
 
+def get_common_users():
+    common = []
+    for user in get_users():
+        if user["type"] == "COMUM":
+            common.append(user)
+    return common
 
 def get_instructors():
     instructors = []
@@ -100,6 +106,8 @@ def _search_users(search_term, users):
 def search_users(search_term):
     return _search_users(search_term, get_users())
 
+def search_common_users(search_term):
+    return _search_users(search_term, get_common_users())
 
 def search_instructors(search_term):
     return _search_users(search_term, get_instructors())

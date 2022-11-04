@@ -4,8 +4,10 @@ from .repository import (
     delete_user,
     get_users,
     get_instructors,
+    get_common_users,
     search_users,
     search_instructors,
+    search_common_users,
     update_users,
 )
 from .prompt import prompt_user_email, prompt_user_name, prompt_user_password, prompt_user_type
@@ -34,9 +36,14 @@ def detail_user(user, title="Detalhes do Usuário:"):
 
 
 def list_users():
-    print("Usuários:")
+    print("Todos os Usuários:")
     for user in get_users():
         print(summary_user(user))
+
+def list_common_users():
+    print("Usuários Disponíveis:")
+    for user in get_common_users():
+        print(f"    - {summary_user(user)}")
 
 
 def list_instructors():
@@ -52,6 +59,25 @@ def search_and_select_user():
     if len(users) == 0:
         print("Nenhum usuário encontrado.")
         return None
+
+
+    for index, user in enumerate(users):
+        print(f"{index+1} - {summary_user(user)}")
+
+    while True:
+        option = int(input("Opção: "))
+        if option > 0 and option <= len(users):
+            return users[option - 1]
+        print("Opção inválida.")
+
+def search_and_select_common_user():
+    search_term = input("Procurar: ")
+    users = search_common_users(search_term)
+
+    if len(users) == 0:
+        print("Nenhum usuário encontrado.")
+        return None
+
 
     for index, user in enumerate(users):
         print(f"{index+1} - {summary_user(user)}")

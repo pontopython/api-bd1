@@ -1,7 +1,7 @@
 from api.utils import blue_bright_print, bright_input, red_print
 from .repository import delete_turma, get_turmas, get_turmas_from_group_leader, search_turmas, create_turma, delete_turma, get_turmas_by, search_students
 from .prompt import prompt_turma_name
-from ..users.tui import search_and_select_instructor, search_and_select_user
+from ..users.tui import search_and_select_instructor, search_and_select_common_user, list_common_users, list_instructors
 
 
 def summary_turma(turma):
@@ -97,13 +97,14 @@ def new_turma():
         fake_client = search_and_select_instructor()
     print("Fake Client selecionado")
 
+    list_common_users()
     print("Selecione os estudantes:")
-    students = [search_and_select_user()]
+    students = [search_and_select_common_user()]
     while True:
         should_continue = input("Deseja adicionar mais um estudante (S/N)? ")
         if should_continue != "s" and should_continue != "S":
             break
-        students.append(search_and_select_user())
+        students.append(search_and_select_common_user())
 
     create_turma(name, group_leader, fake_client, students)
 
@@ -143,10 +144,10 @@ def list_members_turma(turma):
 
 def remove_student(turma):
     while True:
-        should_add = input("Deseja remover mais um estudante (S/N)? ")
+        should_add = input("Deseja remover um estudante (S/N)? ")
         if should_add == "S" or should_add == "s":
             print("Selecione um Estudante")
-            student_to_remove = search_and_select_user()
+            student_to_remove = search_and_select_common_user()
             turma["students"].remove(student_to_remove)
         else:
             break
@@ -156,7 +157,7 @@ def add_student(turma):
         should_add = input("Deseja adicionar mais um estudante (S/N)? ")
         if should_add == "S" or should_add == "s":
             print("Selecione um Estudante")
-            new_student = search_and_select_user()
+            new_student = search_and_select_common_user()
             turma["students"].append(new_student)
         else:
             break
