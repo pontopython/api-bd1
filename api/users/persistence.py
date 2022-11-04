@@ -1,6 +1,12 @@
+import os
+
 from .common import create_user_dict
 
 USERS_FILE = "data/users.txt"
+
+os.makedirs("data", exist_ok=True)
+if not os.path.exists(USERS_FILE):
+    open(USERS_FILE, "a").close()
 
 
 def user_dict_to_line(user):

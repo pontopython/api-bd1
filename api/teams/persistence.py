@@ -1,3 +1,5 @@
+import os
+
 from api.teams.common import create_team_dict
 from api.turmas.repository import get_turma_by_id
 from api.users.repository import get_user_by_id
@@ -7,6 +9,11 @@ from ..turmas.repository import get_turma_by_id
 from .common import create_team_dict
 
 TEAMS_FILE = "data/teams.txt"
+
+os.makedirs("data", exist_ok=True)
+if not os.path.exists(TEAMS_FILE):
+    open(TEAMS_FILE, "a").close()
+
 
 def team_dict_to_line(team):
     team_id = team["id"]

@@ -1,6 +1,7 @@
 from api.teams.tui import list_teams, new_team, remove_team, show_members, edit_team, show_team
 from api.turmas.tui import edit_turma, list_turmas, new_turma, remove_turma, show_turma
 from api.users.tui import list_instructors, list_users, admin_create_a_new_user, remove_user, show_user, edit_user
+from api.sprints.sprints import create_sprint_tui
 from .login import get_logged_user, login_user, logout_user
 
 def admin_main():
@@ -22,7 +23,8 @@ def admin_main():
     14 - Detalhar Turma                     
     15 - Criar Nova Turma                   
     16 - Editar Turma                       
-    17 - Excluir Turma                      
+    17 - Excluir Turma
+    18 - Criar Sprint                      
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -64,6 +66,8 @@ def admin_main():
         edit_turma()
     elif option == 17:
         remove_turma()
+    elif option == 18:
+        create_sprint_tui()
     elif option == 97:
         logout_user()
     elif option == 98:

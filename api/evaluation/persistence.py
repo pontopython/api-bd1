@@ -1,7 +1,14 @@
+import os
+
 from .common import create_evaluation_dict
 from login import get_logged_user
 
-EVALUATION_FILE = "data/evaluation.txt"
+EVALUATIONS_FILE = "data/evaluations.txt"
+
+os.makedirs("data", exist_ok=True)
+if not os.path.exists(EVALUATIONS_FILE):
+    open(EVALUATIONS_FILE, "a").close()
+
 
 def evaluation_dict_to_line(user, lista, team,sprint):
     evaluation = {
@@ -26,6 +33,7 @@ def evaluation_dict_to_line(user, lista, team,sprint):
     
     return f"{id_sprint};{id_team};{id_user_log};{category_user_log};{id_evaluated_user};{category_evaluated_user};{name_evaluated_user};{skill_1};{skill_2};{skill_3};{skill_4};{skill_5}"
 
+
 def line_to_evaluation_dict(line):
     splitted_line = line.rstrip("\n").split(";")
     id_sprint = splitted_line[0]
@@ -43,14 +51,16 @@ def line_to_evaluation_dict(line):
     
     return create_evaluation_dict(id_sprint, id_team, id_user_log, category_user_log, id_evaluated_user, category_evaluated_user, name_evaluated_user, skill_1, skill_2, skill_3, skill_4, skill_5)
 
+
 def write_evaluation(evaluation):
-    file = open(EVALUATION_FILE, "w")
+    file = open(EVALUATIONS_FILE, "w")
     lines = [evaluation_dict_to_line(evaluation) + "\n"]
     file.writelines(lines)
     file.close()
 
+
 def read_evaluation():
-    file = open(EVALUATION_FILE, "r")
+    file = open(EVALUATIONS_FILE, "r")
     evaluation = [evaluation_dict_to_line(line) for line in file.readlines()]
     file.close()
     return evaluation

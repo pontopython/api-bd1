@@ -24,6 +24,14 @@ def get_teams():
     return _teams
 
 
+def get_teams_from_turma(turma):
+    teams = []
+    for team in get_teams():
+        if team["turma"]["id"] == turma["id"]:
+            teams.append(team)
+    return teams
+
+
 def create_team(name, turma, members):
     id = generate_id()
     team = create_team_dict(

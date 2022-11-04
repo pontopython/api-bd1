@@ -4,7 +4,7 @@ from ..users.tui import search_and_select_user
 from ..turmas.tui import search_and_select_turma, search_and_select_student
 
 from .common import MEMBERSHIP_CATEGORIES
-from .repository import search_members, get_teams, search_teams, create_team, update_teams, delete_team
+from .repository import search_members, get_teams, get_teams_from_turma, search_teams, create_team, update_teams, delete_team
 
 
 def summary_team(team):
@@ -88,6 +88,7 @@ def list_teams():
     for team in get_teams():
         print(summary_team(team))
 
+
 def search_and_select_team():
     search_term = input("Procurar: ")
     teams = search_teams(search_term)
@@ -105,6 +106,22 @@ def search_and_select_team():
         print("Opção inválida.")
 
 
+def select_team_from_turma(turma):
+    teams = get_teams_from_turma(turma)
+
+    if len(teams) == 0:
+        print("Nenhuma time encontrado.")
+        return None
+
+    for index, team in enumerate(teams):
+        print(f"{index+1} - {summary_team(team)}")
+
+    while True:
+        option = int(input("Opção: "))
+        if option > 0 and option <= len(teams):
+            return teams[option - 1]
+        print("Opção inválida.")
+
 def show_team():
     team = search_and_select_team()
     if team is None:
@@ -116,6 +133,7 @@ def show_team():
 def new_team():
     print("Novo Time")
     
+    print("Selecione a turma:")
     turma = search_and_select_turma()
 
     if turma is None:
@@ -166,24 +184,3 @@ def remove_team():
         print("Nenhum time encontrado.")
         return
     delete_team(team)
-
-
-def select_team(team_ids: list):
-    teams = []
-
-    for team_id in team_ids:
-        team = search_team_by("id", team_id)
-        teams.append(team)
-
-    blue_bright_print("\n          Selecione um time:")
-
-    for index, team in enumerate(teams):
-        print(f'    {index + 1}. {team["name"]}')
-    
-    input_team = int(bright_input("\nQual time deseja selecionar? "))
-
-    if input_team > 0 and input_team <= len(teams):
-        return teams[input_team - 1]
-    else:
-        red_print("Opção inválida. Tente novamente!")
-        return select_team(team_ids)

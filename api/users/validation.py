@@ -15,6 +15,7 @@ def validate_user_name(name):
 
     return valid, errors
 
+
 def validate_user_email(email):
     valid = True
     errors = []

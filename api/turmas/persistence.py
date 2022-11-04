@@ -1,7 +1,13 @@
+import os
+
 from ..users.repository import get_user_by_id
 from .common import create_turma_dict
 
 TURMAS_FILE = "data/turmas.txt"
+
+os.makedirs("data", exist_ok=True)
+if not os.path.exists(TURMAS_FILE):
+    open(TURMAS_FILE, "a").close()
 
 
 def turma_dict_to_line(turma):

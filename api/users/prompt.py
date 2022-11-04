@@ -51,7 +51,7 @@ def prompt_user_type(prompt="Qual tipo de usuário?"):
         print("1 - Administrador")
         print("2 - Instrutor")
         print("3 - Usuário Comum")
-        option = int(input())
+        option = int(input("Opção: "))
 
         if option in [1, 2, 3]:
             return list(USER_TYPES.keys())[option - 1]

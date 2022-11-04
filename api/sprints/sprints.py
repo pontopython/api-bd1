@@ -1,7 +1,7 @@
-from api.login import get_logged_user
 from api.utils import blue_bright_print, bright_input, magenta_print, red_print
-from ..turmas.tui import select_leader_group
-from ..teams.tui import select_team
+from ..users.tui import search_and_select_instructor
+from ..turmas.tui import select_turma_from_group_leader
+from ..teams.tui import select_team_from_turma
 from .repository import create_sprint, search_sprint_by, update_sprint
 
 
@@ -64,22 +64,23 @@ def close_sprint_tui():
 
 
 def create_sprint_tui():
-    user = get_logged_user()
-    id = user['id']
+    print("Selecione o líder de grupo: ")
+    instructor = search_and_select_instructor()
 
-    selected_group = select_leader_group(id)
-
-    if selected_group is None:
+    turma = select_turma_from_group_leader(instructor)
+    if turma is None:
+        return
+    
+    team = select_team_from_turma(turma)
+    if turma is None:
         return
 
-    selected_group_team_ids = selected_group['teams']
-    selected_team = select_team(selected_group_team_ids)
-
-    if has_opened_sprint(selected_team['id']):
+    if has_opened_sprint(team['id']):
         magenta_print("\nJá existe uma sprint aberta.")
         return
-    sprint_name = bright_input('Qual o nome da sprint?')
-    sprint = create_sprint(selected_team['id'], sprint_name)
+
+    sprint_name = bright_input('Qual o nome da sprint? ')
+    sprint = create_sprint(team['id'], sprint_name)
     return sprint
 
 

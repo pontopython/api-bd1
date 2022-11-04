@@ -24,6 +24,14 @@ def get_turmas():
     return _turmas
 
 
+def get_turmas_from_group_leader(group_leader):
+    turmas = []
+    for turma in get_turmas():
+        if turma["group_leader"]["id"] == group_leader["id"]:
+            turmas.append(turma)
+    return turmas
+
+
 def create_turma(name, group_leader, fake_client, students):
     id = generate_id()
     user = create_turma_dict(
