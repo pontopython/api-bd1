@@ -25,7 +25,7 @@ def line_to_turma_dict(line):
     fake_client = get_user_by_id(fake_client_id)
     students_ids = splitted_line[4].split(",")
     students = [get_user_by_id(id) for id in students_ids]
-    teams = []
+    teams = splitted_line[5].split(",")
 
     return create_turma_dict(id, name, group_leader, fake_client, students, teams)
 

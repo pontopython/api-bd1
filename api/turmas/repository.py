@@ -1,6 +1,7 @@
 from ..utils import generate_id
 from .common import create_turma_dict
 from .persistence import read_turmas, write_turmas
+from ..users.repository import _search_users
 
 _turmas = []
 
@@ -50,10 +51,13 @@ def get_turma_by_id(id):
     return get_first_turma_by("id", id)
 
 
-def get_turmas_by(field, value):
+def get_turmas_by(field = None, value = None, dict_field = None, function = None):
     turmas = []
     for turma in get_turmas():
-        if value == turma[field]:
+        if function:
+            if function(turma, value):
+                turmas.append(turma)
+        elif value == turma[field] or (dict_field and value == turma[field][dict_field]):
             turmas.append(turma)
     return turmas
 
@@ -78,3 +82,6 @@ def search_turmas(search_term):
         ):
             turmas.append(turma)
     return turmas
+
+def search_students(search_term, turma):
+    return _search_users(search_term, turma["students"])

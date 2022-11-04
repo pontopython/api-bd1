@@ -6,7 +6,7 @@ from .login import (
     logout_user,
     show_profile,
 )
-from .teams import (
+from .old_teams import (
     create_team_interactively,
     edit_team,
     find_and_delete_team,

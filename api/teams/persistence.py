@@ -1,27 +1,31 @@
-
+from api.teams.common import create_team_dict
+from api.turmas.repository import get_turma_by_id
+from api.users.repository import get_user_by_id
 
 TEAMS_FILE = "data/teams.txt"
 
 def team_dict_to_line(team):
     team_id = team["id"]
     name = team["name"]
+    turma_id = team["turma"]["id"]
     members = [f"{member['category']}:{member['id']}" for member in team["members"]]
     members_categories_and_ids = ",".join(members)
-    return f"{team_id};{name};{members_categories_and_ids}"
+    return f"{team_id};{name};{turma_id};{members_categories_and_ids}"
 
 def line_to_team_dict(line):
     splitted_line = line.rstrip("\n").split(";")
-    id = splitted_line[0]
+    team_id = splitted_line[0]
     name = splitted_line[1]
-    members_categories_and_ids = splitted_line[2].split(",")
+    turma_id = splitted_line[2]
+    turma = get_turma_by_id(turma_id)
+    members_categories_and_ids = splitted_line[3].split(",")
     members = []
     for member_category_and_id in members_categories_and_ids:
         category, id = member_category_and_id.split(":")
-        user = search_user_on_file_by_id(id)
+        user = get_user_by_id(id).copy()
         user["category"] = category
         members.append(user)
-    team_dict = {"id": id, "name": name, "members": members}
-    return team_dict
+    return create_team_dict(team_id, name, turma, members)
 
 def write_teams(teams):
     file = open(TEAMS_FILE, "w")

@@ -1,5 +1,7 @@
 import uuid
 
+from .teams.persistence import line_to_team_dict
+
 from .old_users import (
     USERS_FILE,
     create_users_list,

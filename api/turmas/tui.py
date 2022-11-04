@@ -1,5 +1,6 @@
 # from api.users.repository import
-from .repository import delete_turma, get_turmas, search_turmas, create_turma, delete_turma
+from api.utils import blue_bright_print, bright_input, red_print
+from .repository import delete_turma, get_turmas, search_turmas, create_turma, delete_turma, get_turmas_by
 from .prompt import prompt_turma_name
 from ..users.tui import search_and_select_instructor, search_and_select_user
 
@@ -116,3 +117,24 @@ def remove_turma():
         print("Nenhuma turma encontrada.")
         return
     delete_turma(turma)
+
+def select_leader_group(leader_id):
+    groups = get_turmas_by("group_leader", leader_id, 'id')
+
+    if len(groups) < 1:
+        red_print("Você não é líder em nenhuma turma")
+        return
+
+    blue_bright_print("\n     Turmas em que você é líder:")
+
+    for index, group in enumerate(groups):
+        print(f'    {index + 1}. {group["name"]}')
+
+    input_group = int(bright_input("\nQual turma deseja selecionar? "))
+
+    if input_group > 0 and input_group <= len(groups):
+        group = groups[input_group - 1]
+        return group
+    else:
+        red_print("Opção inválida. Tente novamente!")
+        return select_leader_group(leader_id)
