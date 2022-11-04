@@ -58,4 +58,6 @@ def create_empty_data_if_needed():
 
     
 def generate_id():
-    return shortuuid.uuid()
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    shortuuid.set_alphabet(alphabet)
+    return shortuuid.random(length=6)
