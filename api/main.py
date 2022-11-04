@@ -1,4 +1,4 @@
-from api.teams.tui import list_teams, new_team, remove_team, show_members, edit_team, show_team
+from api.teams.tui import list_members, list_teams, new_team, remove_team, show_members, edit_team, show_team
 from api.turmas.tui import edit_turma, list_turmas, new_turma, remove_turma, show_turma
 from api.users.tui import list_instructors, list_users, new_user, remove_user, search_and_select_instructor, search_and_select_user, show_user, edit_user
 from .evaluation import run_evaluation, run_mean_grades
@@ -264,7 +264,7 @@ def new_menu():
     elif option == 6:
         remove_user()
     elif option == 7:
-        show_members()
+        list_members()
     elif option == 8:
         new_team()
     elif option == 9:

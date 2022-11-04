@@ -30,7 +30,7 @@ def show_members(team, title="Membros:"):
 
 def search_and_select_member(team):
     search_term = input("Procurar: ")
-    members = search_members(search_term, team) # TODO: Alec implementa esse método em repository depois
+    members = search_members(search_term, team)
 
     if len(members) == 0:
         return None
@@ -87,6 +87,10 @@ def list_teams():
     print("Times:")
     for team in get_teams():
         print(summary_team(team))
+
+def list_members():
+    team = search_and_select_team()
+    show_members(team)
 
 
 def search_and_select_team():
@@ -174,7 +178,7 @@ def edit_team():
     add_members(team, team["turma"])
 
     show_members(team)
-    remove_members(team, team["turma"])
+    remove_members(team)
 
 
 def remove_team():
