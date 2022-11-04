@@ -5,7 +5,7 @@ from utils import green_print
 EVALUATIONS_FILE = "../data/evaluations.txt"
 
 #PARA TESTES APENAS
-def create_evaluation_dict(evaluation_id, sprint, evaluator, evaluated, soft_skill1, soft_skill2, soft_skill3, soft_skill4, soft_skill5,):
+def evaluation_dict(evaluation_id, sprint, evaluator, evaluated, soft_skill1, soft_skill2, soft_skill3, soft_skill4, soft_skill5,):
     return {
         "evaluation_id": evaluation_id,
         "sprint": sprint,
@@ -42,4 +42,4 @@ def save_evaluation_to_file(evaluation):
     green_print("\n             Avaliação salva com sucesso!")
 
 #TESTE
-save_evaluation_to_file(create_evaluation_dict(976435, 1, 'Alec', 'Larissa', 2, 3, 3, 2, 1)) 
+save_evaluation_to_file(evaluation_dict(976435, 1, 'Alec', 'Larissa', 2, 3, 3, 2, 1)) 

@@ -2,24 +2,11 @@ from api.utils import blue_bright_print, bright_input, magenta_print, red_print
 from ..users.tui import search_and_select_instructor
 from ..turmas.tui import select_turma_from_group_leader
 from ..teams.tui import select_team_from_turma
-from .repository import create_sprint, search_sprint_by, update_sprint
+from .repository import create_sprint, search_sprint_by, update_sprint, get_opened_sprint_from_team
 
 
-def get_opened_sprint(team_id):
-    sprints = search_sprint_by("team_id", team_id)
-    opened_sprints = [
-        sprint for sprint in sprints if sprint['status'] == 'aberta']
-
-    if len(opened_sprints) > 0:
-        return opened_sprints[0]
-
-    return None
-        
-
-
-def has_opened_sprint(team_id):
-    opened_sprints = get_opened_sprint(team_id)
-
+def has_opened_sprint(team):
+    opened_sprints = get_opened_sprint_from_team(team)
     return opened_sprints is not None
 
 
@@ -72,10 +59,10 @@ def create_sprint_tui():
         return
     
     team = select_team_from_turma(turma)
-    if turma is None:
+    if team is None:
         return
 
-    if has_opened_sprint(team['id']):
+    if has_opened_sprint(team):
         magenta_print("\nJá existe uma sprint aberta.")
         return
 

@@ -5,7 +5,7 @@ from .persistence import read_sprints, write_sprints
 SPRINTS = []
 
 
-def reload_teams():
+def reload_sprints():
     global SPRINTS
     SPRINTS = read_sprints()
 
@@ -31,13 +31,33 @@ def update_sprint(field, value, new_value, many=False):
 
 def get_sprints():
     if len(SPRINTS) == 0:
-        reload_teams()
+        reload_sprints()
     return SPRINTS
 
 
-def create_sprint(team_id, sprint_name, status='aberta'):
+def get_sprint_by_id(id):
+    for sprint in get_sprints():
+        if sprint["id"] == id:
+            return sprint
+    return None
+
+
+def get_opened_sprint_from_team(team):
+    opened_sprints = [
+        sprint
+        for sprint in get_sprints()
+        if sprint['status'] == 'aberta' and sprint["team"]["id"] == team["id"]
+    ]
+
+    if len(opened_sprints) > 0:
+        return opened_sprints[0]
+
+    return None
+
+
+def create_sprint(team, sprint_name, status='aberta'):
     id = generate_id()
-    sprint = create_sprint_dict(id, team_id, sprint_name, status)
+    sprint = create_sprint_dict(id, team, sprint_name, status)
     get_sprints().append(sprint)
     update_sprints()
     return sprint

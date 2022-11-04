@@ -24,6 +24,13 @@ def get_teams():
     return _teams
 
 
+def get_team_by_id(id):
+    for team in get_teams():
+        if id == team["id"]:
+            return team
+    return None
+
+
 def get_teams_from_turma(turma):
     teams = []
     for team in get_teams():

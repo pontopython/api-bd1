@@ -242,13 +242,13 @@ def evaluation_form(evaluator=None, evaluated=None, team=None, sprint=None, show
                 answer = int(bright_input("\nOpção: "))
             lista.append(answer)
 
-        return create_evaluation_dict(lista, evaluator, evaluated, team, sprint)
+        return evaluation_dict(lista, evaluator, evaluated, team, sprint)
 
     else:
         return questions
 
 
-def create_evaluation_dict(lista_skills, evaluator, evaluated, team, sprint):
+def evaluation_dict(lista_skills, evaluator, evaluated, team, sprint):
     evaluation = {
         "skill_1": lista_skills[0],
         "skill_2": lista_skills[1],
@@ -318,7 +318,7 @@ def run_evaluation():
     evaluation_form(user, av_user, team, sprint)
 
 
-def create_evaluation_dict_json(lista_skills, user, team):          #tentar implementar depois
+def evaluation_dict_json(lista_skills, user, team):          #tentar implementar depois
     evaluation_dict = {
         "id_sprint": 1,
         "id_time": team,

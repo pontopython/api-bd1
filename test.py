@@ -1,3 +1,3 @@
-from api.new_main import admin_main
+from api.evaluations.tui import admin_create_evaluation
 
-admin_main()
+admin_create_evaluation()
