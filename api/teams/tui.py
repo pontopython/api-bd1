@@ -238,7 +238,7 @@ def remove_team():
 
 
 def admin_teams_menu():
-    print("Menu Teams (Administrador)")
+    print("Menu Times (Administrador)")
     print("1 - Listar")
     print("2 - Novo")
     print("3 - Buscar e Detalhar")

@@ -1,4 +1,4 @@
 
-from api.evaluations.tui import admin_evaluations_menu
+from api.new_main import admin_menu
 
-admin_evaluations_menu()
+admin_menu()
