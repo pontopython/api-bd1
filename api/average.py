@@ -1,7 +1,7 @@
 import statistics
 
 from api.evaluation import evaluation_form, line_to_evaluation_dict, search_groups, select_group
-from api.sprints.sprints import select_sprint_tui
+from api.sprints.tui import select_sprint_tui
 from api.utils import blue_bright_print, bright_input, bright_print, green_print, magenta_print, red_print
 
 EVALUATIONS_TXT_FILE =  "data/evaluations.txt"

@@ -1,13 +1,15 @@
 from api.utils import blue_bright_print, bright_input, red_print
-from .repository import delete_turma, get_turmas, get_turmas_from_group_leader, search_turmas, create_turma, delete_turma, get_turmas_by, search_students
+from .repository import delete_turma, get_turmas, get_turmas_from_group_leader, search_turmas, create_turma, delete_turma, get_turmas_by, search_students, update_turmas
 from .prompt import prompt_turma_name
 from ..users.tui import search_and_select_instructor, search_and_select_common_user, list_common_users, list_instructors
 
 
 def summary_turma(turma):
     name = turma["name"]
+    group_leader_name = turma["group_leader"]["name"]
+    fake_client_name = turma["fake_client"]["name"]
     students_count = len(turma["students"])
-    return f"{name} ({students_count} alunos)"
+    return f"{name} (Líder de Grupo: {group_leader_name}, Fake Client: {fake_client_name}, {students_count} alunos)"
 
 
 def summary_student(student):
@@ -136,6 +138,8 @@ def edit_turma():
 
     list_members_turma(turma)
     remove_student(turma)
+
+    update_turmas()
         
 def list_members_turma(turma):
     print("Estudantes: ")
@@ -148,6 +152,8 @@ def remove_student(turma):
         if should_add == "S" or should_add == "s":
             print("Selecione um Estudante")
             student_to_remove = search_and_select_common_user()
+            if student_to_remove is None:
+                continue
             turma["students"].remove(student_to_remove)
         else:
             break
@@ -158,6 +164,8 @@ def add_student(turma):
         if should_add == "S" or should_add == "s":
             print("Selecione um Estudante")
             new_student = search_and_select_common_user()
+            if new_student is None:
+                continue
             turma["students"].append(new_student)
         else:
             break
@@ -207,3 +215,32 @@ def search_and_select_student(turma):
         if option > 0 and option <= len(students):
             return students[option - 1]
         print("Opção inválida.")
+
+
+def admin_turmas_menu():
+    print("Menu Turmas (Administrador)")
+    print("1 - Listar")
+    print("2 - Novo")
+    print("3 - Buscar e Detalhar")
+    print("4 - Editar")
+    print("5 - Excluir")
+    print("6 - Voltar")
+    
+    while True:
+        option = int(input("Opção: "))
+        if option >= 1 and option <= 6:
+            break
+        print("Opção inválida.")
+    
+    if option == 1:
+        list_turmas()
+    elif option == 2:
+        new_turma()
+    elif option == 3:
+        show_turma()
+    elif option == 4:
+        edit_turma()
+    elif option == 5:
+        remove_turma()
+    else:
+        return

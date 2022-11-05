@@ -9,8 +9,9 @@ from .repository import search_members, get_teams, get_teams_from_turma, search_
 
 def summary_team(team):
     name = team["name"]
+    turma_name = team["turma"]["name"]
     members_count = len(team["members"])
-    return f"{name} ({members_count} membros)"
+    return f"{name} (Turma: {turma_name}, {members_count} membros)"
 
 
 def summary_member(member):
@@ -51,6 +52,8 @@ def add_members(team, turma):
         if should_add == "S" or should_add == "s":
             print("Selecione um Membro")
             new_member = search_and_select_student(turma)
+            if new_member is None:
+                continue
             new_member["category"] = "COMUM"
             team["members"].append(new_member)
         else:
@@ -63,6 +66,8 @@ def remove_members(team):
         if should_add == "S" or should_add == "s":
             print("Selecione um Membro")
             member_to_remove = search_and_select_member(team)
+            if member_to_remove is None:
+                continue
             team["members"].remove(member_to_remove)
         else:
             break
@@ -180,6 +185,8 @@ def edit_team():
     show_members(team)
     remove_members(team)
 
+    update_teams()
+
 
 def remove_team():
     print("Remover time")
@@ -188,3 +195,33 @@ def remove_team():
         print("Nenhum time encontrado.")
         return
     delete_team(team)
+
+
+
+def admin_teams_menu():
+    print("Menu Teams (Administrador)")
+    print("1 - Listar")
+    print("2 - Novo")
+    print("3 - Buscar e Detalhar")
+    print("4 - Editar")
+    print("5 - Excluir")
+    print("6 - Voltar")
+    
+    while True:
+        option = int(input("Opção: "))
+        if option >= 1 and option <= 6:
+            break
+        print("Opção inválida.")
+    
+    if option == 1:
+        list_teams()
+    elif option == 2:
+        new_team()
+    elif option == 3:
+        show_team()
+    elif option == 4:
+        edit_team()
+    elif option == 5:
+        remove_team()
+    else:
+        return

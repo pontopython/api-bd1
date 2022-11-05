@@ -172,3 +172,32 @@ def remove_user():
         print("Nenhum usuário encontrado.")
         return
     delete_user(user)
+
+
+def admin_users_menu():
+    print("Menu Usuários (Administrador)")
+    print("1 - Listar")
+    print("2 - Novo")
+    print("3 - Buscar e Detalhar")
+    print("4 - Editar")
+    print("5 - Excluir")
+    print("6 - Voltar")
+    
+    while True:
+        option = int(input("Opção: "))
+        if option >= 1 and option <= 6:
+            break
+        print("Opção inválida.")
+    
+    if option == 1:
+        list_users()
+    elif option == 2:
+        admin_create_a_new_user()
+    elif option == 3:
+        show_user()
+    elif option == 4:
+        edit_user()
+    elif option == 5:
+        remove_user()
+    else:
+        return

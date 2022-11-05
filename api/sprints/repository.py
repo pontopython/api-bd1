@@ -35,6 +35,14 @@ def get_sprints():
     return SPRINTS
 
 
+def get_all_sprints_from_team(team):
+    sprints = []
+    for sprint in get_sprints():
+        if team["id"] == sprint["team"]["id"]:
+            sprints.append(sprint)
+    return sprints
+
+
 def get_sprint_by_id(id):
     for sprint in get_sprints():
         if sprint["id"] == id:

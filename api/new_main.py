@@ -1,7 +1,7 @@
 from api.teams.tui import list_members, list_teams, new_team, remove_team, show_members, edit_team, show_team
 from api.turmas.tui import edit_turma, list_turmas, new_turma, remove_turma, show_turma
 from api.users.tui import list_instructors, list_users, admin_create_a_new_user, remove_user, show_user, edit_user
-from api.sprints.sprints import create_sprint_tui
+from api.sprints.tui import create_sprint_tui
 from .login import get_logged_user, login_user, logout_user
 
 def admin_main():

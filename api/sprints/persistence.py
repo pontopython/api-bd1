@@ -25,6 +25,7 @@ def write_sprints(sprints):
         {
             "id": sprint["id"],
             "team_id": sprint["team"]["id"],
+            "name": sprint["name"],
             "status": sprint["status"]
         }
         for sprint in sprints

@@ -1,4 +1,4 @@
-from api.sprints.sprints import get_opened_sprint
+from api.sprints.tui import get_opened_sprint
 
 from api.turmas.repository import get_turmas, get_turmas_by
 
