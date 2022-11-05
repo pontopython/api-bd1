@@ -141,6 +141,7 @@ def edit_turma():
 
     update_turmas()
         
+
 def list_members_turma(turma):
     print("Estudantes: ")
     for student in turma["students"]:

@@ -42,13 +42,13 @@ def line_to_evaluation_dict(line):
 
 def write_evaluations(evaluations):
     file = open(EVALUATIONS_FILE, "w")
-    lines = [evaluation_dict_to_line(evaluation) for evaluation in evaluations]
+    lines = [evaluation_dict_to_line(evaluation) + "\n" for evaluation in evaluations]
     file.writelines(lines)
     file.close()
 
 
 def read_evaluations():
     file = open(EVALUATIONS_FILE, "r")
-    evaluations = [evaluation_dict_to_line(line) for line in file.readlines()]
+    evaluations = [line_to_evaluation_dict(line) for line in file.readlines()]
     file.close()
     return evaluations

@@ -46,6 +46,45 @@ def search_and_select_member(team):
         print("Opção inválida.")
 
 
+def select_member(team):
+    members = team["members"]
+
+    if len(members) == 0:
+        return None
+
+    for index, member in enumerate(members):
+        print(f"{index+1} - {summary_member(member)}")
+
+    while True:
+        option = int(input("Opção: "))
+        if option > 0 and option <= len(members):
+            return members[option - 1]
+        print("Opção inválida.")
+
+
+def select_member_or_instructor(team):
+    group_leader = team["turma"]["group_leader"]
+    fake_client = team["turma"]["fake_client"]
+    members = team["members"]
+
+    print(f"1 - {group_leader['name']} como Líder de Grupo")
+    print(f"2 - {fake_client['name']} como Fake Client ")
+
+    for index, member in enumerate(members):
+        print(f"{index+3} - {summary_member(member)}")
+
+    while True:
+        option = int(input("Opção: "))
+        if option > 0 and option <= len(members) + 2:
+            if option == 1:
+                return group_leader
+            elif option == 2:
+                return fake_client
+            else:
+                return members[option - 3]
+        print("Opção inválida.")
+
+
 def add_members(team, turma):
     while True:
         should_add = input("Deseja adicionar mais um membro (S/N)? ")

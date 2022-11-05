@@ -21,6 +21,37 @@ def get_evaluations():
         reload_evaluations()
     return _evaluations
 
+def get_all_evaluations_from_sprint(sprint):
+    return [
+        evaluation
+        for evaluation in get_evaluations()
+        if sprint["id"] == evaluation["sprint"]["id"]
+    ]
+
+
+def get_all_evaluations_from_team(team):
+    return [
+        evaluation
+        for evaluation in get_evaluations()
+        if team["id"] == evaluation["sprint"]["team"]["id"]
+    ]
+
+
+def get_all_evaluations_from_sprint_and_member(sprint, member):
+    return [
+        evaluation
+        for evaluation in get_evaluations()
+        if sprint["id"] == evaluation["sprint"]["id"] and member["id"] == evaluation["evaluated"]["id"]
+    ]
+
+
+def get_all_evaluations_from_team_member(team, member):
+    return [
+        evaluation
+        for evaluation in get_evaluations()
+        if team["id"] == evaluation["sprint"]["team"]["id"] and member["id"] == evaluation["evaluated"]["id"]
+    ]
+
 
 def create_evaluation(sprint, evaluator, evaluated, grades):
     id = generate_id()
