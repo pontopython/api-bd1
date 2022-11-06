@@ -25,17 +25,17 @@
 | **COMO UM** |  **EU QUERO**  | **PARA** | **PRIORIDADE** | **SPRINT** | **STATUS** |
 |-----------------------|-------------------------|-------------------------|---------------------|----------------|-------------------------|
 | Administrador | Criar e armazenar contas | Acessar o sistema | Imprescindível | 1 | **Realizado** |
-| Administrador | Editar e excluir contas| Corrigir erros e fazer alterações | Importante | 2 | **Em desenvolvimento** |
+| Administrador | Editar e excluir contas| Corrigir erros e fazer alterações | Importante | 2 | **Realizado** |
 | Usuário | Login/Log-off| Acessar o sistema | Imprescindível | 1 | **Realizado** |
 | Líder de time | Criar e armazenar times | Organizar minha equipe | Imprescindível | 1 | **Realizado** |
-| Líder de Time | Editar e excluir times  | Corrigir erros e fazer alterações | Importante | 2 | **Em desenvolvimento** |
-| Líder de Time | Criar, editar e salvar as sprints | Organizar o cronograma da equipe | Imprescindível | 3 | A iniciar |
+| Líder de Time | Editar e excluir times  | Corrigir erros e fazer alterações | Importante | 2 | **Realizado** |
+| Líder de Time | Criar, editar e salvar as sprints | Organizar o cronograma da equipe | Imprescindível | 3 | **Realizado** |
 | Líder de Time | Adicionar usuários ao time | Montar a equipe | Imprescindível | 1 | **Realizado** |
-| Usuário | Auto-avaliação, avaliação do time e aval. adcionais | Completar a avaliação 360° | Imprescindível | 2 | **Em desenvolvimento** |
-| Usuário | Ver as médias das minhas notas | Noção de performance | Desejável | 2 | **Em desenvolvimento** |
+| Usuário | Auto-avaliação, avaliação do time e aval. adcionais | Completar a avaliação 360° | Imprescindível | 2 | **Realizado** |
+| Usuário | Ver as médias das minhas notas | Noção de performance | Desejável | 2 | **Realizado** |
 | Líder de Time | Dashboard com informações de sprints e notas | Visibilidade sobre o time | Desejável | 4 | A iniciar |
 | Usuário | Gráficos de desempenho | Noção de performance | Desejável | 4 | A iniciar |
-| Desenvolvedor | Aplicar restrições e hierarquia de usuários | Organizar as funcionalidades | Imprescindível | 2 | **Em desenvolvimento** |
+| Desenvolvedor | Aplicar restrições e hierarquia de usuários | Organizar as funcionalidades | Imprescindível | 2 | **Realizado** |
 
 <span id="entrega">
 
@@ -45,8 +45,8 @@
 |:-------------:|:-----------------------:|:-------------------------:|:-------------------------:|
 |  01  | 29/08 a 18/09 | Criação de cadastro, login na conta criada e criação de times | [Sprint 1](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-1)
 |  02  | 19/09 a 09/10 | Finalização do sistema de cadastro, sistema de avaliação e restrições e permissões dos usuários | [Sprint 2](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-2)
-|  03  | 17/10 a 06/11 | | [Sprint 3](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-3)
-|  04  | 07/11 a 27/11 | | [Sprint 4](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-4)
+|  03  | 17/10 a 06/11 |Funcionalidade Turma – ADM, Funcionalidade Sprints - Líder de Turma/ADM, Conta ADM, Correções: Funcionalidade Usuário e Funcionalidade Time | [Sprint 3](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-3)
+|  04  | 07/11 a 27/11 | Visualizações/Dashboards e Finalização da API | [Sprint 4](https://github.com/pontopython/api-bd1/wiki/Backlog-da-Sprint-4)
 
 <span id="configurando">
 
