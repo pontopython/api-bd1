@@ -1,4 +1,4 @@
-from api.utils import blue_bright_print, bright_input, red_print
+from ..utils import blue_bright_print, bright_input, red_print, safe_int_input
 from .repository import delete_turma, get_turmas, get_turmas_from_user, search_turmas, create_turma, delete_turma, get_turmas_by, search_students, update_turmas
 from .prompt import prompt_turma_name
 from ..users.tui import search_and_select_instructor, search_and_select_common_user, list_common_users, list_instructors
@@ -53,7 +53,7 @@ def search_and_select_turma():
         print(f"{index+1} - {summary_turma(turma)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(turmas):
             return turmas[option - 1]
         print("Opção inválida.")
@@ -65,12 +65,15 @@ def select_turma_from_user(user):
     if len(turmas) == 0:
         print("Nenhuma turma encontrada.")
         return None
+    
+    if len(turmas) == 1:
+        return turmas[0]
 
     for index, turma in enumerate(turmas):
         print(f"{index+1} - {summary_turma(turma)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(turmas):
             return turmas[option - 1]
         print("Opção inválida.")
@@ -212,36 +215,37 @@ def search_and_select_student(turma):
         print(f"{index+1} - {summary_student(student)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(students):
             return students[option - 1]
         print("Opção inválida.")
 
 
 def admin_turmas_menu():
-    print("Menu Turmas (Administrador)")
-    print("1 - Listar")
-    print("2 - Novo")
-    print("3 - Buscar e Detalhar")
-    print("4 - Editar")
-    print("5 - Excluir")
-    print("6 - Voltar")
-    
     while True:
-        option = int(input("Opção: "))
-        if option >= 1 and option <= 6:
-            break
-        print("Opção inválida.")
-    
-    if option == 1:
-        list_turmas()
-    elif option == 2:
-        new_turma()
-    elif option == 3:
-        show_turma()
-    elif option == 4:
-        edit_turma()
-    elif option == 5:
-        remove_turma()
-    else:
-        return
+        print("Menu Turmas (Administrador)")
+        print("1 - Listar")
+        print("2 - Novo")
+        print("3 - Buscar e Detalhar")
+        print("4 - Editar")
+        print("5 - Excluir")
+        print("6 - Voltar")
+        
+        while True:
+            option = safe_int_input("Opção: ")
+            if option >= 1 and option <= 6:
+                break
+            print("Opção inválida.")
+        
+        if option == 1:
+            list_turmas()
+        elif option == 2:
+            new_turma()
+        elif option == 3:
+            show_turma()
+        elif option == 4:
+            edit_turma()
+        elif option == 5:
+            remove_turma()
+        else:
+            return

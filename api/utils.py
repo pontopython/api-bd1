@@ -1,5 +1,3 @@
-import os
-from uuid import uuid4
 import shortuuid
 
 from colorama import Fore, Style
@@ -43,21 +41,19 @@ def bright_print(message, *args, **kwargs):
 
 def bright_input(message, *args, **kwargs):
     return input(Style.BRIGHT + message + Style.RESET_ALL, *args, **kwargs)
-
-
-def create_empty_data_if_needed():
-    os.makedirs("data", exist_ok=True)
-    if not os.path.exists("data/user.txt"):
-        open("data/users.txt", "a").close()
-    if not os.path.exists("data/login.txt"):
-        open("data/login.txt", "a").close()
-    if not os.path.exists("data/teams.txt"):
-        open("data/teams.txt", "a").close()
-    if not os.path.exists("data/turmas.txt"):
-        open("data/turmas.txt", "a").close()
-
     
+
 def generate_id():
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     shortuuid.set_alphabet(alphabet)
     return shortuuid.random(length=6)
+
+
+def safe_int_input(prompt="", none_when_invalid=False):
+    try:
+        return int(input(prompt))
+    except ValueError:
+        if none_when_invalid:
+            return None
+        else:
+            return 0

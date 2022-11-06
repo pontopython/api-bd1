@@ -1,3 +1,4 @@
+from ..utils import safe_int_input
 from ..users.tui import search_and_select_instructor
 from ..turmas.tui import select_turma_from_user, search_and_select_turma
 from ..teams.tui import select_team_from_turma
@@ -54,7 +55,7 @@ def select_sprint_from_team(team):
         print(f"{index+1} - {summary_sprint(sprint)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(sprints):
             return sprints[option - 1]
         print("Opção inválida.")
@@ -90,7 +91,7 @@ def select_sprint_tui(team_id, closed=False):
     for index, sprint in enumerate(valid_sprints):
         print(f'     {index + 1}. {sprint["name"]} - {sprint["status"]}')
     
-    input_sprint = int(input("\nQual sprint deseja selecionar? "))
+    input_sprint = safe_int_input("\nQual sprint deseja selecionar? ")
 
     if input_sprint > 0 and input_sprint <= len(valid_sprints):
         sprint = valid_sprints[input_sprint - 1]
@@ -144,26 +145,28 @@ def admin_sprints_menu():
     if team is None:
         return
 
-    print("Menu Sprints (Administrador)")
-    print("1 - Listar")
-    print("2 - Abrir Nova")
-    print("3 - Fechar")
-    print("4 - Reabrir")
-    print("5 - Voltar")
-    
     while True:
-        option = int(input("Opção: "))
-        if option >= 1 and option <= 6:
-            break
-        print("Opção inválida.")
-    
-    if option == 1:
-        show_sprints_from_team(team)
-    elif option == 2:
-        open_sprint_for_team(team)
-    elif option == 3:
-        close_sprint_from_team(team)
-    elif option == 4:
-        reopen_sprint_from_team(team)
-    else:
-        return
+        print("Menu Sprints (Administrador)")
+        print(f"Time: {team['name']}")
+        print("1 - Listar")
+        print("2 - Abrir Nova")
+        print("3 - Fechar")
+        print("4 - Reabrir")
+        print("5 - Voltar")
+        
+        while True:
+            option = safe_int_input("Opção: ")
+            if option >= 1 and option <= 6:
+                break
+            print("Opção inválida.")
+        
+        if option == 1:
+            show_sprints_from_team(team)
+        elif option == 2:
+            open_sprint_for_team(team)
+        elif option == 3:
+            close_sprint_from_team(team)
+        elif option == 4:
+            reopen_sprint_from_team(team)
+        else:
+            return

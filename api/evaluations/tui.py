@@ -1,3 +1,4 @@
+from ..utils import safe_int_input
 from ..teams.tui import search_and_select_team, search_and_select_member
 from ..sprints.repository import get_opened_sprint_from_team
 from ..turmas.tui import search_and_select_turma
@@ -86,7 +87,7 @@ def select_evaluation(sprint):
         print(f"{index+1} - {summary_evaluation(evaluation)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(evaluations):
             return evaluations[option - 1]
         print("Opção inválida.")
@@ -163,39 +164,41 @@ def admin_evaluations_menu():
     sprint = select_sprint_from_team(team)
     if sprint is None:
         return
-
-    print("Menu Avaliações (Administrador)")
-    print("1 - Listar")
-    print("2 - Criar")
-    print("3 - Detalhar")
-    print("4 - Reavaliar")
-    print("5 - Estatísticas deste time nesta sprint")
-    print("6 - Estatísticas deste time em todas as sprints")
-    print("7 - Estatísticas de um membro nesta sprint")
-    print("8 - Estatísticas de um membro em todas as sprints")
-    print("9 - Voltar")
-
+    
     while True:
-        option = int(input("Opção: "))
-        if option >= 1 and option <= 9:
-            break
-        print("Opção inválida.")
+        print("Menu Avaliações (Administrador)")
+        print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
+        print("1 - Listar")
+        print("2 - Criar")
+        print("3 - Detalhar")
+        print("4 - Reavaliar")
+        print("5 - Estatísticas deste time nesta sprint")
+        print("6 - Estatísticas deste time em todas as sprints")
+        print("7 - Estatísticas de um membro nesta sprint")
+        print("8 - Estatísticas de um membro em todas as sprints")
+        print("9 - Voltar")
 
-    if option == 1:
-        admin_list_evaluations(sprint)
-    elif option == 2:
-        admin_create_evaluation(sprint)
-    elif option == 3:
-        admin_detail_evaluation(sprint)
-    elif option == 4:
-        admin_reevaluate(sprint)
-    elif option == 5:
-        admin_detail_team_statistics_in_one_sprint(sprint)
-    elif option == 6:
-        admin_detail_team_statistics_in_all_sprints(team)
-    elif option == 7:
-        admin_detail_member_statistics_in_one_sprint(sprint)
-    elif option == 8:
-        admin_detail_member_statistics_in_all_sprints(team)
-    else:
-        return
+        while True:
+            option = safe_int_input("Opção: ")
+            if option >= 1 and option <= 9:
+                break
+            print("Opção inválida.")
+
+        if option == 1:
+            admin_list_evaluations(sprint)
+        elif option == 2:
+            admin_create_evaluation(sprint)
+        elif option == 3:
+            admin_detail_evaluation(sprint)
+        elif option == 4:
+            admin_reevaluate(sprint)
+        elif option == 5:
+            admin_detail_team_statistics_in_one_sprint(sprint)
+        elif option == 6:
+            admin_detail_team_statistics_in_all_sprints(team)
+        elif option == 7:
+            admin_detail_member_statistics_in_one_sprint(sprint)
+        elif option == 8:
+            admin_detail_member_statistics_in_all_sprints(team)
+        else:
+            return

@@ -17,6 +17,17 @@ def update_users():
 def get_users():
     if len(_users) == 0:
         reload_users()
+    
+    if len(_users) == 0:
+        _users.append({
+            "id": generate_id(),
+            "name": "Super Admin",
+            "email": "admin@admin.com",
+            "password": "Abcd1234*",
+            "type": "ADMIN"
+        })
+        update_users()
+
     return _users
 
 def get_common_users():
@@ -79,8 +90,10 @@ def get_users_by(field, value):
             users.append(user)
     return users
 
+
 def get_user_by_email(email):
     return get_first_user_by("email", email)
+
 
 def search_users_by(field, value):
     users = []

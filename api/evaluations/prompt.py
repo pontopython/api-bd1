@@ -1,4 +1,6 @@
+from ..utils import safe_int_input
 from .common import QUESTIONS, ALTERNATIVES
+
 
 def prompt_evaluation_form():
     grades = {}
@@ -7,9 +9,9 @@ def prompt_evaluation_form():
         print("Escolha entre as opções")
         for grade, alternative in enumerate(ALTERNATIVES):
             print(f"[{grade}] - {alternative}")
-        answer = int(input("\nOpção: "))
-        while answer < 0 or answer >= len(ALTERNATIVES):
+        answer = safe_int_input("Opção: ", none_when_invalid=True)
+        while answer is None or answer < 0 or answer >= len(ALTERNATIVES):
             print("Opção inválida! Tente novamente.")
-            answer = int(input("Opção: "))
+            answer = safe_int_input("Opção: ", none_when_invalid=True)
         grades[question] = answer
     return grades

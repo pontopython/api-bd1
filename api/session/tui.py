@@ -7,6 +7,20 @@ from ..teams.repository import get_team_from_turma_and_student
 
 from .current import get_session, update_session
 
+def summary_session(session):
+    user_name = session["user"]["name"]
+
+    if session["turma"] is None:
+        turma_name = "-"
+    else:
+        turma_name = session["turma"]["name"]
+
+    if session["team"] is None:
+        team_name = "-"
+    else:
+        team_name = session["team"]["name"]
+
+    return f"{user_name} (Turma: {turma_name}, Time: {team_name})"
 
 def login():
     email = prompt_user_email()

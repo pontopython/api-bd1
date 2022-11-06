@@ -1,4 +1,4 @@
-from api.utils import blue_bright_print, bright_input
+from ..utils import safe_int_input
 from ..users.tui import search_and_select_user
 
 from ..turmas.tui import search_and_select_turma, search_and_select_student
@@ -40,7 +40,7 @@ def search_and_select_member(team):
         print(f"{index+1} - {summary_member(member)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(members):
             return members[option - 1]
         print("Opção inválida.")
@@ -56,7 +56,7 @@ def select_member(team):
         print(f"{index+1} - {summary_member(member)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(members):
             return members[option - 1]
         print("Opção inválida.")
@@ -74,7 +74,7 @@ def select_member_or_instructor(team):
         print(f"{index+3} - {summary_member(member)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(members) + 2:
             if option == 1:
                 return group_leader
@@ -149,7 +149,7 @@ def search_and_select_team():
         print(f"{index+1} - {summary_team(team)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(teams):
             return teams[option - 1]
         print("Opção inválida.")
@@ -166,7 +166,7 @@ def select_team_from_turma(turma):
         print(f"{index+1} - {summary_team(team)}")
 
     while True:
-        option = int(input("Opção: "))
+        option = safe_int_input("Opção: ")
         if option > 0 and option <= len(teams):
             return teams[option - 1]
         print("Opção inválida.")
@@ -239,29 +239,30 @@ def remove_team():
 
 
 def admin_teams_menu():
-    print("Menu Times (Administrador)")
-    print("1 - Listar")
-    print("2 - Novo")
-    print("3 - Buscar e Detalhar")
-    print("4 - Editar")
-    print("5 - Excluir")
-    print("6 - Voltar")
-
     while True:
-        option = int(input("Opção: "))
-        if option >= 1 and option <= 6:
-            break
-        print("Opção inválida.")
+        print("Menu Times (Administrador)")
+        print("1 - Listar")
+        print("2 - Novo")
+        print("3 - Buscar e Detalhar")
+        print("4 - Editar")
+        print("5 - Excluir")
+        print("6 - Voltar")
 
-    if option == 1:
-        list_teams()
-    elif option == 2:
-        new_team()
-    elif option == 3:
-        show_team()
-    elif option == 4:
-        edit_team()
-    elif option == 5:
-        remove_team()
-    else:
-        return
+        while True:
+            option = safe_int_input("Opção: ")
+            if option >= 1 and option <= 6:
+                break
+            print("Opção inválida.")
+
+        if option == 1:
+            list_teams()
+        elif option == 2:
+            new_team()
+        elif option == 3:
+            show_team()
+        elif option == 4:
+            edit_team()
+        elif option == 5:
+            remove_team()
+        else:
+            return
