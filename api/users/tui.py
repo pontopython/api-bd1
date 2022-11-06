@@ -135,12 +135,11 @@ def instructor_create_a_new_common_user():
     create_user(name, email, password, "COMUM")
 
 
-def edit_user():
-    print("Editar usuário")
-    user = search_and_select_user()
-
+def edit_user(user):
     if user is None:
         return
+
+    print("Editar usuário")
 
     print(f"Nome: {user['name']}")
     should_update = input("Deseja alterar (S/N)? ")
@@ -156,6 +155,13 @@ def edit_user():
     should_update = input("Deseja alterar (S/N)? ")
     if should_update == "S" or should_update == "s":
         user["password"] = prompt_user_password()
+
+    update_users()
+
+
+def admin_edit_user():
+    user = search_and_select_user()
+    edit_user(user)
 
     type_description = USER_TYPES[user["type"]]
     print(f"Tipo: {type_description}")
@@ -198,7 +204,7 @@ def admin_users_menu():
         elif option == 3:
             show_user()
         elif option == 4:
-            edit_user()
+            admin_edit_user()
         elif option == 5:
             remove_user()
         else:

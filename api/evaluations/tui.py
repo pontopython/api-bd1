@@ -51,9 +51,6 @@ def admin_list_evaluations(sprint):
 def admin_create_evaluation(sprint):
     team = sprint["team"]
 
-    group_leader = team["turma"]["group_leader"]
-    fake_client = team["turma"]["fake_client"]
-
     print("Avaliador:")
     evaluator = select_member_or_instructor(team)
 
@@ -65,15 +62,20 @@ def admin_create_evaluation(sprint):
     create_evaluation(sprint, evaluator, evaluated, grades)
 
 
-def member_evaluate(sprint, evaluator, evaluated):
+def common_user_evaluate_member(user, sprint):
+    team = sprint["team"]
+
+    print("Avaliado:")
+    evaluated = select_member(team)
+
     grades = prompt_evaluation_form()
-    create_evaluation(sprint, evaluator, evaluated, grades)
+
+    create_evaluation(sprint, user, evaluated, grades)
 
 
-def current_user_evaluates():
-    # TODO: Criar método equivalente ao de cima mas com as devidas restrições
-    # para o usuário logado.
-    pass
+def self_evaluation(user, sprint):
+    grades = prompt_evaluation_form()
+    create_evaluation(sprint, user, user, grades)
 
 
 def select_evaluation(sprint):
@@ -136,17 +138,22 @@ def admin_detail_team_statistics_in_all_sprints(team):
     evaluations = get_all_evaluations_from_team(team)
     show_statistics(evaluations)
 
+def show_user_statistics_in_one_sprint(user, sprint):
+    evaluations = get_all_evaluations_from_sprint_and_member(sprint, user)
+    show_statistics(evaluations)
 
 def admin_detail_member_statistics_in_one_sprint(sprint):
     member = select_member(sprint["team"])
-    evaluations = get_all_evaluations_from_sprint_and_member(sprint, member)
-    show_statistics(evaluations)
+    show_user_statistics_in_one_sprint(member, sprint)
 
+
+def show_member_statistics_in_all_sprints(user, team):
+    evaluations = get_all_evaluations_from_team_member(team, user)
+    show_statistics(evaluations)
 
 def admin_detail_member_statistics_in_all_sprints(team):
     member = select_member(team)
-    evaluations = get_all_evaluations_from_team_member(team, member)
-    show_statistics(evaluations)
+    show_member_statistics_in_all_sprints(member, team)
 
 
 def admin_evaluations_menu():
@@ -202,3 +209,45 @@ def admin_evaluations_menu():
             admin_detail_member_statistics_in_all_sprints(team)
         else:
             return
+
+
+def common_user_evaluations_menu(team, user):
+    if team is None or user is None:
+        return
+
+    sprint = get_opened_sprint_from_team(team)
+    if sprint is None:
+        return
+    
+    while True:
+        print("Menu Avaliações (Usuário Comum)")
+        print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
+        print("1 - Avaliar Membro")
+        print("2 - Autoavaliação")
+        print("3 - Estatísticas deste time nesta sprint")
+        print("4 - Estatísticas deste time em todas as sprints")
+        print("5 - Minhas estatísticas nesta sprint")
+        print("6 - Minhas estatísticas em todas as sprints")
+        print("7 - Voltar")
+
+        while True:
+            option = safe_int_input("Opção: ")
+            if option >= 1 and option <= 9:
+                break
+            print("Opção inválida.")
+
+        if option == 1:
+            common_user_evaluate_member(user, sprint)
+        elif option == 2:
+            self_evaluation(user, sprint)
+        elif option == 3:
+            admin_detail_team_statistics_in_one_sprint(sprint)
+        elif option == 4:
+            admin_detail_team_statistics_in_all_sprints(team)
+        elif option == 5:
+            show_user_statistics_in_one_sprint(user, sprint)
+        elif option == 6:
+            show_member_statistics_in_all_sprints(user, sprint)
+        else:
+            return
+
