@@ -24,10 +24,15 @@ def get_turmas():
     return _turmas
 
 
-def get_turmas_from_group_leader(group_leader):
+def get_turmas_from_user(user):
     turmas = []
     for turma in get_turmas():
-        if turma["group_leader"]["id"] == group_leader["id"]:
+        students_ids = [student["id"] for student in turma["students"]]
+        if (
+            turma["group_leader"]["id"] == user["id"]
+            or turma["fake_client"]["id"] == user["id"]
+            or user["id"] in students_ids
+        ):
             turmas.append(turma)
     return turmas
 

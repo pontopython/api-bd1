@@ -79,6 +79,8 @@ def get_users_by(field, value):
             users.append(user)
     return users
 
+def get_user_by_email(email):
+    return get_first_user_by("email", email)
 
 def search_users_by(field, value):
     users = []

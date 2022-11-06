@@ -1,5 +1,5 @@
 from ..users.tui import search_and_select_instructor
-from ..turmas.tui import select_turma_from_group_leader, search_and_select_turma
+from ..turmas.tui import select_turma_from_user, search_and_select_turma
 from ..teams.tui import select_team_from_turma
 from .repository import get_all_sprints_from_team, create_sprint, update_sprints, search_sprint_by, update_sprint, get_opened_sprint_from_team
 
@@ -122,7 +122,7 @@ def create_sprint_tui():
     print("Selecione o líder de grupo: ")
     instructor = search_and_select_instructor()
 
-    turma = select_turma_from_group_leader(instructor)
+    turma = select_turma_from_user(instructor)
     if turma is None:
         return
     

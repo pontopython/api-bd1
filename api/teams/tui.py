@@ -132,6 +132,7 @@ def list_teams():
     for team in get_teams():
         print(summary_team(team))
 
+
 def list_members():
     team = search_and_select_team()
     show_members(team)
@@ -170,6 +171,7 @@ def select_team_from_turma(turma):
             return teams[option - 1]
         print("Opção inválida.")
 
+
 def show_team():
     team = search_and_select_team()
     if team is None:
@@ -180,19 +182,19 @@ def show_team():
 
 def new_team():
     print("Novo Time")
-    
+
     print("Selecione a turma:")
     turma = search_and_select_turma()
 
     if turma is None:
         return
-    
+
     name = input("Nome: ")
-    
+
     print("Selecione um Líder Técnico")
     tech_leader = search_and_select_student(turma)
     tech_leader["category"] = "LIDER"
-    
+
     print("Selecione um Product Owner")
     product_owner = search_and_select_student(turma)
     product_owner["category"] = "PRODU"
@@ -217,7 +219,7 @@ def edit_team():
     should_update = input("Deseja alterar (S/N)? ")
     if should_update == "S" or should_update == "s":
         team["name"] = input("Novo nome: ")
-    
+
     show_members(team)
     add_members(team, team["turma"])
 
@@ -236,7 +238,6 @@ def remove_team():
     delete_team(team)
 
 
-
 def admin_teams_menu():
     print("Menu Times (Administrador)")
     print("1 - Listar")
@@ -245,13 +246,13 @@ def admin_teams_menu():
     print("4 - Editar")
     print("5 - Excluir")
     print("6 - Voltar")
-    
+
     while True:
         option = int(input("Opção: "))
         if option >= 1 and option <= 6:
             break
         print("Opção inválida.")
-    
+
     if option == 1:
         list_teams()
     elif option == 2:

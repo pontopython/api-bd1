@@ -10,7 +10,7 @@ _teams = []
 
 
 def reload_teams():
-    global _teams 
+    global _teams
     _teams = read_teams()
 
 
@@ -20,7 +20,7 @@ def update_teams():
 
 def get_teams():
     if len(_teams) == 0:
-        reload_teams()    
+        reload_teams()
     return _teams
 
 
@@ -38,6 +38,14 @@ def get_teams_from_turma(turma):
             teams.append(team)
     return teams
 
+
+def get_team_from_turma_and_student(turma, student):
+    students_ids = [student["id"] for student in turma["students"]]
+
+    for team in get_teams():
+        if team["turma"]["id"] == turma["id"] and student["id"] in students_ids:
+            return team
+    return None
 
 def create_team(name, turma, members):
     id = generate_id()

@@ -1,5 +1,5 @@
 from api.utils import blue_bright_print, bright_input, red_print
-from .repository import delete_turma, get_turmas, get_turmas_from_group_leader, search_turmas, create_turma, delete_turma, get_turmas_by, search_students, update_turmas
+from .repository import delete_turma, get_turmas, get_turmas_from_user, search_turmas, create_turma, delete_turma, get_turmas_by, search_students, update_turmas
 from .prompt import prompt_turma_name
 from ..users.tui import search_and_select_instructor, search_and_select_common_user, list_common_users, list_instructors
 
@@ -59,8 +59,8 @@ def search_and_select_turma():
         print("Opção inválida.")
 
 
-def select_turma_from_group_leader(group_leader):
-    turmas = get_turmas_from_group_leader(group_leader)
+def select_turma_from_user(user):
+    turmas = get_turmas_from_user(user)
 
     if len(turmas) == 0:
         print("Nenhuma turma encontrada.")
