@@ -1,4 +1,4 @@
-import email
+from ..utils import safe_int_input
 from .common import USER_TYPES
 from .validation import validate_user_email, validate_user_name, validate_user_password
 import stdiomask
@@ -51,7 +51,7 @@ def prompt_user_type(prompt="Qual tipo de usuário?"):
         print("1 - Administrador")
         print("2 - Instrutor")
         print("3 - Usuário Comum")
-        option = int(input())
+        option = safe_int_input("Opção: ")
 
         if option in [1, 2, 3]:
             return list(USER_TYPES.keys())[option - 1]

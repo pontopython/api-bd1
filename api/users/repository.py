@@ -17,8 +17,25 @@ def update_users():
 def get_users():
     if len(_users) == 0:
         reload_users()
+    
+    if len(_users) == 0:
+        _users.append({
+            "id": generate_id(),
+            "name": "Super Admin",
+            "email": "admin@admin.com",
+            "password": "Abcd1234*",
+            "type": "ADMIN"
+        })
+        update_users()
+
     return _users
 
+def get_common_users():
+    common = []
+    for user in get_users():
+        if user["type"] == "COMUM":
+            common.append(user)
+    return common
 
 def get_instructors():
     instructors = []
@@ -74,6 +91,10 @@ def get_users_by(field, value):
     return users
 
 
+def get_user_by_email(email):
+    return get_first_user_by("email", email)
+
+
 def search_users_by(field, value):
     users = []
     for user in get_users():
@@ -84,7 +105,7 @@ def search_users_by(field, value):
 
 def _search_users(search_term, users):
     search_term = search_term.lower()
-    users = []
+    users_found = []
     for user in users:
         if (
             search_term in user["id"].lower()
@@ -93,13 +114,15 @@ def _search_users(search_term, users):
             or search_term in user["type"].lower()
             or search_term in USER_TYPES[user["type"]].lower()
         ):
-            users.append(user)
-    return users
+            users_found.append(user)
+    return users_found
 
 
 def search_users(search_term):
     return _search_users(search_term, get_users())
 
+def search_common_users(search_term):
+    return _search_users(search_term, get_common_users())
 
 def search_instructors(search_term):
     return _search_users(search_term, get_instructors())

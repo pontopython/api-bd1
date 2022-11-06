@@ -15,6 +15,7 @@ def validate_user_name(name):
 
     return valid, errors
 
+
 def validate_user_email(email):
     valid = True
     errors = []
@@ -23,9 +24,9 @@ def validate_user_email(email):
         valid = False
         errors.append("O nome deve conter mais de 2 caracteres.")
 
-    if not re.match("^[A-zÀ-ú ]+$", email):
+    if not re.match("^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$", email):
         valid = False
-        errors.append("O nome contém caracteres inválidos.")
+        errors.append("Digite um email válido.")
 
     return valid, errors
 
@@ -37,7 +38,6 @@ def validate_user_password(password):
     if len(password) < 8:
         valid = False
         errors.append("A senha deve conter mais de 8 caracteres.")
-
 
     if not re.search("[A-Z]", password):
         valid = False

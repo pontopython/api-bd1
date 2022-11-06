@@ -1,7 +1,10 @@
 from ..utils import generate_id
+from ..users.repository import _search_users
+
 from .common import create_turma_dict
 from .persistence import read_turmas, write_turmas
 from ..users.repository import _search_users
+
 
 _turmas = []
 
@@ -21,7 +24,20 @@ def get_turmas():
     return _turmas
 
 
-def create_turma(name, group_leader, fake_client, students, teams):
+def get_turmas_from_user(user):
+    turmas = []
+    for turma in get_turmas():
+        students_ids = [student["id"] for student in turma["students"]]
+        if (
+            turma["group_leader"]["id"] == user["id"]
+            or turma["fake_client"]["id"] == user["id"]
+            or user["id"] in students_ids
+        ):
+            turmas.append(turma)
+    return turmas
+
+
+def create_turma(name, group_leader, fake_client, students):
     id = generate_id()
     user = create_turma_dict(
         id,
@@ -29,7 +45,6 @@ def create_turma(name, group_leader, fake_client, students, teams):
         group_leader,
         fake_client,
         students,
-        teams
     )
     get_turmas().append(user)
     update_turmas()
@@ -82,6 +97,7 @@ def search_turmas(search_term):
         ):
             turmas.append(turma)
     return turmas
+
 
 def search_students(search_term, turma):
     return _search_users(search_term, turma["students"])
