@@ -1,9 +1,9 @@
 from ..utils import safe_int_input
 from ..teams.tui import search_and_select_team, search_and_select_member
-from ..sprints.repository import get_opened_sprint_from_team
+from ..sprints.repository import get_opened_sprint_from_group
 from ..turmas.tui import search_and_select_turma
 from ..teams.tui import select_team_from_turma, select_member, select_member_or_instructor
-from ..sprints.tui import select_sprint_from_team
+from ..sprints.tui import select_sprint_from_group
 
 from .repository import (
     create_evaluation,
@@ -168,7 +168,7 @@ def admin_evaluations_menu():
         return
 
     print("Selecione a sprint")
-    sprint = select_sprint_from_team(team)
+    sprint = select_sprint_from_group(turma)
     if sprint is None:
         return
     
@@ -215,7 +215,7 @@ def common_user_evaluations_menu(team, user):
     if team is None or user is None:
         return
 
-    sprint = get_opened_sprint_from_team(team)
+    sprint = get_opened_sprint_from_group(team['turma'])
     if sprint is None:
         return
     
