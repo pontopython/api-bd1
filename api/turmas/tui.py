@@ -228,7 +228,7 @@ def menu_list_turmas(user):
         print("Nenhuma turma encontrada.")
     
     for index, turma in enumerate(turmas):
-        print(f"{index+1} - {summary_turma(turma)}")
+        print(f"{index+1} - {turma['name']}")
 
 
 def admin_turmas_menu():
