@@ -221,7 +221,7 @@ def search_and_select_student(turma):
         print("Opção inválida.")
 
 
-def common_list_turmas(user):
+def menu_list_turmas(user):
     turmas = get_turmas_from_user(user)
 
     if len(turmas) == 0:
