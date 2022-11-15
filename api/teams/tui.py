@@ -118,6 +118,31 @@ def select_member_or_instructor(team):
                 return members[option - 3]
         print("Opção inválida.")
 
+def modify_PO(team): 
+    modify_PO = input("Deseja mudar o Product Owner (S/N)? ")
+    if modify_PO == "S" or modify_PO == "s":
+        print("\nSelecione o antigo PO para se tornar Membro comum:")
+        old_PO = select_member(team)
+        if old_PO["category"] == "PRODU":
+            old_PO["category"] = "COMUM"
+            print("\nSelecione o Novo PO:")
+            new_PO = select_member(team)
+            new_PO["category"] = "PRODU"
+    else:
+        None
+
+def modify_LT(team): 
+    modify_LT = input("Deseja mudar o Líder Técnico (S/N)? ")
+    if modify_LT == "S" or modify_LT == "s":
+        print("\nSelecione o antigo LT para se tornar Membro comum:")
+        old_LT = select_member(team)
+        if old_LT["category"] == "LIDER":
+            old_LT["category"] = "COMUM"
+            print("\nSelecione o Novo PO:")
+            new_LT = select_member(team)
+            new_LT["category"] = "LIDER"
+    else:
+        None
 
 def add_members(team, turma):
     while True:
@@ -141,7 +166,10 @@ def remove_members(team):
             member_to_remove = search_and_select_member(team)
             if member_to_remove is None:
                 continue
-            team["members"].remove(member_to_remove)
+            elif member_to_remove["category"] == "PRODU" or member_to_remove["category"] == "LIDER":
+                print("Não é possível remover o PO do time ou Líder Técnico do time.")
+            else:
+                team["members"].remove(member_to_remove)
         else:
             break
 
@@ -257,7 +285,9 @@ def edit_team():
     show_members(team)
     add_members(team, team["turma"])
 
-    show_members(team)
+    modify_LT(team)
+    modify_PO(team)
+
     remove_members(team)
 
     update_teams()
@@ -300,3 +330,4 @@ def admin_and_LG_teams_menu():
             remove_team()
         else:
             return
+
