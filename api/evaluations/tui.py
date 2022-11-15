@@ -234,7 +234,7 @@ def common_user_evaluations_menu(team, user):
         return
     
     while True:
-        print("Menu Avaliações (Usuário Comum)")
+        print("Menu Avaliações ")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
         print("1 - Avaliar Membro")
         print("2 - Autoavaliação")
@@ -275,7 +275,7 @@ def LG_user_evaluations_menu(team, user):
         return
     
     while True:
-        print("Menu Avaliações (Usuário Comum)")
+        print("Menu Avaliações ")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
         print("1 - Avaliar Líder Técnico")
         print("2 - Estatísticas deste time nesta sprint")
@@ -307,7 +307,7 @@ def FC_user_evaluations_menu(team, user):
         return
     
     while True:
-        print("Menu Avaliações (Usuário Comum)")
+        print("Menu Avaliações")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
         print("1 - Avaliar Product Owner")
         print("2 - Estatísticas deste time nesta sprint")

@@ -272,9 +272,9 @@ def remove_team():
     delete_team(team)
 
 
-def admin_teams_menu():
+def admin_and_LG_teams_menu():
     while True:
-        print("Menu Times (Administrador)")
+        print("Menu Times ")
         print("1 - Listar")
         print("2 - Novo")
         print("3 - Buscar e Detalhar")

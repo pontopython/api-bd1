@@ -209,3 +209,26 @@ def admin_users_menu():
             remove_user()
         else:
             return
+
+def LG_users_menu():
+    while True:
+        print("Menu Usuários ")
+        print("1 - Listar")
+        print("2 - Novo")
+        print("3 - Buscar e Detalhar")
+        print("4 - Voltar")
+
+        while True:
+            option = safe_int_input("Opção: ")
+            if option >= 1 and option <= 6:
+                break
+            print("Opção inválida.")
+
+        if option == 1:
+            list_users()
+        elif option == 2:
+            instructor_create_a_new_common_user()
+        elif option == 3:
+            show_user()
+        else:
+            return

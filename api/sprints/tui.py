@@ -84,7 +84,7 @@ def reopen_sprint_from_group(group):
     update_sprints()    
 
 
-def admin_sprints_menu():
+def admin_and_LG_sprints_menu():
     print("Selecione a Turma")
     turma = search_and_select_turma()
     if turma is None:
