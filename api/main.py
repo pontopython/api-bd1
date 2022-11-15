@@ -1,5 +1,5 @@
 from .teams.tui import admin_and_LG_teams_menu
-from .turmas.tui import admin_turmas_menu
+from .turmas.tui import admin_turmas_menu, common_list_turmas
 from .users.tui import admin_users_menu, LG_users_menu
 from .sprints.tui import admin_and_LG_sprints_menu
 from .evaluations.tui import admin_evaluations_menu, common_user_evaluations_menu, LG_user_evaluations_menu, FC_user_evaluations_menu
@@ -65,7 +65,7 @@ def group_leader_menu():
     if option == 1:
         my_profile_menu()
     elif option == 2:
-        print("Not yet") #mudar
+        common_list_turmas(session["user"])
     elif option == 3:
         LG_users_menu()
     elif option == 4:
@@ -103,7 +103,7 @@ def common_user_menu():
     if option == 1:
         my_profile_menu()
     elif option == 2:
-        print("Not yet") # trocar
+        common_list_turmas(session["user"])
     elif option == 3:
         print("Not yet") # trocar
     elif option == 4:
@@ -137,7 +137,7 @@ def fake_client_menu():
     if option == 1:
         my_profile_menu()
     elif option == 2:
-        print("Not yet") # trocar
+        common_list_turmas(session["user"])
     elif option == 3:
         print("Not yet") # trocar
     elif option == 4:
