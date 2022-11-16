@@ -62,6 +62,40 @@ def select_member(team):
         print("Opção inválida.")
 
 
+def select_LT_member(team):
+    members = team["members"]
+    valid_members = [member for member in members if member['category'] == "LIDER"]
+    
+    if len(valid_members) == 0:
+        return None
+
+    for index, member in enumerate(valid_members):
+        print(f"{index+1} - {summary_member(member)}")
+
+    while True:
+        option = safe_int_input("Opção: ")
+        if option > 0 and option <= len(valid_members):
+            return valid_members[option - 1]
+        print("Opção inválida.")
+
+
+def select_PO_member(team):
+    members = team["members"]
+    valid_members = [member for member in members if member['category'] == "PRODU"]
+    
+    if len(valid_members) == 0:
+        return None
+
+    for index, member in enumerate(valid_members):
+        print(f"{index+1} - {summary_member(member)}")
+
+    while True:
+        option = safe_int_input("Opção: ")
+        if option > 0 and option <= len(valid_members):
+            return valid_members[option - 1]
+        print("Opção inválida.")
+
+
 def select_member_or_instructor(team):
     group_leader = team["turma"]["group_leader"]
     fake_client = team["turma"]["fake_client"]
