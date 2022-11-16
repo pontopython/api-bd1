@@ -34,15 +34,6 @@ def get_sprints():
         reload_sprints()
     return SPRINTS
 
-
-def get_all_sprints_from_team(team):
-    sprints = []
-    for sprint in get_sprints():
-        if team["id"] == sprint["team"]["id"]:
-            sprints.append(sprint)
-    return sprints
-
-
 def get_sprint_by_id(id):
     for sprint in get_sprints():
         if sprint["id"] == id:
@@ -50,11 +41,18 @@ def get_sprint_by_id(id):
     return None
 
 
-def get_opened_sprint_from_team(team):
+def get_all_sprints_from_group(group):
+    sprints = []
+    for sprint in get_sprints():
+        if group["id"] == sprint["group"]["id"]:
+            sprints.append(sprint)
+    return sprints
+
+def get_opened_sprint_from_group(group):
     opened_sprints = [
         sprint
         for sprint in get_sprints()
-        if sprint['status'] == 'aberta' and sprint["team"]["id"] == team["id"]
+        if sprint['status'] == 'aberta' and sprint["group"]["id"] == group["id"]
     ]
 
     if len(opened_sprints) > 0:
@@ -63,9 +61,9 @@ def get_opened_sprint_from_team(team):
     return None
 
 
-def create_sprint(team, sprint_name, status='aberta'):
+def create_sprint(group, sprint_name, status='aberta'):
     id = generate_id()
-    sprint = create_sprint_dict(id, team, sprint_name, status)
+    sprint = create_sprint_dict(id, group, sprint_name, status)
     get_sprints().append(sprint)
     update_sprints()
     return sprint

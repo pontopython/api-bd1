@@ -1,7 +1,7 @@
 import os
 import json
 
-from ..teams.repository import get_team_by_id
+from api.turmas.repository import get_turma_by_id
 from .common import create_sprint_dict
 
 SPRINTS_FILE = "data/sprints.json"
@@ -15,7 +15,8 @@ if not os.path.exists(SPRINTS_FILE):
 # dict layout
 # {
 #   "id": id da sprint
-#   "team_id": id do time dono dessas sprints
+#   "group": id da turma dona dessas sprints
+#   "name": nome da sprint
 #   "status": aberta/fechada
 # }
 
@@ -24,7 +25,7 @@ def write_sprints(sprints):
     file.write(json.dumps([
         {
             "id": sprint["id"],
-            "team_id": sprint["team"]["id"],
+            "group_id": sprint["group"]["id"],
             "name": sprint["name"],
             "status": sprint["status"]
         }
@@ -40,7 +41,7 @@ def read_sprints():
     sprints = [
         create_sprint_dict(
             sprint["id"],
-            get_team_by_id(sprint["team_id"]),
+            get_turma_by_id(sprint["group_id"]),
             sprint["name"],
             sprint["status"]
         )
