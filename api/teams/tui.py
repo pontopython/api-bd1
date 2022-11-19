@@ -144,7 +144,7 @@ def add_members(team, turma):
         should_add = input("Deseja adicionar mais um membro (S/N)? ")
         if should_add == "S" or should_add == "s":
             print("Selecione um Membro")
-            new_member = search_and_select_student(turma)
+            new_member = search_and_select_student(turma, excludes=team["members"])
             if new_member is None:
                 continue
             new_member["category"] = "COMUM"
@@ -253,7 +253,7 @@ def new_team():
     tech_leader["category"] = "LIDER"
 
     print("Selecione um Product Owner")
-    product_owner = search_and_select_student(turma)
+    product_owner = search_and_select_student(turma, excludes=[tech_leader])
     product_owner["category"] = "PRODU"
 
     members = [tech_leader, product_owner]

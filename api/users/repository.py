@@ -17,7 +17,7 @@ def update_users():
 def get_users():
     if len(_users) == 0:
         reload_users()
-    
+
     if len(_users) == 0:
         _users.append({
             "id": generate_id(),
@@ -103,7 +103,8 @@ def search_users_by(field, value):
     return users
 
 
-def _search_users(search_term, users):
+def _search_users(search_term, users, excludes=[]):
+    excluded_ids = [user["id"] for user in excludes]
     search_term = search_term.lower()
     users_found = []
     for user in users:
@@ -113,16 +114,16 @@ def _search_users(search_term, users):
             or search_term in user["email"].lower()
             or search_term in user["type"].lower()
             or search_term in USER_TYPES[user["type"]].lower()
-        ):
+        ) and user["id"] not in excluded_ids:
             users_found.append(user)
     return users_found
 
 
-def search_users(search_term):
-    return _search_users(search_term, get_users())
+def search_users(search_term, excludes=[]):
+    return _search_users(search_term, get_users(), excludes)
 
-def search_common_users(search_term):
-    return _search_users(search_term, get_common_users())
+def search_common_users(search_term, excludes=[]):
+    return _search_users(search_term, get_common_users(), excludes)
 
-def search_instructors(search_term):
-    return _search_users(search_term, get_instructors())
+def search_instructors(search_term, excludes=[]):
+    return _search_users(search_term, get_instructors(), excludes)

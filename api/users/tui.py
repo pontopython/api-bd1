@@ -71,9 +71,9 @@ def search_and_select_user():
             return users[option - 1]
         print("Opção inválida.")
 
-def search_and_select_common_user():
+def search_and_select_common_user(excludes=[]):
     search_term = input("Procurar: ")
-    users = search_common_users(search_term)
+    users = search_common_users(search_term, excludes)
 
     if len(users) == 0:
         print("Nenhum usuário encontrado.")
@@ -90,9 +90,9 @@ def search_and_select_common_user():
         print("Opção inválida.")
 
 
-def search_and_select_instructor():
+def search_and_select_instructor(excludes=[]):
     search_term = input("Procurar Instrutor: ")
-    users = search_instructors(search_term)
+    users = search_instructors(search_term, excludes)
 
     if len(users) == 0:
         print("Nenhum instrutor encontrado.")
@@ -190,13 +190,13 @@ def admin_users_menu():
         print("4 - Editar")
         print("5 - Excluir")
         print("6 - Voltar")
-        
+
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 6:
                 break
             print("Opção inválida.")
-        
+
         if option == 1:
             list_users()
         elif option == 2:
