@@ -266,8 +266,12 @@ def common_user_evaluations_menu(team, user):
             return
 
 
-def LG_user_evaluations_menu(turma, user):
-    
+def LG_user_evaluations_menu(user):
+    print("Selecione a Turma")
+    turma = search_and_select_turma()
+    if turma is None:
+        return
+
     print("Selecione o Time")
     team = select_team_from_turma(turma)
     if team is None:

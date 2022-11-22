@@ -73,7 +73,7 @@ def group_leader_menu():
     elif option == 5:
         admin_and_LG_sprints_menu()
     elif option == 6:
-        LG_user_evaluations_menu(session["user"], session["turma"])
+        LG_user_evaluations_menu(session["user"])
     elif option == 97:
         logout()
     elif option == 98:
@@ -91,8 +91,7 @@ def common_user_menu():
     print("""                 
     1 - Meu Perfil   
     2 - Minhas Turmas
-    3 - Meu Time
-    4 - Avaliações                     
+    3 - Avaliações                     
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -105,8 +104,6 @@ def common_user_menu():
     elif option == 2:
         menu_list_turmas(session["user"])
     elif option == 3:
-        print("Not yet") # trocar
-    elif option == 4:
         common_user_evaluations_menu(session["team"], session["user"])
     elif option == 97:
         logout()
@@ -125,8 +122,7 @@ def fake_client_menu():
     print("""                 
     1 - Meu Perfil   
     2 - Minhas Turmas
-    3 - Meu Time
-    4 - Avaliações                     
+    3 - Avaliações                     
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -139,8 +135,6 @@ def fake_client_menu():
     elif option == 2:
         menu_list_turmas(session["user"])
     elif option == 3:
-        print("Not yet") # trocar
-    elif option == 4:
         FC_user_evaluations_menu(session["user"], session["turma"])
     elif option == 97:
         logout()
