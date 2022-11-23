@@ -223,6 +223,16 @@ def search_and_select_student(turma, excludes=[]):
         print("Opção inválida.")
 
 
+def menu_list_turmas(user):
+    turmas = get_turmas_from_user(user)
+
+    if len(turmas) == 0:
+        print("Nenhuma turma encontrada.")
+    
+    for index, turma in enumerate(turmas):
+        print(f"{index+1} - {turma['name']}")
+
+
 def admin_turmas_menu():
     while True:
         print("Menu Turmas (Administrador)")

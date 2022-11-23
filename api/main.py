@@ -1,5 +1,5 @@
 from .teams.tui import admin_and_LG_teams_menu
-from .turmas.tui import admin_turmas_menu
+from .turmas.tui import admin_turmas_menu, menu_list_turmas
 from .users.tui import admin_users_menu, LG_users_menu
 from .sprints.tui import admin_and_LG_sprints_menu
 from .evaluations.tui import admin_evaluations_menu, common_user_evaluations_menu, LG_user_evaluations_menu, FC_user_evaluations_menu
@@ -65,7 +65,7 @@ def group_leader_menu():
     if option == 1:
         my_profile_menu()
     elif option == 2:
-        print("Not yet") #mudar
+        menu_list_turmas(session["user"])
     elif option == 3:
         LG_users_menu()
     elif option == 4:
@@ -73,7 +73,7 @@ def group_leader_menu():
     elif option == 5:
         admin_and_LG_sprints_menu()
     elif option == 6:
-        LG_user_evaluations_menu(session["team"], session["user"])
+        LG_user_evaluations_menu(session["user"])
     elif option == 97:
         logout()
     elif option == 98:
@@ -91,8 +91,7 @@ def common_user_menu():
     print("""                 
     1 - Meu Perfil   
     2 - Minhas Turmas
-    3 - Meu Time
-    4 - Avaliações                     
+    3 - Avaliações                     
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -103,10 +102,8 @@ def common_user_menu():
     if option == 1:
         my_profile_menu()
     elif option == 2:
-        admin_turmas_menu() # trocar
+        menu_list_turmas(session["user"])
     elif option == 3:
-        admin_teams_menu() # trocar
-    elif option == 4:
         common_user_evaluations_menu(session["team"], session["user"])
     elif option == 97:
         logout()
@@ -125,8 +122,7 @@ def fake_client_menu():
     print("""                 
     1 - Meu Perfil   
     2 - Minhas Turmas
-    3 - Meu Time
-    4 - Avaliações                     
+    3 - Avaliações                     
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -137,11 +133,9 @@ def fake_client_menu():
     if option == 1:
         my_profile_menu()
     elif option == 2:
-        admin_turmas_menu() # trocar
+        menu_list_turmas(session["user"])
     elif option == 3:
-        admin_teams_menu() # trocar
-    elif option == 4:
-        FC_user_evaluations_menu()
+        FC_user_evaluations_menu(session["user"], session["turma"])
     elif option == 97:
         logout()
     elif option == 98:
