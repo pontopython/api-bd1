@@ -10,7 +10,7 @@ _turmas = []
 
 
 def reload_turmas():
-    global _turmas 
+    global _turmas
     _turmas = read_turmas()
 
 
@@ -20,7 +20,7 @@ def update_turmas():
 
 def get_turmas():
     if len(_turmas) == 0:
-        reload_turmas()    
+        reload_turmas()
     return _turmas
 
 
@@ -99,5 +99,5 @@ def search_turmas(search_term):
     return turmas
 
 
-def search_students(search_term, turma):
-    return _search_users(search_term, turma["students"])
+def search_students(search_term, turma, excludes=[]):
+    return _search_users(search_term, turma["students"], excludes)

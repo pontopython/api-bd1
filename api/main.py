@@ -1,8 +1,8 @@
-from .teams.tui import admin_teams_menu
-from .turmas.tui import admin_turmas_menu
-from .users.tui import admin_users_menu
-from .sprints.tui import admin_sprints_menu
-from .evaluations.tui import admin_evaluations_menu, common_user_evaluations_menu
+from .teams.tui import admin_and_LG_teams_menu
+from .turmas.tui import admin_turmas_menu, menu_list_turmas
+from .users.tui import admin_users_menu, LG_users_menu
+from .sprints.tui import admin_and_LG_sprints_menu
+from .evaluations.tui import admin_evaluations_menu, common_user_evaluations_menu, LG_user_evaluations_menu, FC_user_evaluations_menu
 from .session.current import get_session, logout
 from .session.tui import login, summary_session, my_profile_menu
 from .utils import safe_int_input
@@ -29,9 +29,9 @@ def admin_menu():
     elif option == 2:
         admin_turmas_menu()
     elif option == 3:
-        admin_teams_menu()
+        admin_and_LG_teams_menu()
     elif option == 4:
-        admin_sprints_menu()
+        admin_and_LG_sprints_menu()
     elif option == 5:
         admin_evaluations_menu()
     elif option == 97:
@@ -44,16 +44,17 @@ def admin_menu():
     else:
         print("Opção inválida.\n")
 
-
-def common_user_menu():
+def group_leader_menu():
     session = get_session()
     print("\nBem vindo ao menu principal")
     print(f"Sessão atual: {summary_session(session)}")
     print("""                 
-    1 - Meu Perfil   
-    2 - Minhas Turmas
-    3 - Meu Time
-    4 - Avaliações                     
+    1 - Meu Perfil
+    2 - Minhas Turmas                    
+    3 - Usuários     
+    4 - Times
+    5 - Sprints
+    6 - Avaliações                     
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -64,13 +65,77 @@ def common_user_menu():
     if option == 1:
         my_profile_menu()
     elif option == 2:
-        admin_turmas_menu() # trocar
+        menu_list_turmas(session["user"])
     elif option == 3:
-        admin_teams_menu() # trocar
+        LG_users_menu()
     elif option == 4:
-        admin_sprints_menu() # trocar
+        admin_and_LG_teams_menu()
     elif option == 5:
+        admin_and_LG_sprints_menu()
+    elif option == 6:
+        LG_user_evaluations_menu(session["user"])
+    elif option == 97:
+        logout()
+    elif option == 98:
+        exit()
+    elif option == 99:
+        logout()
+        exit()
+    else:
+        print("Opção inválida.\n")
+
+def common_user_menu():
+    session = get_session()
+    print("\nBem vindo ao menu principal")
+    print(f"Sessão atual: {summary_session(session)}")
+    print("""                 
+    1 - Meu Perfil   
+    2 - Minhas Turmas
+    3 - Avaliações                     
+    97 - Deslogar apenas
+    98 - Sair apenas
+    99 - Deslogar e sair
+    """
+    )
+
+    option = safe_int_input("Opção: ")
+    if option == 1:
+        my_profile_menu()
+    elif option == 2:
+        menu_list_turmas(session["user"])
+    elif option == 3:
         common_user_evaluations_menu(session["team"], session["user"])
+    elif option == 97:
+        logout()
+    elif option == 98:
+        exit()
+    elif option == 99:
+        logout()
+        exit()
+    else:
+        print("Opção inválida.\n")
+
+def fake_client_menu():
+    session = get_session()
+    print("\nBem vindo ao menu principal")
+    print(f"Sessão atual: {summary_session(session)}")
+    print("""                 
+    1 - Meu Perfil   
+    2 - Minhas Turmas
+    3 - Avaliações                     
+    97 - Deslogar apenas
+    98 - Sair apenas
+    99 - Deslogar e sair
+    """
+    )
+
+    option = safe_int_input("Opção: ")
+    if option == 1:
+        my_profile_menu()
+    elif option == 2:
+        menu_list_turmas(session["user"])
+    elif option == 3:
+        FC_user_evaluations_menu(session["user"], session["turma"])
     elif option == 97:
         logout()
     elif option == 98:
@@ -90,5 +155,7 @@ def program_loop():
         else:
             if session["user"]["type"] == "ADMIN":
                 admin_menu()
+            if session["user"]["type"] == "INSTR": #COMO DIFERENCIAR DO FAKE CLIENT?
+                group_leader_menu()
             else:
                 common_user_menu()

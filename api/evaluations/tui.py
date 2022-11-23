@@ -234,7 +234,7 @@ def common_user_evaluations_menu(team, user):
         return
     
     while True:
-        print("Menu Avaliações (Usuário Comum)")
+        print("Menu Avaliações ")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
         print("1 - Avaliar Membro")
         print("2 - Autoavaliação")
@@ -266,8 +266,15 @@ def common_user_evaluations_menu(team, user):
             return
 
 
-def LG_user_evaluations_menu(team, user):
-    if team is None or user is None:
+def LG_user_evaluations_menu(user):
+    print("Selecione a Turma")
+    turma = search_and_select_turma()
+    if turma is None:
+        return
+
+    print("Selecione o Time")
+    team = select_team_from_turma(turma)
+    if team is None:
         return
 
     sprint = get_opened_sprint_from_group(team['turma'])
@@ -275,16 +282,17 @@ def LG_user_evaluations_menu(team, user):
         return
     
     while True:
-        print("Menu Avaliações (Usuário Comum)")
+        print("Menu Avaliações ")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
         print("1 - Avaliar Líder Técnico")
         print("2 - Estatísticas deste time nesta sprint")
         print("3 - Estatísticas deste time em todas as sprints")
-        print("4 - Voltar")
+        print("4 - Selecionar outro time")
+        print("5 - Voltar")
 
         while True:
             option = safe_int_input("Opção: ")
-            if option >= 1 and option <= 4:
+            if option >= 1 and option <= 5:
                 break
             print("Opção inválida.")
 
@@ -292,14 +300,16 @@ def LG_user_evaluations_menu(team, user):
             LG_user_evaluate_LT(user, team, sprint)
         elif option == 2:
             admin_detail_team_statistics_in_one_sprint(sprint)
-        elif option == 3:
-            admin_detail_team_statistics_in_all_sprints(team)
+        elif option == 4:
+            select_team_from_turma(turma)
         else:
             return
 
 
-def FC_user_evaluations_menu(team, user):
-    if team is None or user is None:
+def FC_user_evaluations_menu(turma, user):
+    print("Selecione o Time")
+    team = select_team_from_turma(turma)
+    if team is None:
         return
 
     sprint = get_opened_sprint_from_group(team['turma'])
@@ -307,16 +317,17 @@ def FC_user_evaluations_menu(team, user):
         return
     
     while True:
-        print("Menu Avaliações (Usuário Comum)")
+        print("Menu Avaliações")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
         print("1 - Avaliar Product Owner")
         print("2 - Estatísticas deste time nesta sprint")
         print("3 - Estatísticas deste time em todas as sprints")
-        print("4 - Voltar")
+        print("4 - Selecionar outro time")
+        print("5 - Voltar")
 
         while True:
             option = safe_int_input("Opção: ")
-            if option >= 1 and option <= 4:
+            if option >= 1 and option <= 5:
                 break
             print("Opção inválida.")
 
@@ -326,5 +337,7 @@ def FC_user_evaluations_menu(team, user):
             admin_detail_team_statistics_in_one_sprint(sprint)
         elif option == 3:
             admin_detail_team_statistics_in_all_sprints(team)
+        elif option == 4:
+            select_team_from_turma(turma)
         else:
             return

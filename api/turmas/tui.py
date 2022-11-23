@@ -65,7 +65,7 @@ def select_turma_from_user(user):
     if len(turmas) == 0:
         print("Nenhuma turma encontrada.")
         return None
-    
+
     if len(turmas) == 1:
         return turmas[0]
 
@@ -97,9 +97,9 @@ def new_turma():
     print("Líder do Grupo selecionado")
 
     print("Selecione um Fake Client")
-    fake_client = search_and_select_instructor()
+    fake_client = search_and_select_instructor(excludes=[group_leader])
     while fake_client is None:
-        fake_client = search_and_select_instructor()
+        fake_client = search_and_select_instructor(excludes=[group_leader])
     print("Fake Client selecionado")
 
     list_common_users()
@@ -109,7 +109,9 @@ def new_turma():
         should_continue = input("Deseja adicionar mais um estudante (S/N)? ")
         if should_continue != "s" and should_continue != "S":
             break
-        students.append(search_and_select_common_user())
+        new_student = search_and_select_common_user(excludes=students)
+        if new_student is not None:
+            students.append(new_student)
 
     create_turma(name, group_leader, fake_client, students)
 
@@ -129,13 +131,13 @@ def edit_turma():
     print(f"Líder do Grupo: {turma['group_leader']['name']}")
     should_update = input("Deseja alterar (S/N)? ")
     if should_update == "S" or should_update == "s":
-        turma['group_leader']['name'] = search_and_select_instructor()
+        turma['group_leader'] = search_and_select_instructor(excludes=[turma['fake_client']])
 
     print(f"Fake Client: {turma['fake_client']['name']}")
     should_update = input("Deseja alterar (S/N)? ")
     if should_update == "S" or should_update == "s":
-        turma['fake_client']['name'] = search_and_select_instructor()
-   
+        turma['fake_client'] = search_and_select_instructor(excludes=[turma['group_leader']])
+
     list_members_turma(turma)
     add_student(turma)
 
@@ -143,7 +145,7 @@ def edit_turma():
     remove_student(turma)
 
     update_turmas()
-        
+
 
 def list_members_turma(turma):
     print("Estudantes: ")
@@ -167,7 +169,7 @@ def add_student(turma):
         should_add = input("Deseja adicionar mais um estudante (S/N)? ")
         if should_add == "S" or should_add == "s":
             print("Selecione um Estudante")
-            new_student = search_and_select_common_user()
+            new_student = search_and_select_common_user(excludes=turma["students"])
             if new_student is None:
                 continue
             turma["students"].append(new_student)
@@ -204,9 +206,9 @@ def select_leader_group(leader_id):
         return select_leader_group(leader_id)
 
 
-def search_and_select_student(turma):
+def search_and_select_student(turma, excludes=[]):
     search_term = input("Procurar: ")
-    students = search_students(search_term, turma)
+    students = search_students(search_term, turma, excludes)
 
     if len(students) == 0:
         return None
@@ -221,6 +223,16 @@ def search_and_select_student(turma):
         print("Opção inválida.")
 
 
+def menu_list_turmas(user):
+    turmas = get_turmas_from_user(user)
+
+    if len(turmas) == 0:
+        print("Nenhuma turma encontrada.")
+    
+    for index, turma in enumerate(turmas):
+        print(f"{index+1} - {turma['name']}")
+
+
 def admin_turmas_menu():
     while True:
         print("Menu Turmas (Administrador)")
@@ -230,13 +242,13 @@ def admin_turmas_menu():
         print("4 - Editar")
         print("5 - Excluir")
         print("6 - Voltar")
-        
+
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 6:
                 break
             print("Opção inválida.")
-        
+
         if option == 1:
             list_turmas()
         elif option == 2:

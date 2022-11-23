@@ -23,16 +23,14 @@ def summary_member(member):
     return f"{name} <{email}> como {category_description}"
 
 
-def show_members(team, title="Membros:"):
+def show_members(team, title="Membros do Time:"):
     print(title)
     for member in team["members"]:
         print(f"    - {summary_member(member)}")
 
 
-def search_and_select_member(team):
-    search_term = input("Procurar: ")
-    members = search_members(search_term, team)
 
+def _select_member(members):
     if len(members) == 0:
         return None
 
@@ -44,28 +42,23 @@ def search_and_select_member(team):
         if option > 0 and option <= len(members):
             return members[option - 1]
         print("Opção inválida.")
+
+
+def search_and_select_member(team):
+    search_term = input("Procurar: ")
+    members = search_members(search_term, team["members"])
+    return _select_member(members)
 
 
 def select_member(team):
-    members = team["members"]
-
-    if len(members) == 0:
-        return None
-
-    for index, member in enumerate(members):
-        print(f"{index+1} - {summary_member(member)}")
-
-    while True:
-        option = safe_int_input("Opção: ")
-        if option > 0 and option <= len(members):
-            return members[option - 1]
-        print("Opção inválida.")
+    return _select_member(team["members"])
 
 
 def select_LT_member(team):
     members = team["members"]
-    valid_members = [member for member in members if member['category'] == "LIDER"]
-    
+    valid_members = [
+        member for member in members if member['category'] == "LIDER"]
+
     if len(valid_members) == 0:
         return None
 
@@ -81,8 +74,9 @@ def select_LT_member(team):
 
 def select_PO_member(team):
     members = team["members"]
-    valid_members = [member for member in members if member['category'] == "PRODU"]
-    
+    valid_members = [
+        member for member in members if member['category'] == "PRODU"]
+
     if len(valid_members) == 0:
         return None
 
@@ -119,12 +113,38 @@ def select_member_or_instructor(team):
         print("Opção inválida.")
 
 
+def change_product_owner(team):
+    members = team["members"]
+    change = input("Deseja mudar o Product Owner (S/N)? ")
+    if change == "S" or change == "s":
+        for member in members:
+            if member["category"] == "PRODU":
+                member["category"] = "COMUM"
+        print("\nSelecione o novo Product Owner:")
+        new_product_owner = _select_member(team["members"])
+        new_product_owner["category"] = "PRODU"
+        update_teams()
+
+
+def change_tech_leader(team):
+    change = input("Deseja mudar o Líder Técnico (S/N)? ")
+    if change == "S" or change == "s":
+        members = team["members"]
+        for member in members:
+            if member["category"] == "LIDER":
+                member["category"] = "COMUM"
+        print("\nSelecione o novo Líder Técnico:")
+        new_tech_leader = _select_member(team["members"])
+        new_tech_leader["category"] = "LIDER"
+        update_teams()
+
+
 def add_members(team, turma):
     while True:
         should_add = input("Deseja adicionar mais um membro (S/N)? ")
         if should_add == "S" or should_add == "s":
             print("Selecione um Membro")
-            new_member = search_and_select_student(turma)
+            new_member = search_and_select_student(turma, excludes=team["members"])
             if new_member is None:
                 continue
             new_member["category"] = "COMUM"
@@ -141,7 +161,10 @@ def remove_members(team):
             member_to_remove = search_and_select_member(team)
             if member_to_remove is None:
                 continue
-            team["members"].remove(member_to_remove)
+            elif member_to_remove["category"] == "PRODU" or member_to_remove["category"] == "LIDER":
+                print("Não é possível remover o PO do time ou Líder Técnico do time.")
+            else:
+                team["members"].remove(member_to_remove)
         else:
             break
 
@@ -230,7 +253,7 @@ def new_team():
     tech_leader["category"] = "LIDER"
 
     print("Selecione um Product Owner")
-    product_owner = search_and_select_student(turma)
+    product_owner = search_and_select_student(turma, excludes=[tech_leader])
     product_owner["category"] = "PRODU"
 
     members = [tech_leader, product_owner]
@@ -257,7 +280,9 @@ def edit_team():
     show_members(team)
     add_members(team, team["turma"])
 
-    show_members(team)
+    change_tech_leader(team)
+    change_product_owner(team)
+
     remove_members(team)
 
     update_teams()
@@ -272,9 +297,9 @@ def remove_team():
     delete_team(team)
 
 
-def admin_teams_menu():
+def admin_and_LG_teams_menu():
     while True:
-        print("Menu Times (Administrador)")
+        print("Menu Times ")
         print("1 - Listar")
         print("2 - Novo")
         print("3 - Buscar e Detalhar")
