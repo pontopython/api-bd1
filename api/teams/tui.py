@@ -4,7 +4,7 @@ from ..users.tui import search_and_select_user
 from ..turmas.tui import search_and_select_turma, search_and_select_student
 
 from .common import MEMBERSHIP_CATEGORIES
-from .repository import search_members, get_teams, get_teams_from_turma, search_teams, create_team, update_teams, delete_team
+from .repository import search_members, get_teams, get_teams_from_turma, search_teams, create_team, update_teams, delete_team, student_limitation
 
 
 def summary_team(team):
@@ -140,16 +140,23 @@ def change_tech_leader(team):
 
 
 def add_members(team, turma):
+    limitation = False
     while True:
         should_add = input("Deseja adicionar mais um membro (S/N)? ")
         if should_add == "S" or should_add == "s":
             print("Selecione um Membro")
             new_member = search_and_select_student(turma, excludes=team["members"])
+            limitation = student_limitation(new_member, turma)
+            print(limitation)
             if new_member is None:
+                print('Nenhum membro disponível encontrado.')
                 continue
-            new_member["category"] = "COMUM"
-            team["members"].append(new_member)
-        else:
+            if limitation == False:
+                new_member["category"] = "COMUM"
+                team["members"].append(new_member)
+            else:
+                print("O usuário selecionado já possui um time nesta turma, selecione outro usuário.")
+        else:   
             break
 
 

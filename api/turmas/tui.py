@@ -26,6 +26,8 @@ def detail_turma(turma, title="Detalhes da Turma:"):
     fake_client_name = turma["fake_client"]["name"]
     fake_client_email = turma["fake_client"]["email"]
     students_count = len(turma["students"])
+    students = turma["students"]
+    count = 0
 
     print(title)
     print(f"Id: {id}")
@@ -33,6 +35,10 @@ def detail_turma(turma, title="Detalhes da Turma:"):
     print(f"Líder de Grupo: {group_leader_name} <{group_leader_email}>")
     print(f"Fake Client: {fake_client_name} <{fake_client_email}>")
     print(f"Total de Alunos: {students_count}")
+    while count < len(students):
+        aluno = students[count]
+        print(f"Aluno: {aluno['name']}")
+        count += 1
 
 
 def list_turmas():
@@ -151,6 +157,7 @@ def list_members_turma(turma):
     print("Estudantes: ")
     for student in turma["students"]:
         print(f"    - {summary_student(student)}")
+
 
 def remove_student(turma):
     while True:
