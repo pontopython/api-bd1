@@ -9,14 +9,14 @@ from .utils import safe_int_input
 
 def admin_menu():
     session = get_session()
-    print("\nBem vindo ao menu principal")
+    print("\nBem vindo ao menu principal (Administrador)")
     print(f"Sessão atual: {summary_session(session)}")
-    print("""                 
-    1 - Usuários                   
-    2 - Turmas       
+    print("""
+    1 - Usuários
+    2 - Turmas
     3 - Times
     4 - Sprints
-    5 - Avaliações                     
+    5 - Avaliações
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -46,15 +46,15 @@ def admin_menu():
 
 def group_leader_menu():
     session = get_session()
-    print("\nBem vindo ao menu principal")
+    print("\nBem vindo ao menu principal (Líder de Grupo)")
     print(f"Sessão atual: {summary_session(session)}")
-    print("""                 
+    print("""
     1 - Meu Perfil
-    2 - Minhas Turmas                    
-    3 - Usuários     
+    2 - Minhas Turmas
+    3 - Usuários
     4 - Times
     5 - Sprints
-    6 - Avaliações                     
+    6 - Avaliações
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -88,10 +88,10 @@ def common_user_menu():
     session = get_session()
     print("\nBem vindo ao menu principal")
     print(f"Sessão atual: {summary_session(session)}")
-    print("""                 
-    1 - Meu Perfil   
+    print("""
+    1 - Meu Perfil
     2 - Minhas Turmas
-    3 - Avaliações                     
+    3 - Avaliações
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -117,12 +117,12 @@ def common_user_menu():
 
 def fake_client_menu():
     session = get_session()
-    print("\nBem vindo ao menu principal")
+    print("\nBem vindo ao menu principal (Fake Client)")
     print(f"Sessão atual: {summary_session(session)}")
-    print("""                 
-    1 - Meu Perfil   
+    print("""
+    1 - Meu Perfil
     2 - Minhas Turmas
-    3 - Avaliações                     
+    3 - Avaliações
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
@@ -155,7 +155,17 @@ def program_loop():
         else:
             if session["user"]["type"] == "ADMIN":
                 admin_menu()
-            if session["user"]["type"] == "INSTR": #COMO DIFERENCIAR DO FAKE CLIENT?
+            elif (
+                session["user"]["type"] == "INSTR"
+                and session["turma"] is not None
+                and session["turma"]["group_leader"]["id"] == session["user"]["id"]
+            ):
                 group_leader_menu()
+            elif (
+                session["user"]["type"] == "INSTR"
+                and session["turma"] is not None
+                and session["turma"]["fake_client"]["id"] == session["user"]["id"]
+            ):
+                fake_client_menu()
             else:
                 common_user_menu()
