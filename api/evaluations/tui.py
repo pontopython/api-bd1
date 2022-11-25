@@ -12,6 +12,7 @@ from .repository import (
     get_all_evaluations_from_sprint_and_member,
     get_all_evaluations_from_team_member,
     update_evaluations,
+    get_already_evaluated_by_a_user,
 )
 from .prompt import prompt_evaluation_form
 from .common import QUESTIONS, ALTERNATIVES
@@ -62,7 +63,13 @@ def admin_create_evaluation(team, sprint):
 
 def common_user_evaluate_member(user, team, sprint):
     print("Avaliado:")
-    evaluated = select_member(team)
+
+    already_evaluated = get_already_evaluated_by_a_user(team, sprint, user)
+    evaluated = select_member(team, excludes=[user, *already_evaluated])
+
+    if evaluated is None:
+        print("Não há mais membros para avaliar!")
+        return
 
     grades = prompt_evaluation_form()
 
@@ -87,9 +94,9 @@ def FC_user_evaluate_PO(user, team, sprint):
     create_evaluation(sprint, team, user, evaluated, grades)
 
 
-def self_evaluation(user, sprint):
+def self_evaluation(user, team, sprint):
     grades = prompt_evaluation_form()
-    create_evaluation(sprint, user, user, grades)
+    create_evaluation(sprint, team, user, user, grades)
 
 
 def select_evaluation(sprint):
@@ -253,7 +260,7 @@ def common_user_evaluations_menu(team, user):
         if option == 1:
             common_user_evaluate_member(user, team, sprint)
         elif option == 2:
-            self_evaluation(user, sprint)
+            self_evaluation(user, team, sprint)
         elif option == 3:
             admin_detail_team_statistics_in_one_sprint(sprint)
         elif option == 4:
@@ -300,6 +307,8 @@ def LG_user_evaluations_menu(user):
             LG_user_evaluate_LT(user, team, sprint)
         elif option == 2:
             admin_detail_team_statistics_in_one_sprint(sprint)
+        elif option == 3:
+            admin_detail_team_statistics_in_all_sprints(team)
         elif option == 4:
             select_team_from_turma(turma)
         else:

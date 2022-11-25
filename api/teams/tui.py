@@ -30,7 +30,10 @@ def show_members(team, title="Membros do Time:"):
 
 
 
-def _select_member(members):
+def _select_member(members, excludes=[]):
+    excluded_ids = [member["id"] for member in excludes]
+    members = [member for member in members if member["id"] not in excluded_ids]
+
     if len(members) == 0:
         return None
 
@@ -44,14 +47,14 @@ def _select_member(members):
         print("Opção inválida.")
 
 
-def search_and_select_member(team):
+def search_and_select_member(team, excludes=[]):
     search_term = input("Procurar: ")
     members = search_members(search_term, team["members"])
-    return _select_member(members)
+    return _select_member(members, excludes)
 
 
-def select_member(team):
-    return _select_member(team["members"])
+def select_member(team, excludes=[]):
+    return _select_member(team["members"], excludes)
 
 
 def select_LT_member(team):

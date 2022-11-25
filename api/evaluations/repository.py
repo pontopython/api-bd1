@@ -66,7 +66,7 @@ def create_evaluation(sprint, team, evaluator, evaluated, grades):
     evaluation = evaluation_dict(
         id,
         sprint,
-        team, 
+        team,
         evaluator,
         evaluated,
         grades
@@ -80,3 +80,7 @@ def delete_evaluation(evaluation):
     get_evaluations().remove(evaluation)
     update_evaluations()
 
+def get_already_evaluated_by_a_user(team, sprint, user):
+    evaluations = get_all_evaluations_from_sprint_and_team(sprint, team)
+    ids = [evaluation["evaluated"]["id"] for evaluation in evaluations if evaluation["evaluator"]["id"] == user["id"]]
+    return [member for member in team["members"] if member["id"] in ids]
