@@ -4,7 +4,7 @@ from ..users.tui import search_and_select_user
 from ..turmas.tui import search_and_select_turma, search_and_select_student
 
 from .common import MEMBERSHIP_CATEGORIES
-from .repository import search_members, get_teams, get_teams_from_turma, search_teams, create_team, update_teams, delete_team
+from .repository import search_members, get_teams, get_teams_from_turma, search_teams, create_team, update_teams, delete_team, student_limitation
 
 
 def summary_team(team):
@@ -140,15 +140,19 @@ def change_tech_leader(team):
 
 
 def add_members(team, turma):
+    limitation = False
     while True:
         should_add = input("Deseja adicionar mais um membro (S/N)? ")
         if should_add == "S" or should_add == "s":
             print("Selecione um Membro")
-            new_member = search_and_select_student(turma, excludes=team["members"])
+            already_members_in_other_teams = [
+                student
+                for student in turma["students"]
+                if student_limitation(student, turma)
+            ]
+            new_member = search_and_select_student(turma, excludes=[*team["members"], *already_members_in_other_teams])
             if new_member is None:
-                continue
-            new_member["category"] = "COMUM"
-            team["members"].append(new_member)
+                print('Nenhum membro disponível encontrado.')
         else:
             break
 
@@ -244,16 +248,28 @@ def new_team():
     turma = search_and_select_turma()
 
     if turma is None:
+        print("Nenhuma turma selecionada. Cancelando criação de time.")
         return
 
     name = input("Nome: ")
 
+    already_members_in_other_teams = [
+        student
+        for student in turma["students"]
+        if student_limitation(student, turma)
+    ]
+
     print("Selecione um Líder Técnico")
-    tech_leader = search_and_select_student(turma)
+    tech_leader = search_and_select_student(turma, excludes=already_members_in_other_teams)
+    if tech_leader is None:
+        print("Nenhum líder técnico disponível. Cancelando criação de time.")
+        return
     tech_leader["category"] = "LIDER"
 
     print("Selecione um Product Owner")
-    product_owner = search_and_select_student(turma, excludes=[tech_leader])
+    product_owner = search_and_select_student(turma, excludes=[tech_leader, *already_members_in_other_teams])
+    if tech_leader is None:
+        print("Nenhum product owner disponível. Cancelando criação de time.")
     product_owner["category"] = "PRODU"
 
     members = [tech_leader, product_owner]

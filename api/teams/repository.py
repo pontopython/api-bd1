@@ -82,3 +82,21 @@ def search_teams(search_term):
 
 def search_members(search_term, team):
     return _search_users(search_term, team["members"])
+
+def generate_members_list(team):
+    members = []
+    for member in team["members"]:
+        members.append(member)
+    return members
+
+
+def student_limitation(student, turma):
+    limitation = False
+    teams = get_teams_from_turma(turma)
+    for team in teams:
+        members = generate_members_list(team)
+        for member in members:    
+            if student["id"] == member["id"]:
+                limitation = True
+                break
+    return limitation
