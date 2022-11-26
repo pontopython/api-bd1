@@ -135,7 +135,7 @@ def fake_client_menu():
     elif option == 2:
         menu_list_turmas(session["user"])
     elif option == 3:
-        FC_user_evaluations_menu(session["user"], session["turma"])
+        FC_user_evaluations_menu(session["user"])
     elif option == 97:
         logout()
     elif option == 98:
