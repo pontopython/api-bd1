@@ -185,7 +185,7 @@ def admin_evaluations_menu():
     sprint = select_sprint_from_group(turma)
     if sprint is None:
         return
-    
+
     while True:
         print("Menu Avaliações (Administrador)")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
@@ -232,7 +232,7 @@ def common_user_evaluations_menu(team, user):
     sprint = get_opened_sprint_from_group(team['turma'])
     if sprint is None:
         return
-    
+
     while True:
         print("Menu Avaliações ")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
@@ -280,7 +280,7 @@ def LG_user_evaluations_menu(user):
     sprint = get_opened_sprint_from_group(team['turma'])
     if sprint is None:
         return
-    
+
     while True:
         print("Menu Avaliações ")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
@@ -306,7 +306,12 @@ def LG_user_evaluations_menu(user):
             return
 
 
-def FC_user_evaluations_menu(turma, user):
+def FC_user_evaluations_menu(user):
+    print("Selecione a Turma")
+    turma = search_and_select_turma()
+    if turma is None:
+        return
+
     print("Selecione o Time")
     team = select_team_from_turma(turma)
     if team is None:
@@ -315,7 +320,7 @@ def FC_user_evaluations_menu(turma, user):
     sprint = get_opened_sprint_from_group(team['turma'])
     if sprint is None:
         return
-    
+
     while True:
         print("Menu Avaliações")
         print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
