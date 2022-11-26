@@ -156,6 +156,9 @@ def add_members(team, turma):
             new_member = search_and_select_student(turma, excludes=[*team["members"], *already_members_in_other_teams])
             if new_member is None:
                 print('Nenhum membro disponível encontrado.')
+            else:
+                new_member["category"] = "COMUM"
+                team["members"].append(new_member)
         else:
             break
 
