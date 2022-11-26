@@ -79,6 +79,10 @@ def common_user_evaluate_member(user, team, sprint):
 def LG_user_evaluate_LT(user, team, sprint):
     print("Avaliado:")
     evaluated = select_LT_member(team)
+    already_evaluated = get_already_evaluated_by_a_user(team, sprint, user)
+    if evaluated["id"] in [e["id"] for e in already_evaluated]:
+        print("Líder técnico já foi avaliado")
+        return
 
     grades = prompt_evaluation_form()
 
@@ -273,18 +277,13 @@ def common_user_evaluations_menu(team, user):
             return
 
 
-def LG_user_evaluations_menu(user):
-    print("Selecione a Turma")
-    turma = search_and_select_turma()
-    if turma is None:
-        return
-
+def LG_user_evaluations_menu(turma, user):
     print("Selecione o Time")
     team = select_team_from_turma(turma)
     if team is None:
         return
 
-    sprint = get_opened_sprint_from_group(team['turma'])
+    sprint = get_opened_sprint_from_group(team['turma']) or select_sprint_from_group(team["turma"], closed=True)
     if sprint is None:
         return
 

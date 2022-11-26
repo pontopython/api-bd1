@@ -40,7 +40,7 @@ def close_sprint_from_group(group):
     if answer != "S" and answer != "s":
         return
     sprint["status"] = "fechada"
-    update_sprints()    
+    update_sprints()
 
 
 def select_sprint_from_group(group, closed=False):
@@ -75,21 +75,24 @@ def reopen_sprint_from_group(group):
 
     if sprint is None:
         return
-    
+
     print(summary_sprint(sprint))
     answer = input("Tem certeza que deseja reabrir essa sprint (S/N)? ")
     if answer != "S" and answer != "s":
         return
     sprint["status"] = "aberta"
-    update_sprints()    
+    update_sprints()
 
 
-def admin_and_LG_sprints_menu():
-    print("Selecione a Turma")
-    turma = search_and_select_turma()
+def admin_and_LG_sprints_menu(turma=None):
     if turma is None:
+        print("Selecione a Turma")
+        turma = search_and_select_turma()
+
+    if turma is None:
+        print("Nenhuma turma encontrada.")
         return
-    
+
     while True:
         print("Menu Sprints (Administrador)")
         print(f"Turma: {turma['name']}")
@@ -98,13 +101,13 @@ def admin_and_LG_sprints_menu():
         print("3 - Fechar")
         print("4 - Reabrir")
         print("5 - Voltar")
-        
+
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 6:
                 break
             print("Opção inválida.")
-        
+
         if option == 1:
             show_sprints_from_group(turma)
         elif option == 2:

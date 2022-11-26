@@ -71,9 +71,9 @@ def group_leader_menu():
     elif option == 4:
         admin_and_LG_teams_menu()
     elif option == 5:
-        admin_and_LG_sprints_menu()
+        admin_and_LG_sprints_menu(session["turma"])
     elif option == 6:
-        LG_user_evaluations_menu(session["user"])
+        LG_user_evaluations_menu(session["turma"], session["user"])
     elif option == 97:
         logout()
     elif option == 98:
