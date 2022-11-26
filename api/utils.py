@@ -1,6 +1,9 @@
+from rich.console import Console
 import shortuuid
 
 from colorama import Fore, Style
+
+console = Console(width=120)
 
 
 def green_print(message, *args, **kwargs):
@@ -41,7 +44,7 @@ def bright_print(message, *args, **kwargs):
 
 def bright_input(message, *args, **kwargs):
     return input(Style.BRIGHT + message + Style.RESET_ALL, *args, **kwargs)
-    
+
 
 def generate_id():
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

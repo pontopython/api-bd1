@@ -1,6 +1,6 @@
 import stdiomask
 
-from ..utils import safe_int_input
+from ..utils import safe_int_input, console
 from ..users.prompt import prompt_user_email
 from ..users.repository import get_user_by_email
 from ..users.tui import detail_user, edit_user
@@ -26,15 +26,20 @@ def summary_session(session):
 
 
 def login():
+    console.rule("[bold underline blue]Sistema de Avaliação 360º[/bold underline blue]")
+
     email = prompt_user_email()
     user = get_user_by_email(email)
     if user is None:
-        print("Usuário não encontrado!")
+        console.print(":x: [bold red]Usuário não encontrado[/bold red] :x:", justify="center")
+        console.print()
         return
 
-    password = stdiomask.getpass(prompt="Senha: ", mask="*")
+    console.print(f":lock: Senha: ", end="")
+    password = stdiomask.getpass(prompt="", mask="*")
     if password != user["password"]:
-        print("Credenciais inválidas!")
+        console.print(":x: [bold red]Credenciais inválidas[/bold red] :x:", justify="center")
+        console.print()
         return
 
     turma = select_turma_from_user(user)
@@ -65,11 +70,10 @@ def my_profile_menu():
             if option >= 1 and option <= 3:
                 break
             print("Opção inválida.")
-        
+
         if option == 1:
             detail_user(session["user"])
         elif option == 2:
             edit_user(session["user"])
         else:
             return
-

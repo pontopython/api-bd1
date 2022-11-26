@@ -1,3 +1,6 @@
+from rich import print
+from rich.panel import Panel
+
 from .teams.tui import admin_and_LG_teams_menu
 from .turmas.tui import admin_turmas_menu, menu_list_turmas
 from .users.tui import admin_users_menu, LG_users_menu

@@ -1,7 +1,9 @@
+import stdiomask
+from rich import print
+
 from ..utils import safe_int_input
 from .common import USER_TYPES
 from .validation import validate_user_email, validate_user_name, validate_user_password
-import stdiomask
 
 
 def prompt_user_name(prompt="Nome: "):
@@ -17,7 +19,8 @@ def prompt_user_name(prompt="Nome: "):
 
 def prompt_user_email(prompt="Email: "):
     while True:
-        email = input(prompt)
+        print(f":e-mail: {prompt}", end="")
+        email = input()
         valid, errors = validate_user_email(email)
 
         if valid:
@@ -33,7 +36,7 @@ def prompt_user_password():
             No mínimo 1 letra minúscula
             No mínimo 1 número
             No mínimo 1 carácter especial (@!%*?&)""")
-    
+
     while True:
         password = stdiomask.getpass(prompt="Senha: ", mask="*")
         valid, errors = validate_user_password(password)
