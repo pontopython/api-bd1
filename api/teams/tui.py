@@ -1,4 +1,4 @@
-from ..utils import safe_int_input, clear_screen
+from ..utils import safe_int_input, clear_screen, console
 from ..users.tui import search_and_select_user
 
 from ..turmas.tui import search_and_select_turma, search_and_select_student
@@ -45,11 +45,11 @@ def _select_member(members, excludes=[]):
         option = safe_int_input("Opção: ")
         if option > 0 and option <= len(members):
             return members[option - 1]
-        print("Opção inválida.")
-
+        console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
+        console.print()
 
 def search_and_select_member(team, excludes=[]):
-    search_term = input("Procurar: ")
+    search_term = console.input("[green]Procurar: [/green]")
     members = search_members(search_term, team["members"])
     return _select_member(members, excludes)
 
@@ -73,7 +73,8 @@ def select_LT_member(team):
         option = safe_int_input("Opção: ")
         if option > 0 and option <= len(valid_members):
             return valid_members[option - 1]
-        print("Opção inválida.")
+        console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
+        console.print()
 
 
 def select_PO_member(team):
@@ -91,7 +92,8 @@ def select_PO_member(team):
         option = safe_int_input("Opção: ")
         if option > 0 and option <= len(valid_members):
             return valid_members[option - 1]
-        print("Opção inválida.")
+        console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
+        console.print()
 
 
 def select_member_or_instructor(team):
@@ -99,8 +101,9 @@ def select_member_or_instructor(team):
     fake_client = team["turma"]["fake_client"]
     members = team["members"]
 
-    print(f"1 - {group_leader['name']} como Líder de Grupo")
-    print(f"2 - {fake_client['name']} como Fake Client ")
+    console.print(f"\n [purple]1 - {group_leader['name']} como Líder de Grupo[/purple]")
+    console.print(f"\n [purple]2 - {fake_client['name']} como Fake Client [/purple]")
+    console.print()
 
     for index, member in enumerate(members):
         print(f"{index+3} - {summary_member(member)}")
@@ -114,30 +117,33 @@ def select_member_or_instructor(team):
                 return fake_client
             else:
                 return members[option - 3]
-        print("Opção inválida.")
+        console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
+        console.print()
 
 
 def change_product_owner(team):
     members = team["members"]
-    change = input("Deseja mudar o Product Owner (S/N)? ")
+    change = console.input("\n [yellow]Deseja mudar o Product Owner ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if change == "S" or change == "s":
         for member in members:
             if member["category"] == "PRODU":
                 member["category"] = "COMUM"
-        print("\nSelecione o novo Product Owner:")
+        console.print("\n [green]Selecione o novo Product Owner:[/green]")
+        console.print()
         new_product_owner = _select_member(team["members"])
         new_product_owner["category"] = "PRODU"
         update_teams()
 
 
 def change_tech_leader(team):
-    change = input("Deseja mudar o Líder Técnico (S/N)? ")
+    change = console.input("\n [yellow]Deseja mudar o Líder Técnico ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if change == "S" or change == "s":
         members = team["members"]
         for member in members:
             if member["category"] == "LIDER":
                 member["category"] = "COMUM"
-        print("\nSelecione o novo Líder Técnico:")
+        console.print("\n [green]Selecione o novo Líder Técnico:[/green]")
+        console.print()
         new_tech_leader = _select_member(team["members"])
         new_tech_leader["category"] = "LIDER"
         update_teams()
@@ -146,9 +152,10 @@ def change_tech_leader(team):
 def add_members(team, turma):
     limitation = False
     while True:
-        should_add = input("Deseja adicionar mais um membro (S/N)? ")
+        should_add = console.input("\n [yellow]Deseja adicionar mais um membro ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
         if should_add == "S" or should_add == "s":
-            print("Selecione um Membro")
+            console.print("\n [green]Selecione um Membro[/green]")
+            console.print()
             already_members_in_other_teams = [
                 student
                 for student in turma["students"]
@@ -156,7 +163,7 @@ def add_members(team, turma):
             ]
             new_member = search_and_select_student(turma, excludes=[*team["members"], *already_members_in_other_teams])
             if new_member is None:
-                print('Nenhum membro disponível encontrado.')
+                console.print('\n [bold red]Nenhum membro disponível encontrado.[/bold red]')
             else:
                 new_member["category"] = "COMUM"
                 team["members"].append(new_member)
@@ -166,14 +173,15 @@ def add_members(team, turma):
 
 def remove_members(team):
     while True:
-        should_add = input("Deseja remover mais um membro (S/N)? ")
+        should_add = console.input("\n [yellow]Deseja remover mais um membro ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
         if should_add == "S" or should_add == "s":
-            print("Selecione um Membro")
+            console.print("\n [green]Selecione um Membro[/green]")
             member_to_remove = search_and_select_member(team)
             if member_to_remove is None:
                 continue
             elif member_to_remove["category"] == "PRODU" or member_to_remove["category"] == "LIDER":
-                print("Não é possível remover o PO do time ou Líder Técnico do time.")
+                console.print("\n [bold red]Não é possível remover o PO do time ou Líder Técnico do time.[/bold red]")
+                console.print()
             else:
                 team["members"].remove(member_to_remove)
         else:
@@ -190,14 +198,16 @@ def detail_team(team, title="Detalhes do Time:"):
     print(f"Id: {id}")
     print(f"Nome: {name}")
     print(f"Turma:  {turma_name}")
-    print("Membros:")
+    console.print("\n [purple]Membros:[/purple]")
+    console.print()
 
     for member in team["members"]:
         print(f"    - {summary_member(member)}")
 
 
 def list_teams():
-    print("Times:")
+    console.print("\n [purple]Times:[/purple]")
+    console.print()
     for team in get_teams():
         print(summary_team(team))
 
@@ -208,7 +218,7 @@ def list_members():
 
 
 def search_and_select_team():
-    search_term = input("Procurar: ")
+    search_term = console.input("\n [green]Procurar: [/green]")
     teams = search_teams(search_term)
 
     if len(teams) == 0:
@@ -221,14 +231,16 @@ def search_and_select_team():
         option = safe_int_input("Opção: ")
         if option > 0 and option <= len(teams):
             return teams[option - 1]
-        print("Opção inválida.")
+        console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
+        console.print()
 
 
 def select_team_from_turma(turma):
     teams = get_teams_from_turma(turma)
 
     if len(teams) == 0:
-        print("Nenhuma time encontrado.")
+        console.print("\n [bold red]Nenhum time encontrado.[/bold red]")
+        console.print()
         return None
 
     for index, team in enumerate(teams):
@@ -238,28 +250,32 @@ def select_team_from_turma(turma):
         option = safe_int_input("Opção: ")
         if option > 0 and option <= len(teams):
             return teams[option - 1]
-        print("Opção inválida.")
-
+        console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
+        console.print()
 
 def show_team():
     team = search_and_select_team()
     if team is None:
-        print("Nenhum time encontrado.")
+        console.print("\n [bold red]Nenhum time encontrado.[/bold red]")
+        console.print()
         return
     detail_team(team)
 
 
 def new_team():
-    print("Novo Time")
+    console.print("\n [green]Novo Time[/green]")
+    console.print
 
-    print("Selecione a turma:")
+    console.print("\n [green]Selecione a turma:[/green]")
+    console.print()
     turma = search_and_select_turma()
 
     if turma is None:
-        print("Nenhuma turma selecionada. Cancelando criação de time.")
+        console.print("\n [bold red]Nenhuma turma selecionada. Cancelando criação de time.[/bold red]")
+        console.print()
         return
 
-    name = input("Nome: ")
+    name = console.input("\n [green]Nome: [/green]")
 
     already_members_in_other_teams = [
         student
@@ -267,17 +283,21 @@ def new_team():
         if student_limitation(student, turma)
     ]
 
-    print("Selecione um Líder Técnico")
+    console.print("\n [green]Selecione um Líder Técnico[/green]")
+    console.print()
     tech_leader = search_and_select_student(turma, excludes=already_members_in_other_teams)
     if tech_leader is None:
-        print("Nenhum líder técnico disponível. Cancelando criação de time.")
+        console.print("\n [bold red]Nenhum líder técnico disponível. Cancelando criação de time.[/bold red]")
+        console.print()
         return
     tech_leader["category"] = "LIDER"
 
-    print("Selecione um Product Owner")
+    console.print("\n [green]Selecione um Product Owner[/green]")
+    console.print()
     product_owner = search_and_select_student(turma, excludes=[tech_leader, *already_members_in_other_teams])
     if tech_leader is None:
-        print("Nenhum product owner disponível. Cancelando criação de time.")
+        console.print("\n [bold red]Nenhum product owner disponível. Cancelando criação de time.[/bold red]")
+        console.print()
     product_owner["category"] = "PRODU"
 
     members = [tech_leader, product_owner]
@@ -288,18 +308,21 @@ def new_team():
 
 
 def edit_team():
-    print("Editar time")
+    console.print("\n [purple]Editar time[/purple]")
+    console.print()
     team = search_and_select_team()
 
     if team is None:
-        print("Nenhum time encontrado.")
+        console.print("\n [bold red]Nenhum time encontrado.[/bold red]")
+        console.print()
         return
 
     name = team['name']
-    print(f"Nome: {name}")
-    should_update = input("Deseja alterar (S/N)? ")
+    console.print(f"[yellow]Nome:[/yellow] {name}")
+    console.print()
+    should_update = console.input("\n [yellow]Deseja alterar ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if should_update == "S" or should_update == "s":
-        team["name"] = input("Novo nome: ")
+        team["name"] = console.input("[green]Novo nome: [/green]")
 
     show_members(team)
     add_members(team, team["turma"])
@@ -313,10 +336,11 @@ def edit_team():
 
 
 def remove_team():
-    print("Remover time")
+    console.print("\n [red]Remover time[/red]")
     team = search_and_select_team()
     if team is None:
-        print("Nenhum time encontrado.")
+        console.print("\n [bold red]Nenhum time encontrado.[/bold red]")
+        console.print()
         return
     delete_team(team)
 
@@ -324,19 +348,20 @@ def remove_team():
 def admin_and_LG_teams_menu():
     clear_screen()
     while True:
-        print("Menu Times ")
-        print("1 - Listar")
-        print("2 - Novo")
-        print("3 - Buscar e Detalhar")
-        print("4 - Editar")
-        print("5 - Excluir")
-        print("6 - Voltar")
+        console.rule("\n [bold blue]Menu Times[/bold blue]\n")
+        console.print("[blue]1 -[/blue] Listar")
+        console.print("[blue]2 -[/blue] Novo")
+        console.print("[blue]3 -[/blue] Buscar e Detalhar")
+        console.print("[blue]4 -[/blue] Editar")
+        console.print("[blue]5 -[/blue] Excluir")
+        console.print("[blue]6 -[/blue] Voltar")
 
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 6:
                 break
-            print("Opção inválida.")
+            console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
+            console.print()
 
         if option == 1:
             list_teams()
