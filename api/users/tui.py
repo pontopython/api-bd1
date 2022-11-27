@@ -54,12 +54,13 @@ def list_users():
     table.add_column("Tipo")
 
     for user in get_users():
-        id = user["id"]
-        name = user["name"]
-        email = user["email"]
-        type = user["type"]
-        type_description = USER_TYPES[type]
-        table.add_row(id, name, email, type_description)
+        if user["type"] != "ADMIN":
+            id = user["id"]
+            name = user["name"]
+            email = user["email"]
+            type = user["type"]
+            type_description = USER_TYPES[type]
+            table.add_row(id, name, email, type_description)
     
     console.print(table)
 
