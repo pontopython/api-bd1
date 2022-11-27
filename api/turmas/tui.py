@@ -76,7 +76,8 @@ def select_turma_from_user(user):
     turmas = get_turmas_from_user(user)
 
     if len(turmas) == 0:
-        console.print("\n [red]Nenhuma turma encontrada.[/red]")
+        if user["type"] != "ADMIN":
+            console.print("\n [red]Nenhuma turma encontrada.[/red]")
         console.print()
         return None
 
