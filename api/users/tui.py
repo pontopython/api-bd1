@@ -160,20 +160,20 @@ def edit_user(user):
     if user is None:
         return
 
-    print("Editar usuário")
+    console.print("\n[green]Editar usuário[/green]\n")
 
-    print(f"Nome: {user['name']}")
-    should_update = input("Deseja alterar (S/N)? ")
+    console.print(f"[blue]Nome:[/blue] {user['name']}")
+    should_update = console.input("[yellow]Deseja alterar ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if should_update == "S" or should_update == "s":
         user["name"] = prompt_user_name("Novo nome: ")
 
-    print(f"Email: {user['email']}")
-    should_update = input("Deseja alterar (S/N)? ")
+    console.print(f"\n[blue]Email:[/blue] {user['email']}")
+    should_update = console.input("[yellow]Deseja alterar ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if should_update == "S" or should_update == "s":
         user["email"] = input("Novo e-mail: ")
 
-    print(f"Senha: ********")
-    should_update = input("Deseja alterar (S/N)? ")
+    console.print(f"\n[blue]Senha:[/blue] ********")
+    should_update = console.input("[yellow]Deseja alterar ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if should_update == "S" or should_update == "s":
         user["password"] = prompt_user_password()
 
