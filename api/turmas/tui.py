@@ -1,4 +1,4 @@
-from ..utils import blue_bright_print, bright_input, red_print, safe_int_input
+from ..utils import blue_bright_print, bright_input, red_print, safe_int_input, clear_screen
 from .repository import delete_turma, get_turmas, get_turmas_from_user, search_turmas, create_turma, delete_turma, get_turmas_by, search_students, update_turmas
 from .prompt import prompt_turma_name
 from ..users.tui import search_and_select_instructor, search_and_select_common_user, list_common_users, list_instructors
@@ -19,6 +19,7 @@ def summary_student(student):
 
 
 def detail_turma(turma, title="Detalhes da Turma:"):
+    clear_screen()
     id = turma["id"]
     name = turma["name"]
     group_leader_name = turma["group_leader"]["name"]
@@ -241,6 +242,7 @@ def menu_list_turmas(user):
 
 
 def admin_turmas_menu():
+    clear_screen()
     while True:
         print("Menu Turmas (Administrador)")
         print("1 - Listar")
@@ -252,6 +254,7 @@ def admin_turmas_menu():
 
         while True:
             option = safe_int_input("Opção: ")
+            clear_screen()
             if option >= 1 and option <= 6:
                 break
             print("Opção inválida.")
