@@ -1,4 +1,4 @@
-from ..utils import safe_int_input
+from ..utils import safe_int_input, clear_screen
 from ..users.tui import search_and_select_user
 
 from ..turmas.tui import search_and_select_turma, search_and_select_student
@@ -24,6 +24,7 @@ def summary_member(member):
 
 
 def show_members(team, title="Membros do Time:"):
+    clear_screen()
     print(title)
     for member in team["members"]:
         print(f"    - {summary_member(member)}")
@@ -180,6 +181,7 @@ def remove_members(team):
 
 
 def detail_team(team, title="Detalhes do Time:"):
+    clear_screen()
     id = team["id"]
     name = team["name"]
     turma_name = team["turma"]["name"]
@@ -320,6 +322,7 @@ def remove_team():
 
 
 def admin_and_LG_teams_menu():
+    clear_screen()
     while True:
         print("Menu Times ")
         print("1 - Listar")

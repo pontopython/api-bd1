@@ -1,4 +1,4 @@
-from ..utils import safe_int_input
+from ..utils import safe_int_input, clear_screen
 from .common import USER_TYPES
 from .repository import (
     create_user,
@@ -23,6 +23,7 @@ def summary_user(user):
 
 
 def detail_user(user, title="Detalhes do Usuário:"):
+    clear_screen()
     id = user["id"]
     name = user["name"]
     email = user["email"]
@@ -37,23 +38,27 @@ def detail_user(user, title="Detalhes do Usuário:"):
 
 
 def list_users():
+    clear_screen()
     print("Todos os Usuários:")
     for user in get_users():
         print(summary_user(user))
 
 def list_common_users():
+    clear_screen()
     print("Usuários Disponíveis:")
     for user in get_common_users():
         print(f"    - {summary_user(user)}")
 
 
 def list_instructors():
+    clear_screen()
     print("Instrutores:")
     for user in get_instructors():
         print(summary_user(user))
 
 
 def search_and_select_user():
+    clear_screen()
     search_term = input("Procurar: ")
     users = search_users(search_term)
 
@@ -72,6 +77,7 @@ def search_and_select_user():
         print("Opção inválida.")
 
 def search_and_select_common_user(excludes=[]):
+    clear_screen()
     search_term = input("Procurar: ")
     users = search_common_users(search_term, excludes)
 
@@ -91,6 +97,7 @@ def search_and_select_common_user(excludes=[]):
 
 
 def search_and_select_instructor(excludes=[]):
+    clear_screen()
     search_term = input("Procurar Instrutor: ")
     users = search_instructors(search_term, excludes)
 
@@ -109,6 +116,7 @@ def search_and_select_instructor(excludes=[]):
 
 
 def show_user():
+    clear_screen()
     user = search_and_select_user()
     if user is None:
         print("Nenhum usuário encontrado.")
@@ -117,6 +125,7 @@ def show_user():
 
 
 def admin_create_a_new_user():
+    clear_screen()
     print("Novo Usuário")
     name = prompt_user_name()
     email = prompt_user_email()
@@ -127,6 +136,7 @@ def admin_create_a_new_user():
 
 
 def instructor_create_a_new_common_user():
+    clear_screen()
     print("Novo Usuário")
     name = prompt_user_name()
     email = prompt_user_email()
@@ -136,6 +146,7 @@ def instructor_create_a_new_common_user():
 
 
 def edit_user(user):
+    clear_screen()
     if user is None:
         return
 
@@ -160,6 +171,7 @@ def edit_user(user):
 
 
 def admin_edit_user():
+    clear_screen()
     user = search_and_select_user()
     edit_user(user)
 
@@ -173,6 +185,7 @@ def admin_edit_user():
 
 
 def remove_user():
+    clear_screen()
     print("Remover usuário")
     user = search_and_select_user()
     if user is None:
@@ -182,6 +195,7 @@ def remove_user():
 
 
 def admin_users_menu():
+    clear_screen()
     while True:
         print("Menu Usuários (Administrador)")
         print("1 - Listar")
@@ -211,6 +225,7 @@ def admin_users_menu():
             return
 
 def LG_users_menu():
+    clear_screen()
     while True:
         print("Menu Usuários ")
         print("1 - Listar")

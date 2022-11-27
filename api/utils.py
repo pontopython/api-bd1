@@ -1,5 +1,6 @@
 from rich.console import Console
 import shortuuid
+import os
 
 from colorama import Fore, Style
 
@@ -60,3 +61,9 @@ def safe_int_input(prompt="", none_when_invalid=False):
             return None
         else:
             return 0
+
+def clear_screen():
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")

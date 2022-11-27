@@ -8,10 +8,12 @@ from .sprints.tui import admin_and_LG_sprints_menu
 from .evaluations.tui import admin_evaluations_menu, common_user_evaluations_menu, LG_user_evaluations_menu, FC_user_evaluations_menu
 from .session.current import get_session, logout
 from .session.tui import login, summary_session, my_profile_menu
-from .utils import safe_int_input
+from .utils import safe_int_input, clear_screen
+
+import os
 
 def admin_menu():
-    session = get_session()
+    session = get_session() 
     print("\nBem vindo ao menu principal (Administrador)")
     print(f"Sessão atual: {summary_session(session)}")
     print("""
@@ -27,20 +29,21 @@ def admin_menu():
     )
 
     option = safe_int_input("Opção: ")
+    clear_screen()
     if option == 1:
-        admin_users_menu()
+        admin_users_menu()  
     elif option == 2:
-        admin_turmas_menu()
+        admin_turmas_menu()  
     elif option == 3:
-        admin_and_LG_teams_menu()
+        admin_and_LG_teams_menu() 
     elif option == 4:
-        admin_and_LG_sprints_menu()
+        admin_and_LG_sprints_menu()   
     elif option == 5:
-        admin_evaluations_menu()
+        admin_evaluations_menu()    
     elif option == 97:
-        logout()
+        logout()     
     elif option == 98:
-        exit()
+        exit()      
     elif option == 99:
         logout()
         exit()
@@ -65,6 +68,7 @@ def group_leader_menu():
     )
 
     option = safe_int_input("Opção: ")
+    clear_screen()
     if option == 1:
         my_profile_menu()
     elif option == 2:
@@ -102,6 +106,7 @@ def common_user_menu():
     )
 
     option = safe_int_input("Opção: ")
+    clear_screen()
     if option == 1:
         my_profile_menu()
     elif option == 2:
@@ -117,6 +122,7 @@ def common_user_menu():
         exit()
     else:
         print("Opção inválida.\n")
+        
 
 def fake_client_menu():
     session = get_session()
@@ -133,6 +139,7 @@ def fake_client_menu():
     )
 
     option = safe_int_input("Opção: ")
+    clear_screen()
     if option == 1:
         my_profile_menu()
     elif option == 2:
@@ -153,6 +160,7 @@ def fake_client_menu():
 def program_loop():
     while True:
         session = get_session()
+        clear_screen()
         if session["user"] is None:
             login()
         else:
