@@ -1,9 +1,10 @@
-from ..utils import safe_int_input, console
+from ..utils import safe_int_input, clear_screen, console
 from ..teams.tui import search_and_select_team, search_and_select_member, select_LT_member, select_PO_member
 from ..sprints.repository import get_opened_sprint_from_group
 from ..turmas.tui import search_and_select_turma
 from ..teams.tui import select_team_from_turma, select_member, select_member_or_instructor
 from ..sprints.tui import select_sprint_from_group
+from rich.table import Table
 
 from .repository import (
     create_evaluation,
@@ -28,9 +29,15 @@ def summary_evaluation(evaluation):
 def detail_evaluation(evaluation):
     evaluator_name = evaluation["evaluator"]["name"]
     evaluated_name = evaluation["evaluated"]["name"]
-    console.print(f"\n[blue]Avaliador:[/blue] {evaluator_name}")
-    console.print(f"[blue]Avaliado:[/blue] {evaluated_name}")
-    console.print()
+
+    table = Table()
+
+    table.add_column("[blue]Avaliador[/blue]")
+    table.add_column("[blue]Avaliado[/blue]")
+
+    table.add_row(evaluator_name, evaluated_name)
+
+    console.print(table)
 
     for question, question_desc in QUESTIONS.items():
         grade = evaluation["grades"][question]

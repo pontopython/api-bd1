@@ -1,7 +1,7 @@
 import stdiomask
 from rich.markdown import Markdown
 
-from ..utils import safe_int_input, console
+from ..utils import safe_int_input, clear_screen, console
 from ..users.prompt import prompt_user_email
 from ..users.repository import get_user_by_email
 from ..users.tui import detail_user, edit_user
@@ -70,6 +70,7 @@ def my_profile_menu():
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 3:
+                clear_screen()
                 break
             console.print(":x: [bold red]Opção inválida[/bold red] :x:", justify="center")
             console.print()

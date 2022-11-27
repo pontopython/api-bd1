@@ -8,9 +8,10 @@ from .sprints.tui import admin_and_LG_sprints_menu
 from .evaluations.tui import admin_evaluations_menu, common_user_evaluations_menu, LG_user_evaluations_menu, FC_user_evaluations_menu
 from .session.current import get_session, logout
 from .session.tui import login, summary_session, my_profile_menu
-from .utils import safe_int_input, console, clear_screen
+from .utils import safe_int_input, clear_screen, console 
 
 def admin_menu():
+    
     session = get_session()
     console.rule("\n [blue]Bem vindo ao menu principal (Administrador)[/blue]")
     console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
@@ -51,6 +52,7 @@ def admin_menu():
         console.print()
 
 def group_leader_menu():
+    
     session = get_session()
     console.rule("\n [blue]Bem vindo ao menu principal (Líder de Grupo)[/blue]")
     console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
@@ -94,6 +96,7 @@ def group_leader_menu():
         console.print()
 
 def common_user_menu():
+    
     session = get_session()
     console.rule("\n [blue]Bem vindo ao menu principal[/blue]")
     console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
@@ -128,6 +131,7 @@ def common_user_menu():
         console.print()
 
 def fake_client_menu():
+    
     session = get_session()
     console.rule("\n [blue]Bem vindo ao menu principal (Fake Client)[blue]")
     console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
@@ -162,25 +166,29 @@ def fake_client_menu():
         console.print()
 
 def program_loop():
+    clear_screen()
     while True:
         session = get_session()
-        clear_screen()
         if session["user"] is None:
             login()
         else:
             if session["user"]["type"] == "ADMIN":
+                
                 admin_menu()
             elif (
                 session["user"]["type"] == "INSTR"
                 and session["turma"] is not None
                 and session["turma"]["group_leader"]["id"] == session["user"]["id"]
             ):
+                
                 group_leader_menu()
             elif (
                 session["user"]["type"] == "INSTR"
                 and session["turma"] is not None
                 and session["turma"]["fake_client"]["id"] == session["user"]["id"]
             ):
+                
                 fake_client_menu()
             else:
+                
                 common_user_menu()

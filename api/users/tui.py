@@ -229,6 +229,7 @@ def admin_users_menu():
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 6:
+                clear_screen()
                 break
             print("Opção inválida.")
 
@@ -257,6 +258,7 @@ def LG_users_menu():
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 6:
+                clear_screen()
                 break
             print("Opção inválida.")
 

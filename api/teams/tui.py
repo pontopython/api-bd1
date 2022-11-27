@@ -263,6 +263,7 @@ def show_team():
 
 
 def new_team():
+    clear_screen()
     console.print("\n [green]Novo Time[/green]")
     console.print
 
@@ -308,6 +309,7 @@ def new_team():
 
 
 def edit_team():
+    clear_screen()
     console.print("\n [purple]Editar time[/purple]")
     console.print()
     team = search_and_select_team()
@@ -336,6 +338,7 @@ def edit_team():
 
 
 def remove_team():
+    clear_screen()
     console.print("\n [red]Remover time[/red]")
     team = search_and_select_team()
     if team is None:
@@ -359,6 +362,7 @@ def admin_and_LG_teams_menu():
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 6:
+                clear_screen()
                 break
             console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
             console.print()

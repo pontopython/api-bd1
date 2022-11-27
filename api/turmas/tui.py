@@ -19,7 +19,6 @@ def summary_student(student):
 
 
 def detail_turma(turma, title="Detalhes da Turma:"):
-    clear_screen()
     id = turma["id"]
     name = turma["name"]
     group_leader_name = turma["group_leader"]["name"]
@@ -29,6 +28,8 @@ def detail_turma(turma, title="Detalhes da Turma:"):
     students_count = len(turma["students"])
     students = turma["students"]
     count = 0
+
+    clear_screen()
 
     print(title)
     console.print(f"\n [yellow]Id:[/yellow] {id}")
@@ -279,8 +280,8 @@ def admin_turmas_menu():
 
         while True:
             option = safe_int_input("Opção: ")
-            clear_screen()
             if option >= 1 and option <= 6:
+                clear_screen()
                 break
             console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
             console.print()

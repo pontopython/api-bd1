@@ -1,4 +1,4 @@
-from ..utils import safe_int_input, console
+from ..utils import safe_int_input, clear_screen, console
 from ..turmas.tui import search_and_select_turma
 from .repository import get_all_sprints_from_group, create_sprint, get_opened_sprint_from_group, update_sprints
 
@@ -90,6 +90,7 @@ def reopen_sprint_from_group(group):
 
 
 def admin_and_LG_sprints_menu(turma=None):
+    clear_screen()
     if turma is None:
         console.print("\n [green]Selecione a Turma[/green]")
         console.print()
@@ -113,6 +114,7 @@ def admin_and_LG_sprints_menu(turma=None):
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 6:
+                clear_screen()
                 break
             console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
             console.print()
