@@ -8,6 +8,7 @@ from .sprints.tui import admin_and_LG_sprints_menu
 from .evaluations.tui import admin_evaluations_menu, common_user_evaluations_menu, LG_user_evaluations_menu, FC_user_evaluations_menu
 from .session.current import get_session, logout
 from .session.tui import login, summary_session, my_profile_menu
+<<<<<<< HEAD
 from .utils import safe_int_input, clear_screen
 
 import os
@@ -25,8 +26,26 @@ def admin_menu():
     97 - Deslogar apenas
     98 - Sair apenas
     99 - Deslogar e sair
+=======
+from .utils import safe_int_input, console
+
+def admin_menu():
+    session = get_session()
+    console.rule("\n [blue]Bem vindo ao menu principal (Administrador)[/blue]")
+    console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
+    console.print("""
+    [blue]1 -[/blue] Usuários
+    [blue]2 -[/blue] Turmas
+    [blue]3 -[/blue] Times
+    [blue]4 -[/blue] Sprints
+    [blue]5 -[/blue] Avaliações
+    [blue]97 -[/blue] Deslogar apenas
+    [blue]98 -[/blue] Sair apenas
+    [blue]99 -[/blue] Deslogar e sair
+>>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
     """
     )
+    console.print()
 
     option = safe_int_input("Opção: ")
     clear_screen()
@@ -48,24 +67,26 @@ def admin_menu():
         logout()
         exit()
     else:
-        print("Opção inválida.\n")
+        console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
+        console.print()
 
 def group_leader_menu():
     session = get_session()
-    print("\nBem vindo ao menu principal (Líder de Grupo)")
-    print(f"Sessão atual: {summary_session(session)}")
-    print("""
-    1 - Meu Perfil
-    2 - Minhas Turmas
-    3 - Usuários
-    4 - Times
-    5 - Sprints
-    6 - Avaliações
-    97 - Deslogar apenas
-    98 - Sair apenas
-    99 - Deslogar e sair
+    console.rule("\n [blue]Bem vindo ao menu principal (Líder de Grupo)[/blue]")
+    console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
+    console.print("""
+    [blue]1 -[/blue] Meu Perfil
+    [blue]2 -[/blue] Minhas Turmas
+    [blue]3 -[/blue] Usuários
+    [blue]4 -[/blue] Times
+    [blue]5 -[/blue] Sprints
+    [blue]6 -[/blue] Avaliações
+    [blue]97 -[/blue] Deslogar apenas
+    [blue]98 -[/blue] Sair apenas
+    [blue]99 -[/blue] Deslogar e sair
     """
     )
+    console.print()
 
     option = safe_int_input("Opção: ")
     clear_screen()
@@ -89,21 +110,23 @@ def group_leader_menu():
         logout()
         exit()
     else:
-        print("Opção inválida.\n")
+        console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
+        console.print()
 
 def common_user_menu():
     session = get_session()
-    print("\nBem vindo ao menu principal")
-    print(f"Sessão atual: {summary_session(session)}")
-    print("""
-    1 - Meu Perfil
-    2 - Minhas Turmas
-    3 - Avaliações
-    97 - Deslogar apenas
-    98 - Sair apenas
-    99 - Deslogar e sair
+    console.rule("\n [blue]Bem vindo ao menu principal[/blue]")
+    console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
+    console.print("""
+    [blue]1 -[/blue] Meu Perfil
+    [blue]2 -[/blue] Minhas Turmas
+    [blue]3 -[/blue] Avaliações
+    [blue]97 -[/blue] Deslogar apenas
+    [blue]98 -[/blue] Sair apenas
+    [blue]99 -[/blue] Deslogar e sair
     """
     )
+    console.print()    
 
     option = safe_int_input("Opção: ")
     clear_screen()
@@ -121,22 +144,28 @@ def common_user_menu():
         logout()
         exit()
     else:
+<<<<<<< HEAD
         print("Opção inválida.\n")
         
+=======
+        console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
+        console.print()
+>>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
 
 def fake_client_menu():
     session = get_session()
-    print("\nBem vindo ao menu principal (Fake Client)")
-    print(f"Sessão atual: {summary_session(session)}")
-    print("""
-    1 - Meu Perfil
-    2 - Minhas Turmas
-    3 - Avaliações
-    97 - Deslogar apenas
-    98 - Sair apenas
-    99 - Deslogar e sair
+    console.rule("\n [blue]Bem vindo ao menu principal (Fake Client)[blue]")
+    console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
+    console.print("""
+    [blue]1 -[/blue] Meu Perfil
+    [blue]2 -[/blue] Minhas Turmas
+    [blue]3 -[/blue] Avaliações
+    [blue]97 -[/blue] Deslogar apenas
+    [blue]98 -[/blue] Sair apenas
+    [blue]99 -[/blue] Deslogar e sair
     """
     )
+    console.print()
 
     option = safe_int_input("Opção: ")
     clear_screen()
@@ -154,8 +183,8 @@ def fake_client_menu():
         logout()
         exit()
     else:
-        print("Opção inválida.\n")
-
+        console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
+        console.print()
 
 def program_loop():
     while True:

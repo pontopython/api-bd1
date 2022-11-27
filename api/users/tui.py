@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 from ..utils import safe_int_input, clear_screen
+=======
+from rich.table import Table
+
+from ..utils import safe_int_input, console
+>>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
 from .common import USER_TYPES
 from .repository import (
     create_user,
@@ -23,25 +29,51 @@ def summary_user(user):
 
 
 def detail_user(user, title="Detalhes do Usuário:"):
+<<<<<<< HEAD
     clear_screen()
+=======
+    
+>>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
     id = user["id"]
     name = user["name"]
     email = user["email"]
     type = user["type"]
     type_description = USER_TYPES[type]
 
-    print(title)
-    print(f"Id: {id}")
-    print(f"Nome: {name}")
-    print(f"Email: {email}")
-    print(f"Tipo: {type_description}")
+    table = Table(title=f"[bold green]{title}")
+
+    table.add_column("Id")
+    table.add_column("Nome")
+    table.add_column("Email")
+    table.add_column("Tipo")
+
+    table.add_row(id, name, email, type_description)
+    
+    console.print(table)
 
 
 def list_users():
+<<<<<<< HEAD
     clear_screen()
     print("Todos os Usuários:")
+=======
+    table = Table(title="[bold green]Todos os Usuários")
+
+    table.add_column("Id")
+    table.add_column("Nome")
+    table.add_column("Email")
+    table.add_column("Tipo")
+
+>>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
     for user in get_users():
-        print(summary_user(user))
+        id = user["id"]
+        name = user["name"]
+        email = user["email"]
+        type = user["type"]
+        type_description = USER_TYPES[type]
+        table.add_row(id, name, email, type_description)
+    
+    console.print(table)
 
 def list_common_users():
     clear_screen()
@@ -150,20 +182,20 @@ def edit_user(user):
     if user is None:
         return
 
-    print("Editar usuário")
+    console.print("\n[green]Editar usuário[/green]\n")
 
-    print(f"Nome: {user['name']}")
-    should_update = input("Deseja alterar (S/N)? ")
+    console.print(f"[blue]Nome:[/blue] {user['name']}")
+    should_update = console.input("[yellow]Deseja alterar ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if should_update == "S" or should_update == "s":
         user["name"] = prompt_user_name("Novo nome: ")
 
-    print(f"Email: {user['email']}")
-    should_update = input("Deseja alterar (S/N)? ")
+    console.print(f"\n[blue]Email:[/blue] {user['email']}")
+    should_update = console.input("[yellow]Deseja alterar ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if should_update == "S" or should_update == "s":
         user["email"] = input("Novo e-mail: ")
 
-    print(f"Senha: ********")
-    should_update = input("Deseja alterar (S/N)? ")
+    console.print(f"\n[blue]Senha:[/blue] ********")
+    should_update = console.input("[yellow]Deseja alterar ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if should_update == "S" or should_update == "s":
         user["password"] = prompt_user_password()
 
