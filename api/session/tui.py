@@ -1,4 +1,5 @@
 import stdiomask
+from rich.markdown import Markdown
 
 from ..utils import safe_int_input, console
 from ..users.prompt import prompt_user_email
@@ -60,16 +61,17 @@ def login():
 def my_profile_menu():
     session = get_session()
     while True:
-        print("Meu Perfil")
+        console.print("[bold blue]Meu Perfil[/bold blue]", justify="center")
         print("1 - Visualizar")
         print("2 - Editar")
         print("3 - Voltar")
+        console.print()
 
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 3:
                 break
-            print("Opção inválida.")
+            console.print(":x: [bold red]Opção inválida[/bold red] :x:")
 
         if option == 1:
             detail_user(session["user"])

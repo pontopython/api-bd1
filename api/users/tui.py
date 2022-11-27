@@ -1,4 +1,6 @@
-from ..utils import safe_int_input
+from rich.table import Table
+
+from ..utils import safe_int_input, console
 from .common import USER_TYPES
 from .repository import (
     create_user,
@@ -23,23 +25,42 @@ def summary_user(user):
 
 
 def detail_user(user, title="Detalhes do Usuário:"):
+    
     id = user["id"]
     name = user["name"]
     email = user["email"]
     type = user["type"]
     type_description = USER_TYPES[type]
 
-    print(title)
-    print(f"Id: {id}")
-    print(f"Nome: {name}")
-    print(f"Email: {email}")
-    print(f"Tipo: {type_description}")
+    table = Table(title=f"[bold green]{title}")
+
+    table.add_column("Id")
+    table.add_column("Nome")
+    table.add_column("Email")
+    table.add_column("Tipo")
+
+    table.add_row(id, name, email, type_description)
+    
+    console.print(table)
 
 
 def list_users():
-    print("Todos os Usuários:")
+    table = Table(title="[bold green]Todos os Usuários")
+
+    table.add_column("Id")
+    table.add_column("Nome")
+    table.add_column("Email")
+    table.add_column("Tipo")
+
     for user in get_users():
-        print(summary_user(user))
+        id = user["id"]
+        name = user["name"]
+        email = user["email"]
+        type = user["type"]
+        type_description = USER_TYPES[type]
+        table.add_row(id, name, email, type_description)
+    
+    console.print(table)
 
 def list_common_users():
     print("Usuários Disponíveis:")
