@@ -8,26 +8,7 @@ from .sprints.tui import admin_and_LG_sprints_menu
 from .evaluations.tui import admin_evaluations_menu, common_user_evaluations_menu, LG_user_evaluations_menu, FC_user_evaluations_menu
 from .session.current import get_session, logout
 from .session.tui import login, summary_session, my_profile_menu
-<<<<<<< HEAD
-from .utils import safe_int_input, clear_screen
-
-import os
-
-def admin_menu():
-    session = get_session() 
-    print("\nBem vindo ao menu principal (Administrador)")
-    print(f"Sessão atual: {summary_session(session)}")
-    print("""
-    1 - Usuários
-    2 - Turmas
-    3 - Times
-    4 - Sprints
-    5 - Avaliações
-    97 - Deslogar apenas
-    98 - Sair apenas
-    99 - Deslogar e sair
-=======
-from .utils import safe_int_input, console
+from .utils import safe_int_input, console, clear_screen
 
 def admin_menu():
     session = get_session()
@@ -42,7 +23,6 @@ def admin_menu():
     [blue]97 -[/blue] Deslogar apenas
     [blue]98 -[/blue] Sair apenas
     [blue]99 -[/blue] Deslogar e sair
->>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
     """
     )
     console.print()
@@ -144,13 +124,8 @@ def common_user_menu():
         logout()
         exit()
     else:
-<<<<<<< HEAD
-        print("Opção inválida.\n")
-        
-=======
         console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
         console.print()
->>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
 
 def fake_client_menu():
     session = get_session()

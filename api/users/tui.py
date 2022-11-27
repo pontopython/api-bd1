@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-from ..utils import safe_int_input, clear_screen
-=======
 from rich.table import Table
 
-from ..utils import safe_int_input, console
->>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
+from ..utils import safe_int_input, console, clear_screen
 from .common import USER_TYPES
 from .repository import (
     create_user,
@@ -29,11 +25,7 @@ def summary_user(user):
 
 
 def detail_user(user, title="Detalhes do Usuário:"):
-<<<<<<< HEAD
     clear_screen()
-=======
-    
->>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
     id = user["id"]
     name = user["name"]
     email = user["email"]
@@ -53,10 +45,7 @@ def detail_user(user, title="Detalhes do Usuário:"):
 
 
 def list_users():
-<<<<<<< HEAD
     clear_screen()
-    print("Todos os Usuários:")
-=======
     table = Table(title="[bold green]Todos os Usuários")
 
     table.add_column("Id")
@@ -64,7 +53,6 @@ def list_users():
     table.add_column("Email")
     table.add_column("Tipo")
 
->>>>>>> f0064dce9847383db81c3d6b28dbbcb0f19fd854
     for user in get_users():
         id = user["id"]
         name = user["name"]
