@@ -33,8 +33,7 @@
 | Líder de Time | Adicionar usuários ao time | Montar a equipe | Imprescindível | 1 | **Realizado** |
 | Usuário | Autoavaliação, avaliação do time e aval. adcionais | Completar a avaliação 360° | Imprescindível | 2 | **Realizado** |
 | Usuário | Ver as médias das minhas notas | Noção de performance | Desejável | 2 | **Realizado** |
-| Líder de Time | Dashboard com informações de sprints e notas | Visibilidade sobre o time | Desejável | 4 | A iniciar |
-| Usuário | Gráficos de desempenho | Noção de performance | Desejável | 4 | A iniciar |
+| Líder de Time | Dashboard com informações de sprints e notas | Visibilidade sobre o time | Desejável | 4 | **Realizado** |
 | Desenvolvedor | Aplicar restrições e hierarquia de usuários | Organizar as funcionalidades | Imprescindível | 2 | **Realizado** |
 
 <span id="entrega">
