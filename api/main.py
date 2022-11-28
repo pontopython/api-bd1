@@ -16,11 +16,11 @@ def admin_menu():
     console.rule("\n [bold blue]Bem vindo ao menu principal (Administrador)[/bold blue]")
     console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
     console.print("""
-    [blue]1 -[/blue] [yellow]Usuários [/yellow]
-    [blue]2 -[/blue] [yellow]Turmas[/yellow]
-    [blue]3 -[/blue] [yellow]Times[/yellow]
-    [blue]4 -[/blue] [yellow]Sprints[/yellow]
-    [blue]5 -[/blue] [yellow]Avaliações[/yellow]
+    [blue] 1 -[/blue] [yellow]Usuários [/yellow]
+    [blue] 2 -[/blue] [yellow]Turmas[/yellow]
+    [blue] 3 -[/blue] [yellow]Times[/yellow]
+    [blue] 4 -[/blue] [yellow]Sprints[/yellow]
+    [blue] 5 -[/blue] [yellow]Avaliações[/yellow]
     [blue]97 -[/blue] [yellow]Deslogar apenas[/yellow]
     [blue]98 -[/blue] [yellow]Sair apenas[/yellow]
     [blue]99 -[/blue] [yellow]Deslogar e sair[/yellow]
@@ -57,12 +57,12 @@ def group_leader_menu():
     console.rule("\n [bold blue]Bem vindo ao menu principal (Líder de Grupo)[/bold blue]")
     console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
     console.print("""
-    [blue]1 -[/blue] [yellow]Meu Perfil[/yellow]
-    [blue]2 -[/blue] [yellow]Minhas Turmas[/yellow]
-    [blue]3 -[/blue] [yellow]Usuários[/yellow]
-    [blue]4 -[/blue] [yellow]Times[/yellow]
-    [blue]5 -[/blue] [yellow]Sprints[/yellow]
-    [blue]6 -[/blue] [yellow]Avaliações[/yellow]
+    [blue] 1 -[/blue] [yellow]Meu Perfil[/yellow]
+    [blue] 2 -[/blue] [yellow]Minhas Turmas[/yellow]
+    [blue] 3 -[/blue] [yellow]Usuários[/yellow]
+    [blue] 4 -[/blue] [yellow]Times[/yellow]
+    [blue] 5 -[/blue] [yellow]Sprints[/yellow]
+    [blue] 6 -[/blue] [yellow]Avaliações[/yellow]
     [blue]97 -[/blue] [yellow]Deslogar apenas[/yellow]
     [blue]98 -[/blue] [yellow]Sair apenas[/yellow]
     [blue]99 -[/blue] [yellow]Deslogar e sair[/yellow]
@@ -101,9 +101,9 @@ def common_user_menu():
     console.rule("\n [bold blue]Bem vindo ao menu principal[/bold blue]")
     console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
     console.print("""
-    [blue]1 -[/blue] [yellow]Meu Perfil[/yellow]
-    [blue]2 -[/blue] [yellow]Minhas Turmas[/yellow]
-    [blue]3 -[/blue] [yellow]Avaliações[/yellow]
+    [blue] 1 -[/blue] [yellow]Meu Perfil[/yellow]
+    [blue] 2 -[/blue] [yellow]Minhas Turmas[/yellow]
+    [blue] 3 -[/blue] [yellow]Avaliações[/yellow]
     [blue]97 -[/blue] [yellow]Deslogar apenas[/yellow]
     [blue]98 -[/blue] [yellow]Sair apenas[/yellow]
     [blue]99 -[/blue] [yellow]Deslogar e sair[/yellow]
@@ -136,9 +136,9 @@ def fake_client_menu():
     console.rule("\n [bold blue]Bem vindo ao menu principal (Fake Client)[/bold blue]")
     console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
     console.print("""
-    [blue]1 -[/blue] [yellow]Meu Perfil[/yellow]
-    [blue]2 -[/blue] [yellow]Minhas Turmas[/yellow]
-    [blue]3 -[/blue] [yellow]Avaliações[/yellow]
+    [blue] 1 -[/blue] [yellow]Meu Perfil[/yellow]
+    [blue] 2 -[/blue] [yellow]Minhas Turmas[/yellow]
+    [blue] 3 -[/blue] [yellow]Avaliações[/yellow]
     [blue]97 -[/blue] [yellow]Deslogar apenas[/yellow]
     [blue]98 -[/blue] [yellow]Sair apenas[/yellow]
     [blue]99 -[/blue] [yellow]Deslogar e sair[/yellow]
