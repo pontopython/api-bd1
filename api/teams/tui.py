@@ -351,7 +351,7 @@ def remove_team():
 def admin_and_LG_teams_menu():
     clear_screen()
     while True:
-        console.rule("\n [bold blue]Menu Times[/bold blue]\n")
+        console.rule("\n[bold blue]Menu Times[/bold blue]\n", justify="center")
         console.print("[blue]1 -[/blue] [yellow]Listar[/yellow]")
         console.print("[blue]2 -[/blue] [yellow]Novo[/yellow]")
         console.print("[blue]3 -[/blue] [yellow]Buscar e Detalhar[/yellow]")

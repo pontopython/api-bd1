@@ -270,7 +270,7 @@ def menu_list_turmas(user):
 def admin_turmas_menu():
     clear_screen()
     while True:
-        console.rule("\n [bold blue]Menu Turmas (Administrador)[/bold blue]")
+        console.rule("\n [bold blue]Menu Turmas (Administrador)[/bold blue]", justify="center")
         console.print("[blue]1 -[/blue] [yellow]Listar[/yellow]")
         console.print("[blue]2 -[/blue] [yellow]Novo[/yellow]")
         console.print("[blue]3 -[/blue] [yellow]Buscar e Detalhar[/yellow]")
