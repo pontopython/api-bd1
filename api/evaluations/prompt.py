@@ -1,8 +1,9 @@
-from ..utils import safe_int_input,console
+from ..utils import safe_int_input,clear_screen, console
 from .common import QUESTIONS, ALTERNATIVES
 
 
 def prompt_evaluation_form():
+    clear_screen()
     grades = {}
     for question, question_text in QUESTIONS.items():
         print(question_text)

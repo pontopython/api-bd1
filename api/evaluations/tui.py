@@ -20,13 +20,24 @@ from .common import QUESTIONS, ALTERNATIVES
 
 
 def summary_evaluation(evaluation):
+    clear_screen()
     evaluator_name = evaluation["evaluator"]["name"]
     evaluated_name = evaluation["evaluated"]["name"]
-    average = sum(evaluation["grades"].values()) / len(evaluation["grades"])
-    return f"Avaliador: %s, Avaliado: %s, Média: %.2f" % (evaluator_name, evaluated_name, average)
+    average = str (sum(evaluation["grades"].values()) / len(evaluation["grades"]))
+
+    table = Table()
+
+    table.add_column("[blue]Avaliador[/blue]")
+    table.add_column("[blue]Avaliado[/blue]")
+    table.add_column("[blue]Média[/blue]")
+
+    table.add_row(evaluator_name, evaluated_name, average)
+    
+    return console.print(table)
 
 
 def detail_evaluation(evaluation):
+    clear_screen()
     evaluator_name = evaluation["evaluator"]["name"]
     evaluated_name = evaluation["evaluated"]["name"]
 
@@ -38,19 +49,29 @@ def detail_evaluation(evaluation):
     table.add_row(evaluator_name, evaluated_name)
 
     console.print(table)
-
+        
+    table_for = Table() 
+    table_for.add_column(f"[blue]Questão[/blue]")
+    table_for.add_column(f"[blue]Nota[/blue]")
+    table_for.add_column(f"[blue]Situação[/blue]")
+    
     for question, question_desc in QUESTIONS.items():
         grade = evaluation["grades"][question]
-        console.print(f"\n [purple]Questão:[/purple] {question_desc}")
-        console.print(
-            "[yellow]Nota:[/yellow] %.2f - %s" % (grade, ALTERNATIVES[grade])
-        )  # TODO: Alessandra, usa isso nos outros lugares que mostra nota
+        table_for.add_row(f"%s" % (question_desc), f"%.2f" % (grade), f"%s" % (ALTERNATIVES[grade]))
+        
+    console.print(table_for)
 
-    average = sum(evaluation["grades"].values()) / len(evaluation["grades"])
-    console.print(f"\n [yellow]Média:[/yellow] %.2f" % average)
-    console.print()
+    average = str (sum(evaluation["grades"].values()) / len(evaluation["grades"]))
+
+    table_average = Table()
+
+    table.add_column("[blue]Média[/blue]")
+    table.add_column(average)
+
+    console.print(table_average)
 
 def admin_list_evaluations(sprint):
+    clear_screen()
     evaluations = get_all_evaluations_from_sprint(sprint)
     console.print("\n[blue]Avaliações[/blue]")
     for evaluation in evaluations:
@@ -236,6 +257,7 @@ def admin_evaluations_menu():
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 9:
+                clear_screen()
                 break
             console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
             console.print()
@@ -281,6 +303,7 @@ def common_user_evaluations_menu(team, user):
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 7:
+                clear_screen()
                 break
             console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
             console.print()
@@ -333,6 +356,7 @@ def LG_user_evaluations_menu(turma, user):
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 5:
+                clear_screen()
                 break
             console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
             console.print()
@@ -378,6 +402,7 @@ def FC_user_evaluations_menu(turma, user):
         while True:
             option = safe_int_input("Opção: ")
             if option >= 1 and option <= 5:
+                clear_screen()
                 break
             console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
             console.print()
