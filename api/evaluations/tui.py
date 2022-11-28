@@ -186,14 +186,22 @@ def show_statistics(evaluations):
         for question in sum_by_question:
             avg_by_question[question] = sum_by_question[question] / len(evaluations)
 
+    table = Table()
+
+    table.add_column("[blue]Questão[/blue]")
+    table.add_column("[blue]Média[/blue]")
+
     for question in QUESTIONS:
-        console.print(f"\n [purple]Questão:[/purple] {QUESTIONS[question]}")
-        console.print(f"\n [purple]Média:[/purple] {avg_by_question[question]}")
-        console.print()    
+        table.add_row(f"%s" % (QUESTIONS[question]), f"%s" % (avg_by_question[question]) )
+    
+    console.print(table)    
 
     total_avg = sum(avg_by_question.values()) / len(avg_by_question)
-    console.print(f"\n [purple]Média total:[/purple] {total_avg}")
-    console.print()
+    
+    table_total = Table()
+    table_total.add_column("[blue]Média Total[/blue]")
+    table_total.add_row(f"[yellow]{total_avg}[/yellow]")
+    console.print(table_total)
 
 def admin_detail_team_statistics_in_one_sprint(sprint):
     evaluations = get_all_evaluations_from_sprint(sprint)
@@ -273,7 +281,7 @@ def admin_evaluations_menu():
         elif option == 5:
             admin_detail_team_statistics_in_all_sprints(team)
         elif option == 6:
-            admin_detail_member_statistics_in_one_sprint(sprint)
+            admin_detail_member_statistics_in_one_sprint(team, sprint)
         elif option == 7:
             admin_detail_member_statistics_in_all_sprints(team)
         else:
