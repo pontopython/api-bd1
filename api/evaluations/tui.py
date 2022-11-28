@@ -20,7 +20,6 @@ from .common import QUESTIONS, ALTERNATIVES
 
 
 def summary_evaluation(evaluation):
-    clear_screen()
     evaluator_name = evaluation["evaluator"]["name"]
     evaluated_name = evaluation["evaluated"]["name"]
     average = str (sum(evaluation["grades"].values()) / len(evaluation["grades"]))
@@ -73,9 +72,9 @@ def detail_evaluation(evaluation):
 def admin_list_evaluations(sprint):
     clear_screen()
     evaluations = get_all_evaluations_from_sprint(sprint)
-    console.print("\n[blue]Avaliações[/blue]")
+    console.rule("\n[blue]Avaliações[/blue]")
     for evaluation in evaluations:
-        console.print(f"\n    - {summary_evaluation(evaluation)}")
+        summary_evaluation(evaluation)
         console.print()
     console.print()
 
@@ -158,10 +157,11 @@ def select_evaluation(sprint):
         return None
 
     for index, evaluation in enumerate(evaluations):
-        print(f"{index+1} - {summary_evaluation(evaluation)}")
+        console.print(f"[blue]{index+1}:[/blue]")
+        summary_evaluation(evaluation)
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(evaluations):
             return evaluations[option - 1]
         console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
