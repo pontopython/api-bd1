@@ -218,7 +218,7 @@ def remove_user():
 def admin_users_menu():
     clear_screen()
     while True:
-        console.print("\n [bold blue]Menu Usuários (Administrador) [bold blue]", justify="center")
+        console.rule("\n [bold blue]Menu Usuários (Administrador) [bold blue]")
         console.print(f"[blue]1 -[/blue] [yellow]Listar[/yellow]")
         console.print(f"[blue]2 -[/blue] [yellow]Novo[/yellow]")
         console.print(f"[blue]3 -[/blue] [yellow]Buscar e Detalhar[/yellow]")
