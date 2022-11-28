@@ -104,11 +104,11 @@ def admin_and_LG_sprints_menu(turma=None):
     while True:
         console.rule("\n [bold blue]Menu Sprints (Administrador)[/bold blue]")
         console.print(f"\n [green]Turma:[/green] {turma['name']}\n")
-        console.print("[blue]1 -[/blue] Listar")
-        console.print("[blue]2 -[/blue] Abrir Nova")
-        console.print("[blue]3 -[/blue] Fechar")
-        console.print("[blue]4 -[/blue] Reabrir")
-        console.print("[blue]5 -[/blue] Voltar")
+        console.print("[blue]1 -[/blue] [yellow]Listar[/yellow]")
+        console.print("[blue]2 -[/blue] [yellow]Abrir Nova[/yellow]")
+        console.print("[blue]3 -[/blue] [yellow]Fechar[/yellow]")
+        console.print("[blue]4 -[/blue] [yellow]Reabrir[/yellow]")
+        console.print("[blue]5 -[/blue] [yellow]Voltar[/yellow]")
         console.print()
 
         while True:
