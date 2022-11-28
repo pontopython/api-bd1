@@ -249,7 +249,7 @@ def admin_users_menu():
 def LG_users_menu():
     clear_screen()
     while True:
-        console.print("\n [bold blue]Menu Usuários [bold blue]", justify="center")
+        console.rule("\n [bold blue]Menu Usuários [bold blue]")
         console.print("[blue]1 -[/blue] [yellow]Listar[/yellow]")
         console.print("[blue]2 -[/blue] [yellow]Novo[/yellow]")
         console.print("[blue]3 -[/blue] [yellow]Buscar e Detalhar[/yellow]")
