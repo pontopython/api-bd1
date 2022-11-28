@@ -218,7 +218,7 @@ def remove_user():
 def admin_users_menu():
     clear_screen()
     while True:
-        print("Menu Usuários (Administrador)")
+        print("\n [bold blue]Menu Usuários (Administrador) [bold blue]")
         console.print(f"[blue]1 -[/blue] [yellow]Listar[/yellow]")
         console.print(f"[blue]2 -[/blue] [yellow]Novo[/yellow]")
         console.print(f"[blue]3 -[/blue] [yellow]Buscar e Detalhar[/yellow]")
@@ -249,11 +249,11 @@ def admin_users_menu():
 def LG_users_menu():
     clear_screen()
     while True:
-        print("Menu Usuários ")
-        print("1 - Listar")
-        print("2 - Novo")
-        print("3 - Buscar e Detalhar")
-        print("4 - Voltar")
+        console.print("\n [bold blue]Menu Usuários [bold blue]")
+        console.print("[blue]1 -[/blue] [yellow]Listar[/yellow]")
+        console.print("[blue]2 -[/blue] [yellow]Novo[/yellow]")
+        console.print("[blue]3 -[/blue] [yellow]Buscar e Detalhar[/yellow]")
+        console.print("[blue]4 -[/blue] [yellow]Voltar[/yellow]")
 
         while True:
             option = safe_int_input("Opção: ")
