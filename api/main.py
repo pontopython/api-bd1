@@ -13,7 +13,7 @@ from .utils import safe_int_input, clear_screen, console
 def admin_menu():
     
     session = get_session()
-    console.rule("\n [blue]Bem vindo ao menu principal (Administrador)[/blue]")
+    console.rule("\n [bold blue]Bem vindo ao menu principal (Administrador)[/bold blue]")
     console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
     console.print("""
     [blue]1 -[/blue] [yellow]Usuários [/yellow]
@@ -54,7 +54,7 @@ def admin_menu():
 def group_leader_menu():
     
     session = get_session()
-    console.rule("\n [blue]Bem vindo ao menu principal (Líder de Grupo)[/blue]")
+    console.rule("\n [bold blue]Bem vindo ao menu principal (Líder de Grupo)[/bold blue]")
     console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
     console.print("""
     [blue]1 -[/blue] [yellow]Meu Perfil[/yellow]
@@ -98,7 +98,7 @@ def group_leader_menu():
 def common_user_menu():
     
     session = get_session()
-    console.rule("\n [blue]Bem vindo ao menu principal[/blue]")
+    console.rule("\n [bold blue]Bem vindo ao menu principal[/bold blue]")
     console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
     console.print("""
     [blue]1 -[/blue] [yellow]Meu Perfil[/yellow]
@@ -133,7 +133,7 @@ def common_user_menu():
 def fake_client_menu():
     
     session = get_session()
-    console.rule("\n [blue]Bem vindo ao menu principal (Fake Client)[blue]")
+    console.rule("\n [bold blue]Bem vindo ao menu principal (Fake Client)[/bold blue]")
     console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
     console.print("""
     [blue]1 -[/blue] [yellow]Meu Perfil[/yellow]
