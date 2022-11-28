@@ -31,7 +31,7 @@
 | Líder de Time | Editar e excluir times  | Corrigir erros e fazer alterações | Importante | 2 | **Realizado** |
 | Líder de Time | Criar, editar e salvar as sprints | Organizar o cronograma da equipe | Imprescindível | 3 | **Realizado** |
 | Líder de Time | Adicionar usuários ao time | Montar a equipe | Imprescindível | 1 | **Realizado** |
-| Usuário | Auto-avaliação, avaliação do time e aval. adcionais | Completar a avaliação 360° | Imprescindível | 2 | **Realizado** |
+| Usuário | Autoavaliação, avaliação do time e aval. adcionais | Completar a avaliação 360° | Imprescindível | 2 | **Realizado** |
 | Usuário | Ver as médias das minhas notas | Noção de performance | Desejável | 2 | **Realizado** |
 | Líder de Time | Dashboard com informações de sprints e notas | Visibilidade sobre o time | Desejável | 4 | A iniciar |
 | Usuário | Gráficos de desempenho | Noção de performance | Desejável | 4 | A iniciar |
