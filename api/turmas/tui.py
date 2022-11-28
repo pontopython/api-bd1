@@ -264,7 +264,7 @@ def menu_list_turmas(user):
         console.print()
     
     for index, turma in enumerate(turmas):
-        print(f"{index+1} - {turma['name']}")
+        console.print(f"[blue]{index+1} -[/blue] {turma['name']}")
 
 
 def admin_turmas_menu():
