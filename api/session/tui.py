@@ -62,9 +62,9 @@ def my_profile_menu():
     session = get_session()
     while True:
         console.print("[bold blue]Meu Perfil[/bold blue]", justify="center")
-        console.print("\n[blue]1 -[/blue] Visualizar")
-        console.print("[blue]2 -[/blue] Editar")
-        console.print("[blue]3 -[/blue] Voltar")
+        console.print("\n[blue]1 -[/blue] [yellow]Visualizar[/yellow]")
+        console.print("[blue]2 -[/blue] [yellow]Editar[/yellow]")
+        console.print("[blue]3 -[/blue] [yellow]Voltar[/yellow]")
         console.print()
 
         while True:
