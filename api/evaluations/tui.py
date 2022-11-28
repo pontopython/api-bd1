@@ -244,14 +244,14 @@ def admin_evaluations_menu():
     while True:
         console.rule("\n [bold blue]Menu Avaliações (Administrador)[/bold blue]")
         console.print(f"\n [green]Time:[/green] {team['name']}, [green]Sprint:[/green] {sprint['name']} #{sprint['id']}\n")
-        console.print("[blue]1 -[/blue] Listar")
-        console.print("[blue]2 -[/blue] Criar")
-        console.print("[blue]3 -[/blue] Detalhar")
-        console.print("[blue]4 -[/blue] Estatísticas deste time nesta sprint")
-        console.print("[blue]5 -[/blue] Estatísticas deste time em todas as sprints")
-        console.print("[blue]6 -[/blue] Estatísticas de um membro nesta sprint")
-        console.print("[blue]7 -[/blue] Estatísticas de um membro em todas as sprints")
-        console.print("[blue]8 -[/blue] Voltar")
+        console.print("[blue]1 -[/blue] [yellow]Listar[/yellow]")
+        console.print("[blue]2 -[/blue] [yellow]Criar[/yellow]")
+        console.print("[blue]3 -[/blue] [yellow]Detalhar[/yellow]")
+        console.print("[blue]4 -[/blue] [yellow]Estatísticas deste time nesta sprint[/yellow]")
+        console.print("[blue]5 -[/blue] [yellow]Estatísticas deste time em todas as sprints[/yellow]")
+        console.print("[blue]6 -[/blue] [yellow]Estatísticas de um membro nesta sprint[/yellow]")
+        console.print("[blue]7 -[/blue] [yellow]Estatísticas de um membro em todas as sprints[/yellow]")
+        console.print("[blue]8 -[/blue] [yellow]Voltar[/yellow]")
         console.print()
 
         while True:
