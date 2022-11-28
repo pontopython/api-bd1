@@ -271,12 +271,12 @@ def admin_turmas_menu():
     clear_screen()
     while True:
         console.rule("\n [bold blue]Menu Turmas (Administrador)[/bold blue]")
-        console.print("[blue]1 -[/blue] Listar")
-        console.print("[blue]2 -[/blue] Novo")
-        console.print("[blue]3 -[/blue] Buscar e Detalhar")
-        console.print("[blue]4 -[/blue] Editar")
-        console.print("[blue]5 -[/blue] Excluir")
-        console.print("[blue]6 -[/blue] Voltar")
+        console.print("[blue]1 -[/blue] [yellow]Listar[/yellow]")
+        console.print("[blue]2 -[/blue] [yellow]Novo[/yellow]")
+        console.print("[blue]3 -[/blue] [yellow]Buscar e Detalhar[/yellow]")
+        console.print("[blue]4 -[/blue] [yellow]Editar[/yellow]")
+        console.print("[blue]5 -[/blue] [yellow]Excluir[/yellow]")
+        console.print("[blue]6 -[/blue] [yellow]Voltar[/yellow]")
         console.print()
 
         while True:
