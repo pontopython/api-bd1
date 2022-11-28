@@ -219,19 +219,19 @@ def admin_users_menu():
     clear_screen()
     while True:
         print("Menu Usuários (Administrador)")
-        print("1 - Listar")
-        print("2 - Novo")
-        print("3 - Buscar e Detalhar")
-        print("4 - Editar")
-        print("5 - Excluir")
-        print("6 - Voltar")
+        console.print(f"[blue]1 -[/blue] [yellow]Listar[/yellow]")
+        console.print(f"[blue]2 -[/blue] [yellow]Novo[/yellow]")
+        console.print(f"[blue]3 -[/blue] [yellow]Buscar e Detalhar[/yellow]")
+        console.print(f"[blue]4 -[/blue] [yellow]Editar[/yellow]")
+        console.print(f"[blue]5 -[/blue] [yellow]Excluir[/yellow]")
+        console.print(f"[blue]6 -[/blue] [yellow]Voltar[/yellow]")
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 6:
                 clear_screen()
                 break
-            print("Opção inválida.")
+            console.print(f"[bold red]Opção inválida.[/bold red]")
 
         if option == 1:
             list_users()
