@@ -39,7 +39,8 @@ def prompt_user_password():
             [yellow]No mínimo 1 carácter especial (@!%*?&)[/yellow]""")
 
     while True:
-        password = stdiomask.getpass(prompt="Senha: ", mask="*")
+        console.print(f":lock: Senha: ", end="")
+        password = stdiomask.getpass(prompt="", mask="*")
         valid, errors = validate_user_password(password)
 
         if valid:
