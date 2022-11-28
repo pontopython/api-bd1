@@ -62,7 +62,7 @@ def select_sprint_from_group(group, closed=False):
         return None
 
     for index, sprint in enumerate(valid_sprints):
-        print(f"{index+1} - {summary_sprint(sprint)}")
+        console.print(f"[blue]{index+1} -[/blue] {summary_sprint(sprint)}")
 
     while True:
         option = safe_int_input("Opção: ")
