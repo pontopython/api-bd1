@@ -62,10 +62,10 @@ def search_and_select_turma():
         return None
 
     for index, turma in enumerate(turmas):
-        print(f"{index+1} - {summary_turma(turma)}")
+        console.print(f"\n[blue]{index+1}[/blue] - {summary_turma(turma)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(turmas):
             return turmas[option - 1]
         console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
