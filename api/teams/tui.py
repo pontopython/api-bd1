@@ -244,7 +244,7 @@ def select_team_from_turma(turma):
         return None
 
     for index, team in enumerate(teams):
-        print(f"{index+1} - {summary_team(team)}")
+        console.print(f"[blue]{index+1} -[/blue] {summary_team(team)}")
 
     while True:
         option = safe_int_input("Opção: ")
