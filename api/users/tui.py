@@ -95,7 +95,8 @@ def search_and_select_user():
         option = safe_int_input("Opção: ")
         if option > 0 and option <= len(users):
             return users[option - 1]
-        print("Opção inválida.")
+        console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
+
 
 def search_and_select_common_user(excludes=[]):
     clear_screen()
@@ -114,7 +115,7 @@ def search_and_select_common_user(excludes=[]):
         option = safe_int_input("Opção: ")
         if option > 0 and option <= len(users):
             return users[option - 1]
-        print("Opção inválida.")
+        console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
 
 
 def search_and_select_instructor(excludes=[]):
@@ -133,7 +134,7 @@ def search_and_select_instructor(excludes=[]):
         option = safe_int_input("Opção: ")
         if option > 0 and option <= len(users):
             return users[option - 1]
-        print("Opção inválida.")
+        console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
 
 
 def show_user():
@@ -231,7 +232,7 @@ def admin_users_menu():
             if option >= 1 and option <= 6:
                 clear_screen()
                 break
-            console.print(f"[bold red]Opção inválida.[/bold red]")
+            console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
 
         if option == 1:
             list_users()
@@ -260,8 +261,8 @@ def LG_users_menu():
             if option >= 1 and option <= 6:
                 clear_screen()
                 break
-            print("Opção inválida.")
-
+            console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
+        
         if option == 1:
             list_users()
         elif option == 2:

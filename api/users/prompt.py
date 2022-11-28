@@ -1,7 +1,8 @@
 import stdiomask
 from rich import print
+from rich.panel import Panel
 
-from ..utils import safe_int_input
+from ..utils import safe_int_input, console 
 from .common import USER_TYPES
 from .validation import validate_user_email, validate_user_name, validate_user_password
 
@@ -59,4 +60,4 @@ def prompt_user_type(prompt="Qual tipo de usuário?"):
         if option in [1, 2, 3]:
             return list(USER_TYPES.keys())[option - 1]
 
-        print("Opção inválida")
+        console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
