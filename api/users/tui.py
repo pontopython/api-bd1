@@ -46,7 +46,7 @@ def detail_user(user, title="Detalhes do Usuário:"):
 
 def list_users():
     clear_screen()
-    table = Table(title="[bold green]Todos os Usuários")
+    table = Table(title="[bold green]Todos os Usuários[/bold green]")
 
     table.add_column("Id")
     table.add_column("Nome")
