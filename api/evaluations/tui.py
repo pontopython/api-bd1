@@ -144,6 +144,7 @@ def self_evaluation(user, team, sprint):
     if user["id"] in [e["id"] for e in already_evaluated]:
         console.print("\n [bold red]Você já se avaliou![/bold red]")
         console.print()
+        return
     grades = prompt_evaluation_form()
     create_evaluation(sprint, team, user, user, grades)
 
