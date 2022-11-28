@@ -1,7 +1,10 @@
-from ..utils import safe_int_input
+import stdiomask
+from rich import print
+from rich.panel import Panel
+
+from ..utils import safe_int_input, console 
 from .common import USER_TYPES
 from .validation import validate_user_email, validate_user_name, validate_user_password
-import stdiomask
 
 
 def prompt_user_name(prompt="Nome: "):
@@ -17,7 +20,8 @@ def prompt_user_name(prompt="Nome: "):
 
 def prompt_user_email(prompt="Email: "):
     while True:
-        email = input(prompt)
+        print(f":e-mail: {prompt}", end="")
+        email = input()
         valid, errors = validate_user_email(email)
 
         if valid:
@@ -27,15 +31,16 @@ def prompt_user_email(prompt="Email: "):
             print(error)
 
 def prompt_user_password():
-    print("""Sua senha deve conter:
-            No mínimo 8 caracteres
-            No mínimo 1 letra maiúscula
-            No mínimo 1 letra minúscula
-            No mínimo 1 número
-            No mínimo 1 carácter especial (@!%*?&)""")
-    
+    console.print("""Sua senha deve conter:
+            [yellow]No mínimo 8 caracteres[/yellow]
+            [yellow]No mínimo 1 letra maiúscula[/yellow]
+            [yellow]No mínimo 1 letra minúscula[/yellow]
+            [yellow]No mínimo 1 número[/yellow]
+            [yellow]No mínimo 1 carácter especial (@!%*?&)[/yellow]""")
+
     while True:
-        password = stdiomask.getpass(prompt="Senha: ", mask="*")
+        console.print(f":lock: Senha: ", end="")
+        password = stdiomask.getpass(prompt="", mask="*")
         valid, errors = validate_user_password(password)
 
         if valid:
@@ -47,13 +52,13 @@ def prompt_user_password():
 
 def prompt_user_type(prompt="Qual tipo de usuário?"):
     while True:
-        print(prompt)
-        print("1 - Administrador")
-        print("2 - Instrutor")
-        print("3 - Usuário Comum")
-        option = safe_int_input("Opção: ")
+        console.rule(f"\n[bold blue]{prompt}[/bold blue]")
+        console.print("[blue]1 -[/blue] Administrador")
+        console.print("[blue]2 -[/blue] Instrutor")
+        console.print("[blue]3 -[/blue] Usuário Comum")
+        option = safe_int_input("\nOpção: ")
 
         if option in [1, 2, 3]:
             return list(USER_TYPES.keys())[option - 1]
 
-        print("Opção inválida")
+        console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")

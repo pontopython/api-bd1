@@ -1,7 +1,7 @@
-def create_sprint_dict(id, team, name, status):
+def create_sprint_dict(id, group, name, status):
     return {
         "id": id,
-        "team": team,
+        "group": group,
         "name": name,
         "status": status
     }

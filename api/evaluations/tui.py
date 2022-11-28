@@ -1,9 +1,10 @@
-from ..utils import safe_int_input
-from ..teams.tui import search_and_select_team, search_and_select_member
-from ..sprints.repository import get_opened_sprint_from_team
+from ..utils import safe_int_input, clear_screen, console
+from ..teams.tui import search_and_select_team, search_and_select_member, select_LT_member, select_PO_member
+from ..sprints.repository import get_opened_sprint_from_group
 from ..turmas.tui import search_and_select_turma
 from ..teams.tui import select_team_from_turma, select_member, select_member_or_instructor
-from ..sprints.tui import select_sprint_from_team
+from ..sprints.tui import select_sprint_from_group
+from rich.table import Table
 
 from .repository import (
     create_evaluation,
@@ -12,6 +13,7 @@ from .repository import (
     get_all_evaluations_from_sprint_and_member,
     get_all_evaluations_from_team_member,
     update_evaluations,
+    get_already_evaluated_by_a_user,
 )
 from .prompt import prompt_evaluation_form
 from .common import QUESTIONS, ALTERNATIVES
@@ -20,91 +22,155 @@ from .common import QUESTIONS, ALTERNATIVES
 def summary_evaluation(evaluation):
     evaluator_name = evaluation["evaluator"]["name"]
     evaluated_name = evaluation["evaluated"]["name"]
-    average = sum(evaluation["grades"].values()) / len(evaluation["grades"])
-    return f"Avaliador: {evaluator_name}, Avaliado: {evaluated_name}, Média: {average}"
+    average = str (sum(evaluation["grades"].values()) / len(evaluation["grades"]))
+
+    table = Table()
+
+    table.add_column("[blue]Avaliador[/blue]")
+    table.add_column("[blue]Avaliado[/blue]")
+    table.add_column("[blue]Média[/blue]")
+
+    table.add_row(evaluator_name, evaluated_name, average)
+    
+    return console.print(table)
 
 
 def detail_evaluation(evaluation):
+    clear_screen()
     evaluator_name = evaluation["evaluator"]["name"]
     evaluated_name = evaluation["evaluated"]["name"]
-    print(f"Avaliador: {evaluator_name}")
-    print(f"Avaliado: {evaluated_name}")
 
+    table = Table()
+
+    table.add_column("[blue]Avaliador[/blue]")
+    table.add_column("[blue]Avaliado[/blue]")
+
+    table.add_row(evaluator_name, evaluated_name)
+
+    console.print(table)
+        
+    table_for = Table() 
+    table_for.add_column(f"[blue]Questão[/blue]")
+    table_for.add_column(f"[blue]Nota[/blue]")
+    table_for.add_column(f"[blue]Situação[/blue]")
+    
     for question, question_desc in QUESTIONS.items():
         grade = evaluation["grades"][question]
-        print(f"Questão: {question_desc}")
-        print(
-            "Nota: %.2f - %s" % (grade, ALTERNATIVES[grade])
-        )  # TODO: Alessandra, usa isso nos outros lugares que mostra nota
+        table_for.add_row(f"%s" % (question_desc), f"%.2f" % (grade), f"%s" % (ALTERNATIVES[grade]))
+        
+    console.print(table_for)
 
-    average = sum(evaluation["grades"].values()) / len(evaluation["grades"])
-    print(f"Média: {average}")
+    average = str (sum(evaluation["grades"].values()) / len(evaluation["grades"]))
 
+    table_average = Table()
+
+    table.add_column("[blue]Média[/blue]")
+    table.add_column(average)
+
+    console.print(table_average)
 
 def admin_list_evaluations(sprint):
+    clear_screen()
     evaluations = get_all_evaluations_from_sprint(sprint)
-    print("Avaliações")
+    console.rule("\n[blue]Avaliações[/blue]")
     for evaluation in evaluations:
-        print(f"    - {summary_evaluation(evaluation)}")
+        summary_evaluation(evaluation)
+        console.print()
+    console.print()
 
-
-def admin_create_evaluation(sprint):
-    team = sprint["team"]
-
-    print("Avaliador:")
+def admin_create_evaluation(team, sprint):
+    console.print("\n [purple]Avaliador:[/purple]")
     evaluator = select_member_or_instructor(team)
+    console.print()
 
-    print("Avaliado:")
+    console.print("\n [purple]Avaliado:[/purple]")
     evaluated = select_member(team)
+    console.print()
 
     grades = prompt_evaluation_form()
 
     create_evaluation(sprint, evaluator, evaluated, grades)
 
 
-def common_user_evaluate_member(user, sprint):
-    team = sprint["team"]
+def common_user_evaluate_member(user, team, sprint):
+    console.print("\n [purple]Avaliado:[/purple]")
+    console.print()
 
-    print("Avaliado:")
-    evaluated = select_member(team)
+    already_evaluated = get_already_evaluated_by_a_user(team, sprint, user)
+    evaluated = select_member(team, excludes=[user, *already_evaluated])
+
+    if evaluated is None:
+        console.print("\n [bold red]Não há mais membros para avaliar![/bold red]")
+        console.print()
+        return
 
     grades = prompt_evaluation_form()
 
-    create_evaluation(sprint, user, evaluated, grades)
+    create_evaluation(sprint, team, user, evaluated, grades)
 
 
-def self_evaluation(user, sprint):
+def LG_user_evaluate_LT(user, team, sprint):
+    console.print("\n [purple]Avaliado:[/purple]")
+    console.print()
+    evaluated = select_LT_member(team)
+    already_evaluated = get_already_evaluated_by_a_user(team, sprint, user)
+    if evaluated["id"] in [e["id"] for e in already_evaluated]:
+        console.print("\n [bold red]Líder técnico já foi avaliado[/bold red]")
+        console.print()
+        return
+
     grades = prompt_evaluation_form()
-    create_evaluation(sprint, user, user, grades)
+
+    create_evaluation(sprint, team, user, evaluated, grades)
+
+
+def FC_user_evaluate_PO(user, team, sprint):
+    console.print("\n [purple]Avaliado:[/purple]")
+    console.print()
+    evaluated = select_PO_member(team)
+    already_evaluated = get_already_evaluated_by_a_user(team, sprint, user)
+    if evaluated["id"] in [e["id"] for e in already_evaluated]:
+        console.print("[bold red]Product owner já foi avaliado[/bold red]")
+        console.print()
+        return
+
+    grades = prompt_evaluation_form()
+
+    create_evaluation(sprint, team, user, evaluated, grades)
+
+
+def self_evaluation(user, team, sprint):
+    already_evaluated = get_already_evaluated_by_a_user(team, sprint, user)
+    if user["id"] in [e["id"] for e in already_evaluated]:
+        console.print("\n [bold red]Você já se avaliou![/bold red]")
+        console.print()
+        return
+    grades = prompt_evaluation_form()
+    create_evaluation(sprint, team, user, user, grades)
 
 
 def select_evaluation(sprint):
     evaluations = get_all_evaluations_from_sprint(sprint)
 
     if len(evaluations) == 0:
-        print("Nenhuma avaliação encontrada.")
+        console.print("\n [bold red]Nenhuma avaliação encontrada.[/bold red]")
+        console.print()
         return None
 
     for index, evaluation in enumerate(evaluations):
-        print(f"{index+1} - {summary_evaluation(evaluation)}")
+        console.print(f"[blue]{index+1}:[/blue]")
+        summary_evaluation(evaluation)
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(evaluations):
             return evaluations[option - 1]
-        print("Opção inválida.")
-
+        console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
+        console.print()
 
 def admin_detail_evaluation(sprint):
     evaluation = select_evaluation(sprint)
     detail_evaluation(evaluation)
-
-
-def admin_reevaluate(sprint):
-    evaluation = select_evaluation(sprint)
-    new_grades = prompt_evaluation_form()
-    evaluation["grades"] = new_grades
-    update_evaluations()
 
 
 def show_statistics(evaluations):
@@ -121,13 +187,22 @@ def show_statistics(evaluations):
         for question in sum_by_question:
             avg_by_question[question] = sum_by_question[question] / len(evaluations)
 
+    table = Table()
+
+    table.add_column("[blue]Questão[/blue]")
+    table.add_column("[blue]Média[/blue]")
+
     for question in QUESTIONS:
-        print(f"Questão: {QUESTIONS[question]}")
-        print(f"Média: {avg_by_question[question]}")
+        table.add_row(f"%s" % (QUESTIONS[question]), f"%s" % (avg_by_question[question]) )
+    
+    console.print(table)    
 
     total_avg = sum(avg_by_question.values()) / len(avg_by_question)
-    print(f"Média total: {total_avg}")
-
+    
+    table_total = Table()
+    table_total.add_column("[blue]Média Total[/blue]")
+    table_total.add_row(f"[yellow]{total_avg}[/yellow]")
+    console.print(table_total)
 
 def admin_detail_team_statistics_in_one_sprint(sprint):
     evaluations = get_all_evaluations_from_sprint(sprint)
@@ -142,8 +217,8 @@ def show_user_statistics_in_one_sprint(user, sprint):
     evaluations = get_all_evaluations_from_sprint_and_member(sprint, user)
     show_statistics(evaluations)
 
-def admin_detail_member_statistics_in_one_sprint(sprint):
-    member = select_member(sprint["team"])
+def admin_detail_member_statistics_in_one_sprint(team, sprint):
+    member = select_member(team)
     show_user_statistics_in_one_sprint(member, sprint)
 
 
@@ -157,55 +232,58 @@ def admin_detail_member_statistics_in_all_sprints(team):
 
 
 def admin_evaluations_menu():
-    print("Selecione a Turma")
+    console.print("\n [green]Selecione a Turma[/green]")
+    console.print()
     turma = search_and_select_turma()
     if turma is None:
         return
 
-    print("Selecione o Time")
+    console.print("\n [green]Selecione a sprint[/green]")
+    console.print()
+    sprint = select_sprint_from_group(turma)
+    if sprint is None:
+        return
+
+    console.print("\n [green]Selecione o Time[/green]")
+    console.print()
     team = select_team_from_turma(turma)
     if team is None:
         return
 
-    print("Selecione a sprint")
-    sprint = select_sprint_from_team(team)
-    if sprint is None:
-        return
-    
     while True:
-        print("Menu Avaliações (Administrador)")
-        print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
-        print("1 - Listar")
-        print("2 - Criar")
-        print("3 - Detalhar")
-        print("4 - Reavaliar")
-        print("5 - Estatísticas deste time nesta sprint")
-        print("6 - Estatísticas deste time em todas as sprints")
-        print("7 - Estatísticas de um membro nesta sprint")
-        print("8 - Estatísticas de um membro em todas as sprints")
-        print("9 - Voltar")
+        console.rule("\n [bold blue]Menu Avaliações (Administrador)[/bold blue]")
+        console.print(f"\n [green]Time:[/green] {team['name']}, [green]Sprint:[/green] {sprint['name']} #{sprint['id']}\n")
+        console.print("[blue]1 -[/blue] [yellow]Listar[/yellow]")
+        console.print("[blue]2 -[/blue] [yellow]Criar[/yellow]")
+        console.print("[blue]3 -[/blue] [yellow]Detalhar[/yellow]")
+        console.print("[blue]4 -[/blue] [yellow]Estatísticas deste time nesta sprint[/yellow]")
+        console.print("[blue]5 -[/blue] [yellow]Estatísticas deste time em todas as sprints[/yellow]")
+        console.print("[blue]6 -[/blue] [yellow]Estatísticas de um membro nesta sprint[/yellow]")
+        console.print("[blue]7 -[/blue] [yellow]Estatísticas de um membro em todas as sprints[/yellow]")
+        console.print("[blue]8 -[/blue] [yellow]Voltar[/yellow]")
+        console.print()
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 9:
+                clear_screen()
                 break
-            print("Opção inválida.")
+            console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
+            console.print()
 
         if option == 1:
             admin_list_evaluations(sprint)
         elif option == 2:
-            admin_create_evaluation(sprint)
+            admin_create_evaluation(team, sprint)
         elif option == 3:
             admin_detail_evaluation(sprint)
         elif option == 4:
-            admin_reevaluate(sprint)
-        elif option == 5:
             admin_detail_team_statistics_in_one_sprint(sprint)
-        elif option == 6:
+        elif option == 5:
             admin_detail_team_statistics_in_all_sprints(team)
+        elif option == 6:
+            admin_detail_member_statistics_in_one_sprint(team, sprint)
         elif option == 7:
-            admin_detail_member_statistics_in_one_sprint(sprint)
-        elif option == 8:
             admin_detail_member_statistics_in_all_sprints(team)
         else:
             return
@@ -215,31 +293,42 @@ def common_user_evaluations_menu(team, user):
     if team is None or user is None:
         return
 
-    sprint = get_opened_sprint_from_team(team)
+    sprint = get_opened_sprint_from_group(team['turma']) or select_sprint_from_group(team["turma"], closed=True)
     if sprint is None:
         return
-    
+
     while True:
-        print("Menu Avaliações (Usuário Comum)")
-        print(f"Time: {team['name']}, Sprint: {sprint['name']} #{sprint['id']}")
-        print("1 - Avaliar Membro")
-        print("2 - Autoavaliação")
-        print("3 - Estatísticas deste time nesta sprint")
-        print("4 - Estatísticas deste time em todas as sprints")
-        print("5 - Minhas estatísticas nesta sprint")
-        print("6 - Minhas estatísticas em todas as sprints")
-        print("7 - Voltar")
+        console.rule("\n [bold blue]Menu Avaliações[/bold blue] ")
+        console.print(f"\n [green]Time:[/green] {team['name']}, [green]Sprint:[/green] {sprint['name']} #{sprint['id']}\n")
+        console.print("[blue]1 -[/blue] Avaliar Membro")
+        console.print("[blue]2 -[/blue] Autoavaliação")
+        console.print("[blue]3 -[/blue] Estatísticas deste time nesta sprint")
+        console.print("[blue]4 -[/blue] Estatísticas deste time em todas as sprints")
+        console.print("[blue]5 -[/blue] Minhas estatísticas nesta sprint")
+        console.print("[blue]6 -[/blue] Minhas estatísticas em todas as sprints")
+        console.print("[blue]7 -[/blue] Voltar")
+        console.print()
 
         while True:
-            option = safe_int_input("Opção: ")
-            if option >= 1 and option <= 9:
+            option = safe_int_input("\nOpção: ")
+            if option >= 1 and option <= 7:
+                clear_screen()
                 break
-            print("Opção inválida.")
+            console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
+            console.print()
 
         if option == 1:
-            common_user_evaluate_member(user, sprint)
+            if sprint["status"] == "fechada":
+                console.print("\n [bold red]Você não pode fazer uma avaliação em uma sprint fechada.[/bold red]")
+                console.print()
+                continue
+            common_user_evaluate_member(user, team, sprint)
         elif option == 2:
-            self_evaluation(user, sprint)
+            if sprint["status"] == "fechada":
+                console.print("\n [bold red]Você não pode fazer uma avaliação em uma sprint fechada.[/bold red]")
+                console.print()
+                continue
+            self_evaluation(user, team, sprint)
         elif option == 3:
             admin_detail_team_statistics_in_one_sprint(sprint)
         elif option == 4:
@@ -251,3 +340,93 @@ def common_user_evaluations_menu(team, user):
         else:
             return
 
+
+def LG_user_evaluations_menu(turma, user):
+    sprint = get_opened_sprint_from_group(turma) or select_sprint_from_group(turma, closed=True)
+    if sprint is None:
+        return
+
+    console.print("\n [green]Selecione o Time[/green]")
+    console.print()
+    team = select_team_from_turma(turma)
+    if team is None:
+        return
+
+    while True:
+        console.rule("\n [bold blue]Menu Avaliações[/bold blue] ")
+        console.print(f"\n [green]Time:[/green] {team['name']}, [green]Sprint:[/green] {sprint['name']} #{sprint['id']}\n")
+        console.print("[blue]1 -[/blue] Avaliar Líder Técnico")
+        console.print("[blue]2 -[/blue] Estatísticas deste time nesta sprint")
+        console.print("[blue]3 -[/blue] Estatísticas deste time em todas as sprints")
+        console.print("[blue]4 -[/blue] Selecionar outro time")
+        console.print("[blue]5 -[/blue] Voltar")
+        console.print()
+
+        while True:
+            option = safe_int_input("\nOpção: ")
+            if option >= 1 and option <= 5:
+                clear_screen()
+                break
+            console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
+            console.print()
+
+        if option == 1:
+            if sprint["status"] == "fechada":
+                console.print("\n [bold red]Você não pode fazer uma avaliação em uma sprint fechada.[/bold red]")
+                console.print()
+                continue
+            LG_user_evaluate_LT(user, team, sprint)
+        elif option == 2:
+            admin_detail_team_statistics_in_one_sprint(sprint)
+        elif option == 3:
+            admin_detail_team_statistics_in_all_sprints(team)
+        elif option == 4:
+            select_team_from_turma(turma)
+        else:
+            return
+
+
+def FC_user_evaluations_menu(turma, user):
+    sprint = get_opened_sprint_from_group(turma) or select_sprint_from_group(turma, closed=True)
+    if sprint is None:
+        return
+
+    console.print("\n [green]Selecione o Time[/green]")
+    console.print()
+    team = select_team_from_turma(turma)
+    if team is None:
+        return
+
+
+    while True:
+        console.rule("\n [bold blue]Menu Avaliações[/bold blue]")
+        console.print(f"\n [green]Time:[/green] {team['name']}, [green]Sprint:[/green] {sprint['name']} #{sprint['id']}\n")
+        console.print("[blue]1 -[/blue] Avaliar Product Owner")
+        console.print("[blue]2 -[/blue] Estatísticas deste time nesta sprint")
+        console.print("[blue]3 -[/blue] Estatísticas deste time em todas as sprints")
+        console.print("[blue]4 -[/blue] Selecionar outro time")
+        console.print("[blue]5 -[/blue] Voltar")
+        console.print()
+
+        while True:
+            option = safe_int_input("\nOpção: ")
+            if option >= 1 and option <= 5:
+                clear_screen()
+                break
+            console.print("\n :x: [bold red]Opção inválida.[/bold red] :x:", justify="center")
+            console.print()
+
+        if option == 1:
+            if sprint["status"] == "fechada":
+                console.print("\n [bold red]Você não pode fazer uma avaliação em uma sprint fechada.[/bold red]")
+                console.print()
+                continue
+            FC_user_evaluate_PO(user, team, sprint)
+        elif option == 2:
+            admin_detail_team_statistics_in_one_sprint(sprint)
+        elif option == 3:
+            admin_detail_team_statistics_in_all_sprints(team)
+        elif option == 4:
+            select_team_from_turma(turma)
+        else:
+            return

@@ -1,6 +1,10 @@
+from rich.console import Console
 import shortuuid
+import os
 
 from colorama import Fore, Style
+
+console = Console(width=120)
 
 
 def green_print(message, *args, **kwargs):
@@ -41,7 +45,7 @@ def bright_print(message, *args, **kwargs):
 
 def bright_input(message, *args, **kwargs):
     return input(Style.BRIGHT + message + Style.RESET_ALL, *args, **kwargs)
-    
+
 
 def generate_id():
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -57,3 +61,9 @@ def safe_int_input(prompt="", none_when_invalid=False):
             return None
         else:
             return 0
+
+def clear_screen():
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")

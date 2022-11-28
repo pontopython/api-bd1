@@ -10,7 +10,7 @@ _turmas = []
 
 
 def reload_turmas():
-    global _turmas 
+    global _turmas
     _turmas = read_turmas()
 
 
@@ -20,7 +20,7 @@ def update_turmas():
 
 def get_turmas():
     if len(_turmas) == 0:
-        reload_turmas()    
+        reload_turmas()
     return _turmas
 
 
@@ -39,16 +39,16 @@ def get_turmas_from_user(user):
 
 def create_turma(name, group_leader, fake_client, students):
     id = generate_id()
-    user = create_turma_dict(
+    turma = create_turma_dict(
         id,
         name,
         group_leader,
         fake_client,
         students,
     )
-    get_turmas().append(user)
+    get_turmas().append(turma)
     update_turmas()
-    return user
+    return turma
 
 
 def delete_turma(turma):
@@ -99,5 +99,5 @@ def search_turmas(search_term):
     return turmas
 
 
-def search_students(search_term, turma):
-    return _search_users(search_term, turma["students"])
+def search_students(search_term, turma, excludes=[]):
+    return _search_users(search_term, turma["students"], excludes)

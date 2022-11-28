@@ -21,7 +21,7 @@ def get_evaluations():
         reload_evaluations()
     return _evaluations
 
-def get_all_evaluations_from_sprint(sprint):
+def get_all_evaluations_from_sprint(sprint):        #passa a ser de todos os times da turma
     return [
         evaluation
         for evaluation in get_evaluations()
@@ -29,15 +29,23 @@ def get_all_evaluations_from_sprint(sprint):
     ]
 
 
-def get_all_evaluations_from_team(team):
+def get_all_evaluations_from_team(team):        #todas as avaliações do time, independente da sprint
     return [
         evaluation
         for evaluation in get_evaluations()
-        if team["id"] == evaluation["sprint"]["team"]["id"]
+        if team["id"] == evaluation["team"]["id"]
     ]
 
 
-def get_all_evaluations_from_sprint_and_member(sprint, member):
+def get_all_evaluations_from_sprint_and_team(sprint, team):     #todas as avaliações do time por sprint
+    return [
+        evaluation
+        for evaluation in get_evaluations()
+        if sprint["id"] == evaluation["sprint"]["id"] and team["id"] == evaluation["team"]["id"]
+    ]
+
+
+def get_all_evaluations_from_sprint_and_member(sprint, member):     #todas as avaliações do membro por sprint e por time, já que ele não pode estar inserido em mais de um time por turma
     return [
         evaluation
         for evaluation in get_evaluations()
@@ -45,19 +53,20 @@ def get_all_evaluations_from_sprint_and_member(sprint, member):
     ]
 
 
-def get_all_evaluations_from_team_member(team, member):
+def get_all_evaluations_from_team_member(team, member):     #todas as avaliações de um membro do time
     return [
         evaluation
         for evaluation in get_evaluations()
-        if team["id"] == evaluation["sprint"]["team"]["id"] and member["id"] == evaluation["evaluated"]["id"]
+        if team["id"] == evaluation["team"]["id"] and member["id"] == evaluation["evaluated"]["id"]
     ]
 
 
-def create_evaluation(sprint, evaluator, evaluated, grades):
+def create_evaluation(sprint, team, evaluator, evaluated, grades):
     id = generate_id()
     evaluation = evaluation_dict(
         id,
-        sprint, 
+        sprint,
+        team,
         evaluator,
         evaluated,
         grades
@@ -71,3 +80,7 @@ def delete_evaluation(evaluation):
     get_evaluations().remove(evaluation)
     update_evaluations()
 
+def get_already_evaluated_by_a_user(team, sprint, user):
+    evaluations = get_all_evaluations_from_sprint_and_team(sprint, team)
+    ids = [evaluation["evaluated"]["id"] for evaluation in evaluations if evaluation["evaluator"]["id"] == user["id"]]
+    return [member for member in team["members"] if member["id"] in ids]

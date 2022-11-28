@@ -14,10 +14,11 @@ ALTERNATIVES = [
     "Muito Bom",
 ]
 
-def evaluation_dict(id, sprint, evaluator, evaluated, grades):
+def evaluation_dict(id, sprint, team, evaluator, evaluated, grades):
     return {
         "id": id,
         "sprint": sprint,
+        "team": team,
         "evaluator": evaluator,
         "evaluated": evaluated,
         "grades": grades
