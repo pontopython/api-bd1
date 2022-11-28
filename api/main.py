@@ -28,7 +28,7 @@ def admin_menu():
     )
     console.print()
 
-    option = safe_int_input("\nOpção:")
+    option = safe_int_input("\nOpção: ")
     clear_screen()
     if option == 1:
         admin_users_menu()  

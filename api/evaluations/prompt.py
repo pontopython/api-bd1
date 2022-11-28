@@ -11,10 +11,10 @@ def prompt_evaluation_form():
         console.print()
         for grade, alternative in enumerate(ALTERNATIVES):
             print(f"[{grade}] - {alternative}")
-        answer = safe_int_input("Opção: ", none_when_invalid=True)
+        answer = safe_int_input("\nOpção: ", none_when_invalid=True)
         while answer is None or answer < 0 or answer >= len(ALTERNATIVES):
             console.print("\n :x: [bold red]Opção inválida! Tente novamente.[/bold red] :x:", justify="center")
             console.print()
-            answer = safe_int_input("Opção: ", none_when_invalid=True)
+            answer = safe_int_input("\nOpção: ", none_when_invalid=True)
         grades[question] = answer
     return grades

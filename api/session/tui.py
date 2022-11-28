@@ -68,7 +68,7 @@ def my_profile_menu():
         console.print()
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\n Opção: ")
             if option >= 1 and option <= 3:
                 clear_screen()
                 break

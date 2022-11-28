@@ -65,7 +65,7 @@ def select_sprint_from_group(group, closed=False):
         console.print(f"[blue]{index+1} -[/blue] {summary_sprint(sprint)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(sprints):
             return valid_sprints[option - 1]
         console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
@@ -112,7 +112,7 @@ def admin_and_LG_sprints_menu(turma=None):
         console.print()
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 6:
                 clear_screen()
                 break

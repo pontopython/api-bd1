@@ -263,7 +263,7 @@ def admin_evaluations_menu():
         console.print()
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 9:
                 clear_screen()
                 break
@@ -309,7 +309,7 @@ def common_user_evaluations_menu(team, user):
         console.print()
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 7:
                 clear_screen()
                 break
@@ -362,7 +362,7 @@ def LG_user_evaluations_menu(turma, user):
         console.print()
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 5:
                 clear_screen()
                 break
@@ -408,7 +408,7 @@ def FC_user_evaluations_menu(turma, user):
         console.print()
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 5:
                 clear_screen()
                 break
