@@ -16,19 +16,19 @@ def admin_menu():
     console.rule("\n [blue]Bem vindo ao menu principal (Administrador)[/blue]")
     console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
     console.print("""
-    [blue]1 -[/blue] Usuários
-    [blue]2 -[/blue] Turmas
-    [blue]3 -[/blue] Times
-    [blue]4 -[/blue] Sprints
-    [blue]5 -[/blue] Avaliações
-    [blue]97 -[/blue] Deslogar apenas
-    [blue]98 -[/blue] Sair apenas
-    [blue]99 -[/blue] Deslogar e sair
+    [blue]1 -[/blue] [yellow]Usuários [/yellow]
+    [blue]2 -[/blue] [yellow]Turmas[/yellow]
+    [blue]3 -[/blue] [yellow]Times[/yellow]
+    [blue]4 -[/blue] [yellow]Sprints[/yellow]
+    [blue]5 -[/blue] [yellow]Avaliações[/yellow]
+    [blue]97 -[/blue] [yellow]Deslogar apenas[/yellow]
+    [blue]98 -[/blue] [yellow]Sair apenas[/yellow]
+    [blue]99 -[/blue] [yellow]Deslogar e sair[/yellow]
     """
     )
     console.print()
 
-    option = safe_int_input("Opção: ")
+    option = safe_int_input("\nOpção:")
     clear_screen()
     if option == 1:
         admin_users_menu()  
@@ -57,20 +57,20 @@ def group_leader_menu():
     console.rule("\n [blue]Bem vindo ao menu principal (Líder de Grupo)[/blue]")
     console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
     console.print("""
-    [blue]1 -[/blue] Meu Perfil
-    [blue]2 -[/blue] Minhas Turmas
-    [blue]3 -[/blue] Usuários
-    [blue]4 -[/blue] Times
-    [blue]5 -[/blue] Sprints
-    [blue]6 -[/blue] Avaliações
-    [blue]97 -[/blue] Deslogar apenas
-    [blue]98 -[/blue] Sair apenas
-    [blue]99 -[/blue] Deslogar e sair
+    [blue]1 -[/blue] [yellow]Meu Perfil[/yellow]
+    [blue]2 -[/blue] [yellow]Minhas Turmas[/yellow]
+    [blue]3 -[/blue] [yellow]Usuários[/yellow]
+    [blue]4 -[/blue] [yellow]Times[/yellow]
+    [blue]5 -[/blue] [yellow]Sprints[/yellow]
+    [blue]6 -[/blue] [yellow]Avaliações[/yellow]
+    [blue]97 -[/blue] [yellow]Deslogar apenas[/yellow]
+    [blue]98 -[/blue] [yellow]Sair apenas[/yellow]
+    [blue]99 -[/blue] [yellow]Deslogar e sair[/yellow]
     """
     )
     console.print()
 
-    option = safe_int_input("Opção: ")
+    option = safe_int_input("\nOpção: ")
     clear_screen()
     if option == 1:
         my_profile_menu()
@@ -101,17 +101,17 @@ def common_user_menu():
     console.rule("\n [blue]Bem vindo ao menu principal[/blue]")
     console.print(f"\n [green]Sessão atual:[/green] {summary_session(session)}")
     console.print("""
-    [blue]1 -[/blue] Meu Perfil
-    [blue]2 -[/blue] Minhas Turmas
-    [blue]3 -[/blue] Avaliações
-    [blue]97 -[/blue] Deslogar apenas
-    [blue]98 -[/blue] Sair apenas
-    [blue]99 -[/blue] Deslogar e sair
+    [blue]1 -[/blue] [yellow]Meu Perfil[/yellow]
+    [blue]2 -[/blue] [yellow]Minhas Turmas[/yellow]
+    [blue]3 -[/blue] [yellow]Avaliações[/yellow]
+    [blue]97 -[/blue] [yellow]Deslogar apenas[/yellow]
+    [blue]98 -[/blue] [yellow]Sair apenas[/yellow]
+    [blue]99 -[/blue] [yellow]Deslogar e sair[/yellow]
     """
     )
     console.print()    
 
-    option = safe_int_input("Opção: ")
+    option = safe_int_input("\nOpção: ")
     clear_screen()
     if option == 1:
         my_profile_menu()
@@ -136,17 +136,17 @@ def fake_client_menu():
     console.rule("\n [blue]Bem vindo ao menu principal (Fake Client)[blue]")
     console.print(f"\n [green]Sessão atual: [/green]{summary_session(session)}")
     console.print("""
-    [blue]1 -[/blue] Meu Perfil
-    [blue]2 -[/blue] Minhas Turmas
-    [blue]3 -[/blue] Avaliações
-    [blue]97 -[/blue] Deslogar apenas
-    [blue]98 -[/blue] Sair apenas
-    [blue]99 -[/blue] Deslogar e sair
+    [blue]1 -[/blue] [yellow]Meu Perfil[/yellow]
+    [blue]2 -[/blue] [yellow]Minhas Turmas[/yellow]
+    [blue]3 -[/blue] [yellow]Avaliações[/yellow]
+    [blue]97 -[/blue] [yellow]Deslogar apenas[/yellow]
+    [blue]98 -[/blue] [yellow]Sair apenas[/yellow]
+    [blue]99 -[/blue] [yellow]Deslogar e sair[/yellow]
     """
     )
     console.print()
 
-    option = safe_int_input("Opção: ")
+    option = safe_int_input("\nOpção: ")
     clear_screen()
     if option == 1:
         my_profile_menu()
