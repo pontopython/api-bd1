@@ -88,7 +88,7 @@ def select_turma_from_user(user):
         print(f"{index+1} - {summary_turma(turma)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(turmas):
             return turmas[option - 1]
         console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
@@ -249,7 +249,7 @@ def search_and_select_student(turma, excludes=[]):
         print(f"{index+1} - {summary_student(student)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(students):
             return students[option - 1]
         console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
@@ -280,7 +280,7 @@ def admin_turmas_menu():
         console.print()
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 6:
                 clear_screen()
                 break

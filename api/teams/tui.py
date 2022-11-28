@@ -42,7 +42,7 @@ def _select_member(members, excludes=[]):
         print(f"{index+1} - {summary_member(member)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(members):
             return members[option - 1]
         console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
@@ -70,7 +70,7 @@ def select_LT_member(team):
         print(f"{index+1} - {summary_member(member)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(valid_members):
             return valid_members[option - 1]
         console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
@@ -89,7 +89,7 @@ def select_PO_member(team):
         print(f"{index+1} - {summary_member(member)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(valid_members):
             return valid_members[option - 1]
         console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
@@ -109,7 +109,7 @@ def select_member_or_instructor(team):
         print(f"{index+3} - {summary_member(member)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(members) + 2:
             if option == 1:
                 return group_leader
@@ -228,7 +228,7 @@ def search_and_select_team():
         console.print(f"[blue]{index+1} -[/blue] {summary_team(team)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(teams):
             return teams[option - 1]
         console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
@@ -247,7 +247,7 @@ def select_team_from_turma(turma):
         console.print(f"[blue]{index+1} -[/blue] {summary_team(team)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(teams):
             return teams[option - 1]
         console.print("\n :x: [bold red]Opção inválida[/bold red] :x:", justify="center")
@@ -360,7 +360,7 @@ def admin_and_LG_teams_menu():
         console.print("[blue]6 -[/blue] [yellow]Voltar[/yellow]")
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 6:
                 clear_screen()
                 break

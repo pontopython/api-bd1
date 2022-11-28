@@ -92,7 +92,7 @@ def search_and_select_user():
         print(f"{index+1} - {summary_user(user)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(users):
             return users[option - 1]
         console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
@@ -112,7 +112,7 @@ def search_and_select_common_user(excludes=[]):
         print(f"{index+1} - {summary_user(user)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(users):
             return users[option - 1]
         console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
@@ -131,7 +131,7 @@ def search_and_select_instructor(excludes=[]):
         print(f"{index+1} - {summary_user(user)}")
 
     while True:
-        option = safe_int_input("Opção: ")
+        option = safe_int_input("\nOpção: ")
         if option > 0 and option <= len(users):
             return users[option - 1]
         console.print(":x: [bold red]Opção inválida[/bold red] :x:\n", justify= "center")
@@ -257,7 +257,7 @@ def LG_users_menu():
         console.print("[blue]4 -[/blue] [yellow]Voltar[/yellow]")
 
         while True:
-            option = safe_int_input("Opção: ")
+            option = safe_int_input("\nOpção: ")
             if option >= 1 and option <= 6:
                 clear_screen()
                 break
