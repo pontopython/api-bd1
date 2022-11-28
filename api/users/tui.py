@@ -148,7 +148,7 @@ def show_user():
 
 def admin_create_a_new_user():
     clear_screen()
-    print("Novo Usuário")
+    console.rule("[blue]Novo Usuário[/blue]")
     name = prompt_user_name()
     email = prompt_user_email()
     password = prompt_user_password()
@@ -159,7 +159,7 @@ def admin_create_a_new_user():
 
 def instructor_create_a_new_common_user():
     clear_screen()
-    print("Novo Usuário")
+    console.rule("[blue]Novo Usuário[/blue]")
     name = prompt_user_name()
     email = prompt_user_email()
     password = prompt_user_password()
