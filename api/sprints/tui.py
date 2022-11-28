@@ -82,7 +82,7 @@ def reopen_sprint_from_group(group):
         return
 
     print(summary_sprint(sprint))
-    answer = console.input("\n Tem certeza que deseja reabrir essa sprint ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
+    answer = console.input("\n [yellow]Tem certeza que deseja reabrir essa sprint ([/yellow][green]S[/green][yellow]/[/yellow][red]N[/red][yellow])? [/yellow]")
     if answer != "S" and answer != "s":
         return
     sprint["status"] = "aberta"
